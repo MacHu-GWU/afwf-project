@@ -6,7 +6,13 @@ from pytest import raises, approx
 
 def test():
     import afwf
-    pass
+
+    _ = afwf.Icon
+    _ = afwf.Text
+    _ = afwf.Item
+    _ = afwf.VarKeyEnum
+    _ = afwf.VarValueEnum
+    _ = afwf.ModEnum
 
 
 if __name__ == "__main__":
