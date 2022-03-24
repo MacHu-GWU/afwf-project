@@ -11,7 +11,9 @@ class ScriptFilterObject(AttrsClass):
         for k, v in attr.asdict(self, recurse=False).items():
             if v:
                 if isinstance(v, ScriptFilterObject):
-                    dct[k] = v.to_script_filter()
+                    v1 = v.to_script_filter()
+                    if v1:
+                        dct[k] = v1
                 elif isinstance(v, list):
                     lst = list()
                     for i in v:
