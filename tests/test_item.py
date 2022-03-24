@@ -4,6 +4,7 @@ import pytest
 from rich import print as rprint
 from afwf.item import Icon, Text, Item
 
+
 class TestItem:
     def test_init(self):
         item = Item(title="hello", text=Text())
