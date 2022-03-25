@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from afwf.workflow import Item, Workflow
+from afwf.script_filter import Item, ScriptFilter
 
 
-class TestWorkflow:
+class TestScriptFilter:
     def test_to_script_filter(self):
-        wf = Workflow()
-        assert wf.to_script_filter() == {"items": []}
+        sf = ScriptFilter()
+        assert sf.to_script_filter() == {"items": []}
 
-        wf.items.append(Item(title="option1"))
-        assert wf.to_script_filter() == {
+        sf.items.append(Item(title="option1"))
+        assert sf.to_script_filter() == {
             "items": [
                 {"title": "option1", "valid": True}
             ]
