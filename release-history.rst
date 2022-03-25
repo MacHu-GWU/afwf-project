@@ -15,18 +15,11 @@ Release and Version History
 **Miscellaneous**
 
 
-0.0.2 (TODO)
+0.0.2 (2022-03-24)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-**Features and Improvements**
-
-**Minor Improvements**
-
-**Bugfixes**
-
-**Miscellaneous**
+- Prepare for pip installable
 
 
 0.0.1 (2022-02-24)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-- First release
+- Place Holder Release
