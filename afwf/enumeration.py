@@ -1,12 +1,23 @@
 # -*- coding: utf-8 -*-
 
+"""
+Enhancement for standard enum library.
+"""
+
 import enum
-from typing import Optional, List
+from typing import List
 
 
 class BetterEnum(enum.Enum):
+    """
+    Provide additional method for enum.
+    """
+
     @classmethod
     def has_name(cls, name: str) -> bool:
+        """
+        Check if a name is defined as enum.
+        """
         try:
             _ = cls[name]
             return True
@@ -15,6 +26,9 @@ class BetterEnum(enum.Enum):
 
     @classmethod
     def has_value(cls, value) -> bool:
+        """
+        Check if a value is defined as enum.
+        """
         try:
             _ = cls(value)
             return True
@@ -23,6 +37,9 @@ class BetterEnum(enum.Enum):
 
     @classmethod
     def to_names(cls) -> List[str]:
+        """
+        Get list of all defined names.
+        """
         return [
             i.name
             for i in cls
@@ -30,16 +47,19 @@ class BetterEnum(enum.Enum):
 
     @classmethod
     def to_values(cls) -> list:
+        """
+        Get list of all defined values.
+        """
         return [
             i.value
             for i in cls
         ]
 
 
-special_char = [":"]
+special_char = ["!@#$%^&*()_+-=~`[]{}|,. "]
 
 
-def snake_case(s):
+def snake_case(s) -> str: # pragma: no cover
     """
     convert string to snake case.
     """
@@ -47,24 +67,3 @@ def snake_case(s):
     for c in special_char:
         s = s.replace(c, "_")
     return s
-
-
-class StrEnum(enum.Enum):
-    """
-    Special enum that value are all string or None.
-
-    The ``key`` has to be the same as ``snake_case(value)``, with all
-    special characters become "_"
-
-    Example::
-
-        class Color(StrEnum):
-            red = "Red"
-            green = "green"
-            none = None
-
-    """
-
-    @classmethod
-    def get_by_value(cls, v: Optional[str]) -> 'StrEnum':
-        return cls[snake_case(str(v).lower())]
