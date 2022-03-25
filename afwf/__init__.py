@@ -4,7 +4,6 @@
 Alfred Workflow Script Filter power tool.
 """
 
-
 from ._version import __version__
 
 __short_description__ = "Alfred Workflow Script Filter power tool.."
@@ -22,5 +21,8 @@ try:
         VarValueEnum,
         ModEnum,
     )
+    from .script_filter import ScriptFilter
+    from .handler import Handler
+    from .workflow import Workflow
 except ImportError as e:
     print(e)
