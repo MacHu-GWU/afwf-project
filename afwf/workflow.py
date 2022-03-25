@@ -13,6 +13,9 @@ import attr
 from attrs_mate import AttrsClass
 from .handler import Handler
 from .path import dir_afwf, p_last_error, p_debug_log
+from .script_filter import ScriptFilter
+from .item import Icon, Item
+from .icon import IconEnum
 
 
 def log_last_error():  # pragma: no cover
@@ -48,6 +51,9 @@ def log_debug_info(info: str):  # pragma: no cover
 
 @attr.define
 class Workflow(AttrsClass):
+    """
+    dai
+    """
     handlers: Dict[str, Handler] = attr.ib(factory=dict)
 
     def register(self, handler: Handler):
@@ -93,7 +99,19 @@ class Workflow(AttrsClass):
     ):
         try:
             self._run(debug=debug)
-        except Exception:
+        except Exception as e:
             log_last_error()
+            sf = ScriptFilter()
+            log_debug_info(IconEnum.error)
+            item = Item(
+                title=f"Error: ",
+                subtitle=f"Open {p_last_error.abspath} to see details",
+                icon=Icon(path=IconEnum.error, type=Icon.TypeEnum.filetype.value),
+                arg=p_last_error.abspath,
+            )
+            item.open_file(path=p_last_error.abspath)
+            sf.items.append(item)
+            json.dump(sf.to_script_filter(), sys.stdout)
+            sys.stdout.flush()
             exit(1)
         exit(0)

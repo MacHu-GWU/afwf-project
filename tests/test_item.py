@@ -5,10 +5,16 @@ from rich import print as rprint
 from afwf.item import Icon, Text, Item
 
 
+class TestIcon:
+    def test_init(self):
+        icon = Icon(path="/tmp/log.txt", type=Icon.TypeEnum.filetype.value)
+        assert icon.to_script_filter() == {"path": "/tmp/log.txt", "type": "filetype"}
+
+
 class TestItem:
     def test_init(self):
         item = Item(title="hello", text=Text())
-        rprint(item.to_script_filter())
+        assert item.to_script_filter() == {"title": "hello", "valid": True}
 
 
 if __name__ == "__main__":

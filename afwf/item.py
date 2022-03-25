@@ -15,7 +15,6 @@ from .script_filter_object import ScriptFilterObject
 class Icon(ScriptFilterObject):
     """
     """
-
     class TypeEnum(BetterEnum):
         fileicon = "fileicon"
         filetype = "filetype"
