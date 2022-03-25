@@ -4,15 +4,24 @@ Release and Version History
 ==============================================================================
 
 
-0.0.3 (TODO)
+0.0.4 (TODO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
 
 **Minor Improvements**
 
+- Add documentation
+
 **Bugfixes**
 
 **Miscellaneous**
+
+
+0.0.3 (2022-03-25)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- The first working version
 
 
 0.0.2 (2022-03-24)

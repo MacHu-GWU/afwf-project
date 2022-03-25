@@ -5,9 +5,9 @@ name: CI
 
 on:
   push: # any push event to master will trigger this
-    branches: ["master"]
+    branches: ["main"]
   pull_request: # any pull request to master will trigger this
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch: # allows you to manually trigger run
 
 jobs:
@@ -18,10 +18,10 @@ jobs:
       USING_COVERAGE: "3.6,3.7,3.8,3.9"
     strategy:
       matrix:
-        os: ["ubuntu-latest", "windows-latest"]
-        #        os: ["ubuntu-latest", ] # for debug only
+        os: ["ubuntu-latest"]
+        # os: ["ubuntu-latest", ] # for debug only
         python-version: ["3.6", "3.7", "3.8", "3.9"]
-        #        python-version: ["3.6", ] # for debug only
+        # python-version: ["3.6", ] # for debug only
         exclude:
           - os: windows-latest # this is a useless exclude rules for demonstration use only
             python-version: 2.7
@@ -39,14 +39,7 @@ jobs:
           python -m site
           python -m pip install --upgrade pip setuptools wheel virtualenv codecov
           pip install -r requirements.txt
-          pip install -r requirements-test.txt
-          pip install .
-      - if: matrix.os == 'windows-latest'
-        name: "Install dependencies on Windows"
-        run: |
-          python -m site
-          python -m pip install --upgrade pip setuptools wheel virtualenv codecov
-          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
           pip install -r requirements-test.txt
           pip install .
       - name: "Run pytest"
@@ -57,4 +50,3 @@ jobs:
         uses: "codecov/codecov-action@v1" # https://github.com/marketplace/actions/codecov-action
         with:
           fail_ci_if_error: true
-
