@@ -42,10 +42,11 @@ jobs:
           pip install -r requirements-dev.txt
           pip install -r requirements-test.txt
           pip install .
-      - name: "Run pytest"
 
+      - name: "Run pytest"
         run: "python -m pytest tests --cov=afwf"
-- name: "Upload coverage to Codecov"
+
+      - name: "Upload coverage to Codecov"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
         uses: "codecov/codecov-action@v1" # https://github.com/marketplace/actions/codecov-action
         with:
