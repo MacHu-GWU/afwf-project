@@ -71,3 +71,26 @@ To upgrade to latest version:
 .. code-block:: console
 
     $ pip install --upgrade afwf
+
+
+
+最佳实践中, Script Filter 的设置应该是这样的:
+
+- with space: checked
+- Language: /bin/bash
+- with input as {query}
+- run behavior:
+    - Queue Mode: Terminate previous script
+    - Queue Delay: Immediately after each character typed
+    - Always run immediately for first typed arg character: checked
+    - Argument: Automatically trim irrelevant arg whitespaces
+    - Don't set argv when query is empty: unchecked
+- Escaping: double quotes, backslashes
+
+然后 Script 里这么写:
+
+.. code-block:: bash
+
+    /path/to/python main.py 'handler_id {query}'
+
+handler_id 是一个字符串, 唯一对应一个 python "handler" 函数. 所谓 "handler" 就是一个 python 函数, 接受一个 '{query}' 的字符串输入, 创建一个 Workflow 对象, 返回一些 Item.

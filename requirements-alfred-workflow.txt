@@ -1,0 +1,6 @@
+attrs==21.4.0
+attrs_mate==1.0.2
+requests==2.26.0
+beautifulsoup4==4.10.0
+diskcache==5.4.0
+pathlib_mate==1.0.2

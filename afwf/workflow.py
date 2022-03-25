@@ -1,28 +1,99 @@
 # -*- coding: utf-8 -*-
 
+"""
+"""
+
 import sys
 import json
-from typing import Any, Type, Union, List, Tuple, Dict
+import traceback
+from datetime import datetime
+from typing import Dict
 
 import attr
 from attrs_mate import AttrsClass
+from .handler import Handler
+from .path import dir_afwf, p_last_error, p_debug_log
 
-from .script_filter_object import ScriptFilterObject
-from .item import Item
+
+def log_last_error():  # pragma: no cover
+    """
+    Log the last exception trace back info to ``~/.alfred-afwf/last-error.txt``
+    file.
+    """
+    traceback_msg = traceback.format_exc()
+    try:
+        p_last_error.write_text(traceback_msg)
+    except FileNotFoundError:
+        dir_afwf.mkdir_if_not_exists()
+        p_last_error.write_text(traceback_msg)
+    except Exception as e:
+        raise e
+
+
+def log_debug_info(info: str):  # pragma: no cover
+    """
+    Call this function anywhere. It will append the ``info`` string to the end
+    of ``~/.alfred-afwf/debug.txt`` file.
+    """
+    try:
+        with p_debug_log.open("a") as f:
+            f.write(info + "\n")
+    except FileNotFoundError:
+        dir_afwf.mkdir_if_not_exists()
+        with p_debug_log.open("a") as f:
+            f.write(info + "\n")
+    except Exception as e:
+        raise e
 
 
 @attr.define
-class Workflow(ScriptFilterObject):
-    items: List[Item] = Item.ib_list_of_nested()
-    variables: dict = AttrsClass.ib_dict(default=None)
-    rerun: float = AttrsClass.ib_float(default=0.0)
+class Workflow(AttrsClass):
+    handlers: Dict[str, Handler] = attr.ib(factory=dict)
 
-    def to_script_filter(self) -> dict:
-        dct = super().to_script_filter()
-        if "items" not in dct:
-            dct["items"] = list()
-        return dct
+    def register(self, handler: Handler):
+        """
+        """
+        if handler.id in self.handlers:
+            raise KeyError
+        else:
+            self.handlers[handler.id] = handler
 
-    def send_feedback(self):
-        json.dump(self.to_script_filter(), sys.stdout, ensure_ascii=False)
+    def get(self, handler_id: str) -> Handler:
+        """
+        """
+        return self.handlers[handler_id]
+
+    def _run(
+        self,
+        debug=False,
+    ):
+        if debug:
+            now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            log_debug_info(f"--- run script filter at {now} ---")
+
+        arg = sys.argv[1]  # "{handler_id} {query}"
+
+        if debug:
+            log_debug_info(f"received argument is: {arg!r}")
+
+        handler_id, query = arg.split(" ", 1)
+
+        if debug:
+            log_debug_info(f"received handler_id is: {handler_id!r}")
+            log_debug_info(f"received query is: {query!r}")
+
+        handler = self.get(handler_id)
+        sf = handler.handler(query)
+        json.dump(sf.to_script_filter(), sys.stdout)
         sys.stdout.flush()
+
+    def run(
+        self,
+        debug=False,
+    ):
+        try:
+            self._run(debug=debug)
+        except Exception:
+            log_last_error()
+            exit(1)
+        exit(0)

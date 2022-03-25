@@ -3,3 +3,7 @@ pathlib_mate                            # autopep8 your code
 twine                                   # make distribution archive
 wheel                                   # make pre-compiled distribution package
 rich
+requests==2.26.0
+beautifulsoup4==4.10.0
+diskcache==5.4.0
+pathlib_mate==1.0.2
