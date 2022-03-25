@@ -19,7 +19,7 @@ import os
 
 dir_icons = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
 
-class IconEnum:
+class Icons:
 """.strip()
 lines = content.split("\n")
 

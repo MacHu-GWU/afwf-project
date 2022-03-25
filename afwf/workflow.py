@@ -11,11 +11,12 @@ from typing import Dict
 
 import attr
 from attrs_mate import AttrsClass
+
 from .handler import Handler
-from .path import dir_afwf, p_last_error, p_debug_log
+from .path import dir_lib, dir_afwf, p_last_error, p_debug_log
 from .script_filter import ScriptFilter
 from .item import Icon, Item
-from .icon import IconEnum
+from .icon import Icons
 
 
 def log_last_error():  # pragma: no cover
@@ -25,10 +26,10 @@ def log_last_error():  # pragma: no cover
     """
     traceback_msg = traceback.format_exc()
     try:
-        p_last_error.write_text(traceback_msg)
+        p_last_error.write_text(traceback_msg, encoding="utf-8")
     except FileNotFoundError:
         dir_afwf.mkdir_if_not_exists()
-        p_last_error.write_text(traceback_msg)
+        p_last_error.write_text(traceback_msg, encoding="utf-8")
     except Exception as e:
         raise e
 
@@ -39,11 +40,11 @@ def log_debug_info(info: str):  # pragma: no cover
     of ``~/.alfred-afwf/debug.txt`` file.
     """
     try:
-        with p_debug_log.open("a") as f:
+        with p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except FileNotFoundError:
         dir_afwf.mkdir_if_not_exists()
-        with p_debug_log.open("a") as f:
+        with p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except Exception as e:
         raise e
@@ -52,9 +53,12 @@ def log_debug_info(info: str):  # pragma: no cover
 @attr.define
 class Workflow(AttrsClass):
     """
-    dai
     """
     handlers: Dict[str, Handler] = attr.ib(factory=dict)
+
+    def __attrs_post_init__(self):
+        if dir_lib.exists():
+            sys.path.append(str(dir_lib))
 
     def register(self, handler: Handler):
         """
@@ -100,16 +104,16 @@ class Workflow(AttrsClass):
         try:
             self._run(debug=debug)
         except Exception as e:
-            log_last_error()
+            if debug:
+                log_last_error()
             sf = ScriptFilter()
-            log_debug_info(IconEnum.error)
             item = Item(
                 title=f"Error: ",
-                subtitle=f"Open {p_last_error.abspath} to see details",
-                icon=Icon(path=IconEnum.error, type=Icon.TypeEnum.filetype.value),
-                arg=p_last_error.abspath,
+                subtitle=f"Open {str(p_last_error)} to see details",
+                icon=Icon.from_image_file(Icons.error),
+                arg=str(p_last_error),
             )
-            item.open_file(path=p_last_error.abspath)
+            item.open_file(path=str(p_last_error))
             sf.items.append(item)
             json.dump(sf.to_script_filter(), sys.stdout)
             sys.stdout.flush()

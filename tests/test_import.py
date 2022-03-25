@@ -14,6 +14,11 @@ def test():
     _ = afwf.VarValueEnum
     _ = afwf.ModEnum
 
+    _ = afwf.ScriptFilter
+    _ = afwf.Handler
+    _ = afwf.Workflow
+    _ = afwf.Icons
+
 
 if __name__ == "__main__":
     import os

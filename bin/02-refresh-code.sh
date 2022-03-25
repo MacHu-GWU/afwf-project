@@ -13,9 +13,9 @@ source "${dir_bin}/settings.sh"
 
 bin_pip="${dir_venv}/bin/pip"
 
+rm "${dir_workflow}/main.py"
 rm -r "${dir_workflow}/lib/${package_name}"
 rm -r "${dir_workflow}/lib/${package_name}-${package_version}.dist-info"
-rm "${dir_workflow}/main.py"
 
-${bin_pip} install "${dir_project_root}" --no-dependencies --target="${dir_workflow}/lib"
 cp "${dir_project_root}/main.py" "${dir_workflow}/main.py"
+${bin_pip} install "${dir_project_root}" --no-dependencies --target="${dir_workflow}/lib"

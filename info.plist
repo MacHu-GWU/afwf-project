@@ -10,6 +10,42 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>5824EAF6-415D-4CF9-B86A-282D0A5411EF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>451D1A5E-A45E-46A6-81A2-5885C9400594</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>451D1A5E-A45E-46A6-81A2-5885C9400594</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>5824EAF6-415D-4CF9-B86A-282D0A5411EF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
 				<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -30,6 +66,25 @@
 	<string>afwf dev</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{var:open_url_arg}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -58,7 +113,7 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>/Users/sanhehu/venvs/python/3.8.11/afwf_venv/bin/python main.py 'python_version {query}'</string>
+				<string>/Users/sanhehu/.pyenv/versions/3.8.11/bin/python main.py 'python_version {query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -82,19 +137,53 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
-				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string></string>
-				<key>utf8</key>
+				<key>inputstring</key>
+				<string>{var:open_file}</string>
+				<key>matchcasesensitive</key>
 				<true/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>y</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.utility.filter</string>
 			<key>uid</key>
-			<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
+			<string>5824EAF6-415D-4CF9-B86A-282D0A5411EF</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>openwith</key>
+				<string></string>
+				<key>sourcefile</key>
+				<string>{var:open_file_path}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:open_url}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>y</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>451D1A5E-A45E-46A6-81A2-5885C9400594</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -106,16 +195,37 @@
 		<key>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>475</integer>
+			<integer>695</integer>
 			<key>ypos</key>
-			<integer>145</integer>
+			<integer>10</integer>
 		</dict>
 		<key>3D612075-778A-4380-9A57-7F68CD611C4B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>195</integer>
+			<integer>65</integer>
+			<key>ypos</key>
+			<integer>10</integer>
+		</dict>
+		<key>451D1A5E-A45E-46A6-81A2-5885C9400594</key>
+		<dict>
+			<key>xpos</key>
+			<integer>610</integer>
 			<key>ypos</key>
 			<integer>145</integer>
+		</dict>
+		<key>5824EAF6-415D-4CF9-B86A-282D0A5411EF</key>
+		<dict>
+			<key>xpos</key>
+			<integer>610</integer>
+			<key>ypos</key>
+			<integer>40</integer>
+		</dict>
+		<key>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>695</integer>
+			<key>ypos</key>
+			<integer>115</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>

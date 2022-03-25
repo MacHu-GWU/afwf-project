@@ -24,5 +24,6 @@ try:
     from .script_filter import ScriptFilter
     from .handler import Handler
     from .workflow import Workflow
+    from .icon import Icons
 except ImportError as e:
     print(e)

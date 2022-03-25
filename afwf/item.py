@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import json
-from typing import Any, Type, Union, List, Tuple, Dict
+from typing import Any, Union, List, Dict
 
 import attr
 from attr import validators as vs
@@ -24,6 +23,13 @@ class Icon(ScriptFilterObject):
         validator=vs.optional(vs.in_(TypeEnum.to_values())),
         default=None,
     )
+
+    @classmethod
+    def from_image_file(cls, path: str) -> 'Icon':
+        """
+        Create an Icon object that using a file on local file system as an icon.
+        """
+        return cls(path=path)
 
 
 class VarKeyEnum(BetterEnum):
@@ -97,39 +103,39 @@ class Item(ScriptFilterObject):
     action: Union[str, List[str], Dict[str, Any]] = attr.ib(default=None)
     text: Text = Text.ib_nested(default=None)
     quicklookurl: str = AttrsClass.ib_str(default=None)
-    variables: dict = AttrsClass.ib_dict(default=None)
+    variables: dict = AttrsClass.ib_dict(factory=dict)
 
     def open_file(self, path: str):
-        self.variables[VarKeyEnum.open_file] = VarValueEnum.y
-        self.variables[VarKeyEnum.open_file_path] = path
+        self.variables[VarKeyEnum.open_file.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.open_file_path.value] = path
 
     def launch_app_or_file(self, path: str):
-        self.variables[VarKeyEnum.launch_app_or_file] = VarValueEnum.y
-        self.variables[VarKeyEnum.launch_app_or_file_path] = path
+        self.variables[VarKeyEnum.launch_app_or_file.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
 
     def reveal_file_in_finder(self, path: str):
-        self.variables[VarKeyEnum.reveal_file_in_finder] = VarValueEnum.y
-        self.variables[VarKeyEnum.reveal_file_in_finder_path] = path
+        self.variables[VarKeyEnum.reveal_file_in_finder.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.reveal_file_in_finder_path.value] = path
 
     def browse_in_terminal(self, path: str):
-        self.variables[VarKeyEnum.browse_in_terminal] = VarValueEnum.y
-        self.variables[VarKeyEnum.browse_in_terminal_path] = path
+        self.variables[VarKeyEnum.browse_in_terminal.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.browse_in_terminal_path.value] = path
 
     def browse_in_alfred(self, path: str):
-        self.variables[VarKeyEnum.browse_in_alfred] = VarValueEnum.y
-        self.variables[VarKeyEnum.browse_in_alfred_path] = path
+        self.variables[VarKeyEnum.browse_in_alfred.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
 
     def open_url(self, path: str):
-        self.variables[VarKeyEnum.open_url] = VarValueEnum.y
-        self.variables[VarKeyEnum.open_url_arg] = path
+        self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.open_url_arg.value] = path
 
     def run_script(self, path: str):
-        self.variables[VarKeyEnum.run_script] = VarValueEnum.y
-        self.variables[VarKeyEnum.run_script_arg] = path
+        self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.run_script_arg.value] = path
 
     def terminal_command(self, path: str):
-        self.variables[VarKeyEnum.terminal_command] = VarValueEnum.y
-        self.variables[VarKeyEnum.terminal_command_arg] = path
+        self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.terminal_command_arg.value] = path
 
     def add_modifier(
         self,

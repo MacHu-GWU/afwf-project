@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from pathlib_mate import Path
+from pathlib import Path
+
+dir_here = Path(__file__).absolute().parent
+dir_lib = Path(dir_here.parent, "lib")
 
 dir_home = Path.home()
 dir_afwf = Path(dir_home, ".alfred-afwf")
