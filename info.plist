@@ -59,7 +59,7 @@
 	<key>createdby</key>
 	<string>Sanhe Hu</string>
 	<key>description</key>
-	<string></string>
+	<string>Alfred Workflow project based on afwf python library</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
@@ -138,7 +138,7 @@
 			<key>config</key>
 			<dict>
 				<key>inputstring</key>
-				<string>{var:open_file}</string>
+				<string>{var:open_url}</string>
 				<key>matchcasesensitive</key>
 				<true/>
 				<key>matchmode</key>
@@ -172,7 +172,7 @@
 			<key>config</key>
 			<dict>
 				<key>inputstring</key>
-				<string>{var:open_url}</string>
+				<string>{var:open_file}</string>
 				<key>matchcasesensitive</key>
 				<true/>
 				<key>matchmode</key>

@@ -27,6 +27,8 @@ class Handler(afwf.Handler):
         return versions
 
     def lower_level_api(self, query: str) -> afwf.ScriptFilter:
+        if query == "error":
+            raise ValueError("query cannot be 'error'!")
         versions = self.get_all_python_version()
         filtered_versions = [
             version
@@ -37,11 +39,13 @@ class Handler(afwf.Handler):
         filtered_versions = filtered_versions[:50]
         sf = afwf.ScriptFilter()
         for version in filtered_versions:
+            url = f"https://github.com/pyenv/pyenv/blob/master/plugins/python-build/share/python-build/{version}"
             item = afwf.Item(
                 title=version,
                 autocomplete=version,
-                arg=f"https://github.com/pyenv/pyenv/blob/master/plugins/python-build/share/python-build/{version}",
+                arg=url,
             )
+            item.open_url(url=url)
             sf.items.append(item)
         if len(sf.items) == 0:
             sf.items.append(afwf.Item(

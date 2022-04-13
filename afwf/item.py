@@ -127,17 +127,17 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.browse_in_alfred.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
 
-    def open_url(self, path: str):
+    def open_url(self, url: str):
         self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
-        self.variables[VarKeyEnum.open_url_arg.value] = path
+        self.variables[VarKeyEnum.open_url_arg.value] = url
 
-    def run_script(self, path: str):
+    def run_script(self, cmd: str):
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
-        self.variables[VarKeyEnum.run_script_arg.value] = path
+        self.variables[VarKeyEnum.run_script_arg.value] = cmd
 
-    def terminal_command(self, path: str):
+    def terminal_command(self, cmd: str):
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
-        self.variables[VarKeyEnum.terminal_command_arg.value] = path
+        self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
 
     def add_modifier(
         self,

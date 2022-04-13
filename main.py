@@ -19,4 +19,4 @@ if dir_lib.exists():
 if __name__ == "__main__":
     from afwf.example_wf import wf
 
-    wf.run(debug=False)
+    wf.run(debug=True)
