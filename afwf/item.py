@@ -80,6 +80,8 @@ class ModEnum(BetterEnum):
 @attr.define
 class Item(ScriptFilterObject):
     """
+    Data model for alfred dropdown menu items.
+
     Ref: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 

@@ -13,6 +13,9 @@ class ScriptFilterObject(AttrsClass):
     """
     [CN]
 
+    所有的 ScriptFilter 中出现的 Object 比如 Item, 或是 ScriptFilter 本身都是这个
+    类的子类.
+
     根据 Alfred 的 `官方文档 <https://www.alfredapp.com/help/workflows/inputs/script-filter/json/>`_
     Script Filter 是一个 JSON 的数据结构. 但这个 JSON 数据结构与 Python OOP 的序列化接口
     有差别. OOP 序列化接口是为了能从 JSON 中还原 object. 而 Script Filter 接口是为

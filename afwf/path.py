@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""
+Frequently used paths.
+"""
+
 from pathlib import Path
 
 dir_here = Path(__file__).absolute().parent

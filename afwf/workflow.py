@@ -77,11 +77,14 @@ class Workflow(AttrsClass):
         self,
         debug=False,
     ):
+        """
+        Low level script filter runner
+        """
         if debug:
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_debug_info(f"--- run script filter at {now} ---")
 
-        arg = sys.argv[1]  # "{handler_id} {query}"
+        arg = sys.argv[1]  # in format of "{handler_id} {query}"
 
         if debug:
             log_debug_info(f"received argument is: {arg!r}")
@@ -101,6 +104,17 @@ class Workflow(AttrsClass):
         self,
         debug=False,
     ):
+        """
+        High level script filter runner.
+
+        :param debug:
+
+        By default, it provides two way to debug:
+
+        1. Automatically log the python trace back logs to ``~/.alfred-afwf/last-error.txt``
+            file.
+        2. If python raises any exception, log the last Exception message as an item.
+        """
         try:
             self._run(debug=debug)
         except Exception as e:
