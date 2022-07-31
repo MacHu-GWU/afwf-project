@@ -28,7 +28,7 @@ def log_last_error():  # pragma: no cover
     try:
         p_last_error.write_text(traceback_msg, encoding="utf-8")
     except FileNotFoundError:
-        dir_afwf.mkdir_if_not_exists()
+        dir_afwf.mkdir(parents=True, exist_ok=True)
         p_last_error.write_text(traceback_msg, encoding="utf-8")
     except Exception as e:
         raise e
@@ -43,7 +43,7 @@ def log_debug_info(info: str):  # pragma: no cover
         with p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except FileNotFoundError:
-        dir_afwf.mkdir_if_not_exists()
+        dir_afwf.mkdir(parents=True, exist_ok=True)
         with p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except Exception as e:
