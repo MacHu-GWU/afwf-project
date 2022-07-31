@@ -1,6 +1,7 @@
 Alfred Workflow Python Developer Guide
 ==============================================================================
 
+.. _script-filter-s-script:
 
 Script Filter's script
 ------------------------------------------------------------------------------
@@ -24,6 +25,10 @@ Script Filter's script
 
 Script Filter's Configuration
 ------------------------------------------------------------------------------
+当你再 Alfred Workflow 中创建了一个 ``Script Filter`` 的控件后, 会出现一个菜单对这个控件进行配置. 如何配置这个菜单呢?
+
+.. image:: ./script-filter-configuration.png
+
 - Keyword: 没什么好说的
 - with space: 勾选, 除非你不需要 query
 - Argument Optional: 选这个, 具体的逻辑在代码中处理
@@ -39,10 +44,26 @@ Script Filter's Configuration
         - 不勾选 Don't set argv when query is empty
 - Alfred filters results: 不要勾线, filter 的功能在你的代码中处理
 - Escaping: 只勾选 Double Quotes, Backslashes
+- Script: ``{path_to_python_interpreter} main.py '{handler_id} {query}'`` 详情请参考 :ref:`script-filter-s-script`
 
 
+Send Returned Items to Alfred
+------------------------------------------------------------------------------
+根据 :ref:`script-filter-programming-model`, 我们知道 Alfred Workflow 的本质就是 输入一个 ``query`` 返回一堆 ``item`` JSON 对象. 那么在 Python 中我们根据 query 计算出一堆 items 的 JSON 对象后, 我们如何将其发送给 Alfred 呢?
 
-如何把 Python 中的数据发送给 Alfred Workflow?
+请参考下面的代码, 核心的代码其实只有 2 行. 你在计算出想要展示的 items 后, 你要把这些 items 放在一个 Alfred 所规定的 Script Filter Output 的 dict 对象中. 然后将这个对象用 json 序列化并写入 system standard output buffer 中. 也就是 ``json.dump(script_filter_output, sys.stdout)`` 这一行. 由于 Alfred 会监听 ``sys.stdout``, 你如果将 buffer 中的数据刷新到内存, 就会被 Alfred 所捕捉到并显示出来. 具体做法就是 ``sys.stdout.flush()``
 
-- 参考这段 Alfred 作者的代码: https://github.com/deanishe/alfred-workflow/blob/master/workflow/workflow.py#L2176
-- 参考 Script Filter 的编程模型: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
+.. code-block:: python
+
+    import sys
+    import json
+
+    script_filter_output = {
+        "items": [
+            {"title": "item 1"},
+            {"title": "item 2"},
+        ]
+    }
+
+    json.dump(script_filter_output, sys.stdout)
+    sys.stdout.flush()

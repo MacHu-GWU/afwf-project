@@ -4,7 +4,7 @@ Release and Version History
 ==============================================================================
 
 
-0.0.4 (TODO)
+0.0.5 (TODO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
 
@@ -15,6 +15,13 @@ Release and Version History
 **Bugfixes**
 
 **Miscellaneous**
+
+
+0.0.4 (2022-07-31)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Bugfixes**
+
+- fix a bug that in ``workflow.py``, the ``mkdir_if_not_exist()`` method not exists.
 
 
 0.0.3 (2022-04-13)
