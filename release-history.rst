@@ -17,8 +17,26 @@ Release and Version History
 **Miscellaneous**
 
 
+0.2.1 (2023-01-29)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+-
+
+**Minor Improvements**
+
+- Add documentation
+
+**Bugfixes**
+
+**Miscellaneous**
+
+
 0.1.1 (2023-01-29)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- Determine the list of public API.
 
 
 0.0.4 (2022-07-31)

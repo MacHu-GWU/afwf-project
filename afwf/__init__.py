@@ -23,7 +23,10 @@ try:
     )
     from .script_filter import ScriptFilter
     from .handler import Handler
+    from .workflow import log_debug_info
     from .workflow import Workflow
     from .icon import IconFileEnum
+    from .query import Query
+    from .query import QueryParser
 except ImportError as e:
     print(e)

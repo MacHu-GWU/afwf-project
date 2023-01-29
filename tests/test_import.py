@@ -16,8 +16,11 @@ def test():
 
     _ = afwf.ScriptFilter
     _ = afwf.Handler
+    _ = afwf.log_debug_info
     _ = afwf.Workflow
     _ = afwf.IconFileEnum
+    _ = afwf.Query
+    _ = afwf.QueryParser
 
 
 if __name__ == "__main__":

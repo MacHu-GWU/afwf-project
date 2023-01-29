@@ -29,6 +29,7 @@ class IconFileEnum:
     undo = os.path.join(dir_icons, "undo-96.png")
     stop = os.path.join(dir_icons, "stop-96.png")
     redo = os.path.join(dir_icons, "redo-96.png")
+    debug = os.path.join(dir_icons, "debug-96.png")
     close = os.path.join(dir_icons, "close-96.png")
     todo = os.path.join(dir_icons, "todo-96.png")
     remove = os.path.join(dir_icons, "remove-96.png")

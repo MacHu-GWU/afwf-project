@@ -4,8 +4,11 @@
 
 """
 
+import typing as T
+
 import attr
 from attrs_mate import AttrsClass
+
 from .script_filter import ScriptFilter
 
 
@@ -26,20 +29,41 @@ class Handler(AttrsClass):
     其行为等效于使用 ``${path_to_python}`` 的 Python 解释器, 调用跟 ``${handler_id}``
     所对应的 :class:`Handler` 类中的 ``handler(query)`` 方法.
 
-    Handler 必须实现两个 methods.
+    Handler 必须实现下面这些抽象函数.
 
-    1. :meth:`~afwf.script_filter.ScriptFilter.lower_level_api`:
-    2. :meth:`~afwf.script_filter.ScriptFilter.handler`:
+    - :meth:`~afwf.handler.Handler.main`
+    - :meth:`~afwf.handler.Handler.parse_query`
+    - :meth:`~afwf.handler.Handler.encode_query`
     """
+
     id = AttrsClass.ib_str(nullable=False)
 
-    def low_level_api(self, **kwargs) -> ScriptFilter:
+    def main(self, **kwargs) -> ScriptFilter:
         """
         [CN]
 
-        一个传统的 Python 函数, 可以自定义参数, 返回的是一个
-        :class:`~afwf.script_filter.ScriptFilter` 对象, 里面包含了 Drop Down Menu
-        所需的 Item. **最核心的逻辑将在这个函数中被处理**.
+        用来处理 Script Filter 的具体业务逻辑的主函数. 是一个抽象函数.
+
+        该函数必须返回一个 :class:`~afwf.script_filter.ScriptFilter` 对象, 里面包含了
+        Alfred 对话框里的 Drop Down Menu 中的 :class:`~afwf.item.Item` 对象.
+        """
+        raise NotImplementedError
+
+    def parse_query(self, query: str) -> T.Dict[str, T.Any]:
+        """
+        [CN]
+
+        一个抽象函数. 用来解析 Script Filter 传入的 query 字符串. 返回的字典要和
+        :meth:`~afwf.handler.Handler.main` 中的参数一一对应.
+        """
+        raise NotImplementedError
+
+    def encode_query(self, **kwargs) -> str:
+        """
+        [CN]
+
+        一个抽象函数. 用来将结构化的参数编码为字符串. 该函数的参数要和
+        :meth:`~afwf.handler.Handler.main` 中的参数一一对应.
         """
         raise NotImplementedError
 
@@ -47,11 +71,22 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        :meth:`~afwf.script_filter.ScriptFilter.low_level_api` 的一个 wrapper
-        函数. 只不过接收的参数是一个 query string, 也就是你在 Script Filter Widget
+        对 :meth:`~afwf.handler.Handler.main` 进行的一层封装.
+        只不过接收的参数是一个 query string, 也就是你在 Script Filter Widget
         里面定义的 ``python3 main.py '{handler_id} {query}'`` 中的 query 部分.
 
-        该函数的主要工作是将 query 转化成
-        :meth:`~afwf.script_filter.ScriptFilter.low_level_api` 所需的参数.
+        该函数的主要工作是调用 :meth:`~afwf.handler.Handler.parse_query`, 将 query
+        解析成结构化的参数, 然后传给 :meth:`~afwf.handler.Handler.main` 进行处理.
         """
-        raise NotImplementedError
+        return self.main(**self.parse_query(query))
+
+    def encode_run_script_command(
+        self,
+        bin_python: str,
+        **kwargs,
+    ) -> str:
+        """
+        将 :meth:`~afwf.handler.Handler.main` 中的参数编码为 Alfred Workflow 中的
+        Run Script 的 bash command.
+        """
+        return f"{bin_python} main.py '{self.id} {self.encode_query(**kwargs)}'"

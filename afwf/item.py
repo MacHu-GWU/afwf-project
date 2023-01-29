@@ -60,8 +60,8 @@ class VarKeyEnum(BetterEnum):
     send_notification_title = "send_notification_title"
     send_notification_subtitle = "send_notification_subtitle"
 
-    _open_last_error_file = "open_last_error_file"
-    _open_last_error_file_path = "open_last_error_file_path"
+    _open_log_file = "_open_log_file"
+    _open_log_file_path = "_open_log_file_path"
 
 
 class VarValueEnum(BetterEnum):
@@ -153,13 +153,13 @@ class Item(ScriptFilterObject):
     # --------------------------------------------------------------------------
     # Set variables
     # --------------------------------------------------------------------------
-    def _open_last_error_file(self, path: str):
+    def _open_log_file(self, path: str):
         """
         This is a special variable that will open the last error file in the editor.
         It is for internal implementation only, not for public API.
         """
-        self.variables[VarKeyEnum._open_last_error_file.value] = VarValueEnum.y.value
-        self.variables[VarKeyEnum._open_last_error_file_path.value] = path
+        self.variables[VarKeyEnum._open_log_file.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum._open_log_file_path.value] = path
 
     def open_file(self, path: str):
         """

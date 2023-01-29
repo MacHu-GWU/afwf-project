@@ -140,14 +140,25 @@ class Workflow(AttrsClass):
             if debug:
                 log_last_error()
             sf = ScriptFilter()
+
             item = Item(
                 title=f"Error: {e}",
                 subtitle=f"Open {str(p_last_error)} to see details",
                 icon=Icon.from_image_file(IconFileEnum.error),
                 arg=str(p_last_error),
             )
-            item._open_last_error_file(path=str(p_last_error))
+            item._open_log_file(path=str(p_last_error))
             sf.items.append(item)
+
+            item = Item(
+                title=f"Open debug log file",
+                subtitle=f"Open {str(p_debug_log)} to see details",
+                icon=Icon.from_image_file(IconFileEnum.debug),
+                arg=str(p_debug_log),
+            )
+            item._open_log_file(path=str(p_debug_log))
+            sf.items.append(item)
+
             json.dump(sf.to_script_filter(), sys.stdout)
             sys.stdout.flush()
             exit(1)
