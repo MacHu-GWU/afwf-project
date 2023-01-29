@@ -4,7 +4,7 @@
 query utilities.
 """
 
-from typing import List
+import typing as T
 import attr
 from attrs_mate import AttrsClass
 
@@ -13,10 +13,15 @@ from attrs_mate import AttrsClass
 class Query(AttrsClass):
     """
     Structured query object.
-    """
-    parts: List[str] = AttrsClass.ib_list_of_str()
-    trimmed_parts: List[str] = AttrsClass.ib_list_of_str()
 
+    :param parts: the parts of query string split by delimiter
+    :param trimmed_parts: similar to parts, but each part is white space stripped
+    """
+    parts: T.List[str] = AttrsClass.ib_list_of_str()
+    trimmed_parts: T.List[str] = AttrsClass.ib_list_of_str()
+
+
+SEP = "____"
 
 class QueryParser:
     """
@@ -25,12 +30,20 @@ class QueryParser:
 
     def __init__(
         self,
-        delimiter: str = " ",
+        delimiter: T.Union[str, T.List[str]] = " ",
     ):
-        self.delimiter = delimiter
+        if isinstance(delimiter, str):
+            self.delimiter = [delimiter,]
+        else:
+            self.delimiter = delimiter
 
     def parse(self, s: str) -> Query:
-        parts = s.split(self.delimiter)
+        """
+        Convert string query to structured query object.
+        """
+        for sep in self.delimiter:
+            s = s.replace(sep, SEP)
+        parts = s.split(SEP)
         trimmed_parts = [c.strip() for c in parts if c.strip()]
         return Query(
             parts=parts,
