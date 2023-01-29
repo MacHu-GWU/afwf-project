@@ -24,6 +24,6 @@ try:
     from .script_filter import ScriptFilter
     from .handler import Handler
     from .workflow import Workflow
-    from .icon import Icons
+    from .icon import IconFileEnum
 except ImportError as e:
     print(e)

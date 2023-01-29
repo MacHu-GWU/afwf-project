@@ -17,7 +17,7 @@ def test():
     _ = afwf.ScriptFilter
     _ = afwf.Handler
     _ = afwf.Workflow
-    _ = afwf.Icons
+    _ = afwf.IconFileEnum
 
 
 if __name__ == "__main__":
