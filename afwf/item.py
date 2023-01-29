@@ -219,10 +219,20 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.run_script_arg.value] = cmd
+        self.arg = cmd
 
     def terminal_command(self, cmd: str):
+        """
+        Use the "Utilities -> Conditional" widget and set: if ``{var:terminal_command}``
+        is equal to "y".
+
+        Use the "Actions -> Terminal Command" widget and set:
+
+        - Command = ``{query}``
+        """
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
+        self.arg = cmd
 
     def send_notification(self, title: str, subtitle: str = ""):
         """

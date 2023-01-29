@@ -4,7 +4,7 @@ Release and Version History
 ==============================================================================
 
 
-0.2.1 (TODO)
+0.3.1 (TODO)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
 
@@ -15,21 +15,21 @@ Release and Version History
 **Bugfixes**
 
 **Miscellaneous**
+
+
+0.2.2 (2023-01-29)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Bugfixes**
+
+- fix a bug that ``run_script()`` and ``terminal_command()`` should set the command to item arguments.
 
 
 0.2.1 (2023-01-29)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
 
--
-
-**Minor Improvements**
-
-- Add documentation
-
-**Bugfixes**
-
-**Miscellaneous**
+- add more abstract method to ``Handler`` class.
+- add public API to unit test.
 
 
 0.1.1 (2023-01-29)
