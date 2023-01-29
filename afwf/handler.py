@@ -19,14 +19,21 @@ class Handler(AttrsClass):
     Setting. 这些信息被放在 :class:`~afwf.script_filter.ScriptFilter` 这个 Data
     Container 类中.
 
-    Handler 一共有两个必须的 method.
+    你在 Script Filter 中的 Script 一栏中填写如下信息的时::
+
+        ${path_to_python} main.py '${handler_id} ${query}'
+
+    其行为等效于使用 ``${path_to_python}`` 的 Python 解释器, 调用跟 ``${handler_id}``
+    所对应的 :class:`Handler` 类中的 ``handler(query)`` 方法.
+
+    Handler 必须实现两个 methods.
 
     1. :meth:`~afwf.script_filter.ScriptFilter.lower_level_api`:
     2. :meth:`~afwf.script_filter.ScriptFilter.handler`:
     """
     id = AttrsClass.ib_str(nullable=False)
 
-    def lower_level_api(self, **kwargs) -> ScriptFilter:
+    def low_level_api(self, **kwargs) -> ScriptFilter:
         """
         [CN]
 
@@ -40,11 +47,11 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        :meth:`~afwf.script_filter.ScriptFilter.lower_level_api` 的一个 wrapper
+        :meth:`~afwf.script_filter.ScriptFilter.low_level_api` 的一个 wrapper
         函数. 只不过接收的参数是一个 query string, 也就是你在 Script Filter Widget
         里面定义的 ``python3 main.py '{handler_id} {query}'`` 中的 query 部分.
 
         该函数的主要工作是将 query 转化成
-        :meth:`~afwf.script_filter.ScriptFilter.lower_level_api` 所需的参数.
+        :meth:`~afwf.script_filter.ScriptFilter.low_level_api` 所需的参数.
         """
         raise NotImplementedError

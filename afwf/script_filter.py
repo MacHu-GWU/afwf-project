@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import typing as T
 import sys
 import json
-from typing import Any, Type, Union, List, Tuple, Dict
 
 import attr
 from attrs_mate import AttrsClass
@@ -27,7 +27,7 @@ class ScriptFilter(ScriptFilterObject):
 
     - https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
-    items: List[Item] = Item.ib_list_of_nested()
+    items: T.List[Item] = Item.ib_list_of_nested()
     variables: dict = AttrsClass.ib_dict(default=None)
     rerun: float = AttrsClass.ib_float(default=None)
 
