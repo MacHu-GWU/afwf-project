@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
 """
+
 """
 
+import typing as T
 import sys
 import json
 import traceback
 from datetime import datetime
-from typing import Dict
 
 import attr
 from attrs_mate import AttrsClass
@@ -16,7 +17,7 @@ from .handler import Handler
 from .path import dir_lib, dir_afwf, p_last_error, p_debug_log
 from .script_filter import ScriptFilter
 from .item import Icon, Item
-from .icon import Icons
+from .icon import IconFileEnum
 
 
 def log_last_error():  # pragma: no cover
@@ -53,8 +54,16 @@ def log_debug_info(info: str):  # pragma: no cover
 @attr.define
 class Workflow(AttrsClass):
     """
+    Represents an Alfred Workflow object. The workflow can register many handlers.
+
+    Each handler will be responsible for a Script Filter implementation.
+
+    [CN]
+
+    表示一个 Alfred Workflow 对象. 一个 workflow 可以注册多个 handler. 每个 handler
+    对应着一个 Script Filter 的实现.
     """
-    handlers: Dict[str, Handler] = attr.ib(factory=dict)
+    handlers: T.Dict[str, Handler] = attr.ib(factory=dict)
 
     def __attrs_post_init__(self):
         if dir_lib.exists():
@@ -62,6 +71,7 @@ class Workflow(AttrsClass):
 
     def register(self, handler: Handler):
         """
+        Register a handler to the workflow.
         """
         if handler.id in self.handlers:
             raise KeyError
@@ -70,21 +80,28 @@ class Workflow(AttrsClass):
 
     def get(self, handler_id: str) -> Handler:
         """
+        Get handler by id.
         """
         return self.handlers[handler_id]
 
     def _run(
         self,
-        debug=False,
-    ):
+        arg: T.Optional[str] = None,
+        debug: bool =False,
+    ) -> ScriptFilter:
         """
-        Low level script filter runner
+        Low level script filter runner. It locates the handler by ``handler_id``,
+        and then call the handler to generate the script filter result, and then
+        flush the result to stdout, hence you can see it in the drop-down menu.
+
+        :param debug: flag to turn on debug.
         """
         if debug:
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_debug_info(f"--- run script filter at {now} ---")
 
-        arg = sys.argv[1]  # in format of "{handler_id} {query}"
+        if arg is None:
+            arg = sys.argv[1]  # in format of "{handler_id} {query}"
 
         if debug:
             log_debug_info(f"received argument is: {arg!r}")
@@ -99,35 +116,37 @@ class Workflow(AttrsClass):
         sf = handler.handler(query)
         json.dump(sf.to_script_filter(), sys.stdout)
         sys.stdout.flush()
+        return sf
 
     def run(
         self,
-        debug=False,
+        arg: T.Optional[str] = None,
+        debug: bool = False,
     ):
         """
         High level script filter runner.
 
-        :param debug:
+        :param debug: flag to turn on debug.
 
-        By default, it provides two way to debug:
+        By default, it provides two ways to debug:
 
-        1. Automatically log the python trace back logs to ``~/.alfred-afwf/last-error.txt``
+        1. Automatically log the python traceback logs to ``~/.alfred-afwf/last-error.txt``
             file.
         2. If python raises any exception, log the last Exception message as an item.
         """
         try:
-            self._run(debug=debug)
+            self._run(arg=arg, debug=debug)
         except Exception as e:
             if debug:
                 log_last_error()
             sf = ScriptFilter()
             item = Item(
-                title=f"Error: ",
+                title=f"Error: {e}",
                 subtitle=f"Open {str(p_last_error)} to see details",
-                icon=Icon.from_image_file(Icons.error),
+                icon=Icon.from_image_file(IconFileEnum.error),
                 arg=str(p_last_error),
             )
-            item.open_file(path=str(p_last_error))
+            item._open_last_error_file(path=str(p_last_error))
             sf.items.append(item)
             json.dump(sf.to_script_filter(), sys.stdout)
             sys.stdout.flush()
