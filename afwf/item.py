@@ -12,8 +12,8 @@ from .script_filter_object import ScriptFilterObject
 
 @attr.define
 class Icon(ScriptFilterObject):
-    """
-    """
+    """ """
+
     class TypeEnum(BetterEnum):
         fileicon = "fileicon"
         filetype = "filetype"
@@ -25,7 +25,7 @@ class Icon(ScriptFilterObject):
     )
 
     @classmethod
-    def from_image_file(cls, path: str) -> 'Icon':
+    def from_image_file(cls, path: str) -> "Icon":
         """
         Create an Icon object that using a file on local file system as an icon.
         """
@@ -56,6 +56,12 @@ class VarKeyEnum(BetterEnum):
     run_ns_apple_script_arg = "run_ns_apple_script_arg"
     terminal_command = "terminal_command"
     terminal_command_arg = "terminal_command_arg"
+    send_notification = "send_notification"
+    send_notification_title = "send_notification_title"
+    send_notification_subtitle = "send_notification_subtitle"
+
+    _open_last_error_file = "open_last_error_file"
+    _open_last_error_file_path = "open_last_error_file_path"
 
 
 class VarValueEnum(BetterEnum):
@@ -107,7 +113,63 @@ class Item(ScriptFilterObject):
     quicklookurl: str = AttrsClass.ib_str(default=None)
     variables: dict = AttrsClass.ib_dict(factory=dict)
 
+    # --------------------------------------------------------------------------
+    # Set attribute value
+    # --------------------------------------------------------------------------
+    def set_icon(self, path: str) -> "Item":
+        self.icon = Icon.from_image_file(path)
+        return self
+
+    def set_modifier(
+        self,
+        mod: str = ModEnum.cmd.value,
+        subtitle: subtitle = None,
+        arg: str = None,
+        valid: bool = True,
+    ) -> "Item":
+        """
+        Add modifier to item. Modifier allow you to return different title,
+        subtitle and argument in Alfred drop down menu item when you hit a
+        modifier key.
+
+        :param mode: the modifier key
+        """
+        if mod not in ModEnum.to_values():
+            raise ValueError
+        dct = {
+            k: v
+            for k, v in dict(
+                subtitle=subtitle,
+                arg=arg,
+                valid=valid,
+            ).items()
+            if v
+        }
+        if self.mods is None:
+            self.mods = dict()
+        self.mods[mod] = dct
+        return self
+
+    # --------------------------------------------------------------------------
+    # Set variables
+    # --------------------------------------------------------------------------
+    def _open_last_error_file(self, path: str):
+        """
+        This is a special variable that will open the last error file in the editor.
+        It is for internal implementation only, not for public API.
+        """
+        self.variables[VarKeyEnum._open_last_error_file.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum._open_last_error_file_path.value] = path
+
     def open_file(self, path: str):
+        """
+        Set variables to tell subsequence Alfred action to open a file.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:open_file}``
+        is equal to "y".
+
+        Use the "Actions -> Open File" widget and set: File: ``{var:open_file_path}``
+        """
         self.variables[VarKeyEnum.open_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_file_path.value] = path
 
@@ -128,10 +190,33 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
 
     def open_url(self, url: str):
+        """
+        Set variables to tell subsequence Alfred action to open url.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:open_url}``
+        is equal to "y".
+
+        Use the "Actions -> Open URL" widget and set:
+
+        - File = ``{var:open_url_arg}``
+        """
         self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_url_arg.value] = url
 
     def run_script(self, cmd: str):
+        """
+        Set variables to tell subsequence Alfred action to run script.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:run_script}``
+        is equal to "y".
+
+        Use the "Actions -> Run Script" widget and set:
+
+        - Language = ``/bin/bash``
+        - "with input as {query}"
+        - running instances = "Sequentially"
+        - Script = ``{query}``
+        """
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.run_script_arg.value] = cmd
 
@@ -139,24 +224,18 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
 
-    def add_modifier(
-        self,
-        mod: str,
-        subtitle: subtitle = None,
-        arg: str = None,
-        valid: bool = True,
-    ):
-        if mod not in ModEnum.to_values():
-            raise ValueError
-        dct = {
-            k: v
-            for k, v in dict(
-                subtitle=subtitle,
-                arg=arg,
-                valid=valid,
-            ).items()
-            if v
-        }
-        if self.mods is None:
-            self.mods = dict()
-        self.mods[mod] = dct
+    def send_notification(self, title: str, subtitle: str = ""):
+        """
+        Set variables to tell subsequence Alfred action to send notification.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:send_notification}``
+        is equal to "y".
+
+        Use the "Outputs -> Post Notification" widget and set:
+
+        - Title = ``{var:send_notification_title}``
+        - Subtitle = ``{var:send_notification_subtitle}``
+        """
+        self.variables[VarKeyEnum.send_notification.value] = VarValueEnum.y.value
+        self.variables[VarKeyEnum.send_notification_title.value] = title
+        self.variables[VarKeyEnum.send_notification_subtitle.value] = subtitle
