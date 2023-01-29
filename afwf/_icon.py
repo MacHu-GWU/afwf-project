@@ -15,15 +15,19 @@ p_icon = Path(dir_here, "icon.py")
 content = """
 # -*- coding: utf-8 -*-
 
+\"\"\"
+Enumerate all built-in ICON images.
+\"\"\"
+
 import os
 
 dir_icons = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
 
-class Icons:
+class IconFileEnum:
 """.strip()
 lines = content.split("\n")
 
-for p in dir_icons.select_file():
+for p in dir_icons.select_by_ext(".png"):
     name = p.basename.split("-")[0]
     file = p.basename
     line = f"    {name} = os.path.join(dir_icons, \"{file}\")"
