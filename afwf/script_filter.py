@@ -32,7 +32,7 @@ class ScriptFilter(ScriptFilterObject):
     rerun: float = AttrsClass.ib_float(default=None)
 
     def to_script_filter(self) -> dict:
-        dct = super().to_script_filter()
+        dct = super(ScriptFilter, self).to_script_filter()
         if "items" not in dct:
             dct["items"] = list()
         return dct
