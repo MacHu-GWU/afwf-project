@@ -10,11 +10,20 @@ Backlog
 
 **Minor Improvements**
 
-- Add documentation
-
 **Bugfixes**
 
 **Miscellaneous**
+
+
+0.3.1 (2023-04-02)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- Add tons of doc string and unit test.
+
+**Minor Improvements**
+
+- Add documentation website.
 
 
 0.2.2 (2023-01-29)

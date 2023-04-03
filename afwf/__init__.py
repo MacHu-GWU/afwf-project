@@ -10,6 +10,8 @@ __short_description__ = "A powerful framework enables fast and elegant developme
 __license__ = "MIT"
 __author__ = "Sanhe Hu"
 __author_email__ = "husanhe@gmail.com"
+__maintainer__ = __author__
+__maintainer_email__ = __author_email__
 __github_username__ = "MacHu-GWU"
 
 try:
