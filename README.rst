@@ -6,7 +6,7 @@
 .. image:: https://github.com/MacHu-GWU/afwf-project/workflows/CI/badge.svg
     :target: https://github.com/MacHu-GWU/afwf-project/actions?query=workflow:CI
 
-.. image:: https://codecov.io/gh/MacHu-GWU/afwf-project/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/MacHu-GWU/afwf-project/branch/main/graph/badge.svg
     :target: https://codecov.io/gh/MacHu-GWU/afwf-project
 
 .. image:: https://img.shields.io/pypi/v/afwf.svg
