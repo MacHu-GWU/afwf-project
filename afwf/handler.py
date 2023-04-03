@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-
+Alfred workflow handler module.
 """
 
 import typing as T
@@ -29,7 +29,7 @@ class Handler(AttrsClass):
     其行为等效于使用 ``${path_to_python}`` 的 Python 解释器, 调用跟 ``${handler_id}``
     所对应的 :class:`Handler` 类中的 ``handler(query)`` 方法.
 
-    Handler 必须实现下面这些抽象函数.
+    Handler 必须实现下面这些抽象方法.
 
     - :meth:`~afwf.handler.Handler.main`
     - :meth:`~afwf.handler.Handler.parse_query`
@@ -42,10 +42,13 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        用来处理 Script Filter 的具体业务逻辑的主函数. 是一个抽象函数.
+        用来处理 Script Filter 的具体业务逻辑的主方法. 是一个抽象方法. 你需要 override 这个方法
+        并给予具体的实现.
 
-        该函数必须返回一个 :class:`~afwf.script_filter.ScriptFilter` 对象, 里面包含了
-        Alfred 对话框里的 Drop Down Menu 中的 :class:`~afwf.item.Item` 对象.
+        该方法可以接收任何自定义的参数, 并必须返回一个 :class:`~afwf.script_filter.ScriptFilter` 对象,
+        里面包含了Alfred 对话框里的 Drop Down Menu 中的 :class:`~afwf.item.Item` 对象.
+
+        这个方法应该可以被充分的单元测试覆盖.
         """
         raise NotImplementedError
 
@@ -53,7 +56,7 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        一个抽象函数. 用来解析 Script Filter 传入的 query 字符串. 返回的字典要和
+        一个抽象方法. 用来解析 Script Filter 传入的 query 字符串. 返回的字典要和
         :meth:`~afwf.handler.Handler.main` 中的参数一一对应.
         """
         raise NotImplementedError
@@ -62,7 +65,7 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        一个抽象函数. 用来将结构化的参数编码为字符串. 该函数的参数要和
+        一个抽象方法. 用来将结构化的参数编码为字符串. 该方法的参数要和
         :meth:`~afwf.handler.Handler.main` 中的参数一一对应.
         """
         raise NotImplementedError
@@ -71,11 +74,11 @@ class Handler(AttrsClass):
         """
         [CN]
 
-        对 :meth:`~afwf.handler.Handler.main` 进行的一层封装.
+        该方法对 :meth:`~afwf.handler.Handler.main` 进行的一层封装.
         只不过接收的参数是一个 query string, 也就是你在 Script Filter Widget
-        里面定义的 ``python3 main.py '{handler_id} {query}'`` 中的 query 部分.
+        里面定义的 ``/usr/bin/python3 main.py '{handler_id} {query}'`` 中的 query 部分.
 
-        该函数的主要工作是调用 :meth:`~afwf.handler.Handler.parse_query`, 将 query
+        该方法的主要工作是调用 :meth:`~afwf.handler.Handler.parse_query`, 将 query
         解析成结构化的参数, 然后传给 :meth:`~afwf.handler.Handler.main` 进行处理.
         """
         return self.main(**self.parse_query(query))
@@ -87,6 +90,7 @@ class Handler(AttrsClass):
     ) -> str:
         """
         将 :meth:`~afwf.handler.Handler.main` 中的参数编码为 Alfred Workflow 中的
-        Run Script 的 bash command.
+        Run Script 的 bash command. 当你定义按下 Enter 后所对应的行为是执行某个复杂的
+        Python 函数的时候, 该方法就可以将 bash command 编码为 arg, 并传给 "Run Script" action.
         """
         return f"{bin_python} main.py '{self.id} {self.encode_query(**kwargs)}'"
