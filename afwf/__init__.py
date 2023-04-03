@@ -6,7 +6,7 @@ Alfred Workflow Script Filter power tool.
 
 from ._version import __version__
 
-__short_description__ = "Alfred Workflow Script Filter power tool.."
+__short_description__ = "A powerful framework enables fast and elegant development of Alfred Workflows in Python."
 __license__ = "MIT"
 __author__ = "Sanhe Hu"
 __author_email__ = "husanhe@gmail.com"
