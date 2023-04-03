@@ -5,10 +5,14 @@ Alfred Workflow Script Filter
     :depth: 1
     :local:
 
+Summary
+------------------------------------------------------------------------------
+这篇文档是用 Python 来开发 Alfred Workflow 的指南系列的第一篇. Alfred Workflow 的核心是 Script Filter, 那么我们就以介绍 Script Filter 作为开始吧.
+
 
 什么是 Alfred
 ------------------------------------------------------------------------------
-相信能找到这个项目的人已经是 Alfred 的用户了. 简单来说 Alfred 是一个快速启动器. 输入一个 Keyword (关键字) 以及 Query String (查询字符串). Keyword 决定了用什么样的逻辑去处理, 而 Query String 则是输入, 经过 Keyword 所对应的逻辑去计算, 返回一些输出, 并以 Drop Down Menu 的形式展示输出并与用户互动.
+相信能找到这个项目的人已经是 Alfred 的用户了. 简单来说 Alfred 是一个快速启动器. 输入一个 ``Keyword`` (关键字) 以及 ``Query String`` (查询字符串). ``Keyword`` 决定了用什么样的逻辑去处理, 而 ``Query String`` 则是输入, 经过 ``Keyword`` 所对应的逻辑去计算, 返回一些输出, 并以 Drop Down Menu 的形式展示输出并与用户互动.
 
 
 什么是 Script Filter
@@ -28,6 +32,6 @@ Ref:
 - 参考这段 Alfred 作者的代码: https://github.com/deanishe/alfred-workflow/blob/master/workflow/workflow.py#L2176
 
 
-Whats Next?
+What's Next?
 ------------------------------------------------------------------------------
 相信你现在已经理解 Alfred 的 Script Filter 是如何工作的了, 相信你会迫不及待的想要创建自己的 Workflow 了.

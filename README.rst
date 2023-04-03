@@ -62,6 +62,12 @@ Summary
 这个项目的目的是提供了用 Python 编写 Alfred Workflow 中需要用到的 Script Filter 的数据模型, 以及一套基于超大型内部企业项目 (我是 AWS 内部官方的 AWS Alfred Workflow 的作者) 经验总结出的一套开发 Python Alfred Workflow 的最佳实践. 解决了 Workflow 中的控件太多, 测试不易等问题.
 
 
+Related Projects
+------------------------------------------------------------------------------
+- `cookiecutter-afwf <https://github.com/MacHu-GWU/cookiecutter-afwf>`_: 一个 Python Alfred Workflow 的项目模板. 我的所有的 Alfred Workflow 的项目都是基于这个模板, 自动生成所需要的所有代码的. 使得我可以专注于项目的业务逻辑, 而不是运维.
+- `afwf_example-project <https://github.com/MacHu-GWU/afwf_example-project>`_: 一个使用 ``cookiecutter-afwf`` 生成的示例项目. 可以用来学习如何使用 ``cookiecutter-afwf`` 模版来快速开发 Alfred Workflow.
+
+
 .. _install:
 
 Install
