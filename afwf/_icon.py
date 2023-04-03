@@ -24,6 +24,9 @@ import os
 dir_icons = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
 
 class IconFileEnum:
+    \"\"\"
+    List of built-in icon files.
+    \"\"\"
 """.strip()
 lines = content.split("\n")
 

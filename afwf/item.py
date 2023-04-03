@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""
+
+"""
+
 from typing import Any, Union, List, Dict
 
 import attr
@@ -12,8 +16,9 @@ from .script_filter_object import ScriptFilterObject
 
 @attr.define
 class Icon(ScriptFilterObject):
-    """ """
-
+    """
+    represent an icon object in script filter item.
+    """
     class TypeEnum(BetterEnum):
         fileicon = "fileicon"
         filetype = "filetype"
@@ -33,6 +38,9 @@ class Icon(ScriptFilterObject):
 
 
 class VarKeyEnum(BetterEnum):
+    """
+    List of available variable keys in this framework.
+    """
     open_file = "open_file"
     open_file_path = "open_file_path"
     launch_app_or_file = "launch_app_or_file"
@@ -65,17 +73,27 @@ class VarKeyEnum(BetterEnum):
 
 
 class VarValueEnum(BetterEnum):
+    """
+    List of available variable values in this framework.
+    """
     y = "y"
     n = "n"
 
 
 @attr.define
 class Text(ScriptFilterObject):
+    """
+    Represent a text object in script filter item.
+    """
     copy: str = AttrsClass.ib_str(default=None)
     largetype: str = AttrsClass.ib_str(default=None)
 
 
 class ModEnum(BetterEnum):
+    """
+    List of available modifier keys. Hit enter with the modifier key can lead
+    to different behavior.
+    """
     cmd = "cmd"
     shift = "shift"
     alt = "alt"
@@ -174,6 +192,11 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.open_file_path.value] = path
 
     def launch_app_or_file(self, path: str):
+        """
+        Set variables to tell subsequence Alfred action to launch an app or file.
+
+
+        """
         self.variables[VarKeyEnum.launch_app_or_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
 
