@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-
+Alfred Workflow Script Filter Item module.
 """
 
 from typing import Any, Union, List, Dict
@@ -106,6 +106,11 @@ class Item(ScriptFilterObject):
     """
     Data model for alfred dropdown menu items.
 
+    .. note::
+
+        Please make sure the attribute name is exactly the same as the field name
+        in the following document.
+
     Ref: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
@@ -135,6 +140,9 @@ class Item(ScriptFilterObject):
     # Set attribute value
     # --------------------------------------------------------------------------
     def set_icon(self, path: str) -> "Item":
+        """
+        Set icon for item.
+        """
         self.icon = Icon.from_image_file(path)
         return self
 
@@ -151,6 +159,9 @@ class Item(ScriptFilterObject):
         modifier key.
 
         :param mode: the modifier key
+        :param subtitle: the subtitle you want to display
+        :param arg: the argument passed to subsequence action
+        :param valid: whether the item is valid
         """
         if mod not in ModEnum.to_values():
             raise ValueError
@@ -195,20 +206,47 @@ class Item(ScriptFilterObject):
         """
         Set variables to tell subsequence Alfred action to launch an app or file.
 
+        Use the "Utilities -> Conditional" widget and set: if ``{var:launch_app_or_file}``
+        is equal to "y".
 
+        Use the "Actions -> Launch Apps / Files" widget.
         """
         self.variables[VarKeyEnum.launch_app_or_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
 
     def reveal_file_in_finder(self, path: str):
+        """
+        Set variables to tell subsequence Alfred action to launch an app or file.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:reveal_file_in_finder}``
+        is equal to "y".
+
+        Use the "Actions -> Reveal File in Finder" widget.
+        """
         self.variables[VarKeyEnum.reveal_file_in_finder.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.reveal_file_in_finder_path.value] = path
 
     def browse_in_terminal(self, path: str):
+        """
+        Set variables to tell subsequence Alfred action to browse in terminal.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:browse_in_terminal}``
+        is equal to "y".
+
+        Use the "Actions -> Browse in Terminal" widget.
+        """
         self.variables[VarKeyEnum.browse_in_terminal.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.browse_in_terminal_path.value] = path
 
     def browse_in_alfred(self, path: str):
+        """
+        Set variables to tell subsequence Alfred action to browse in Alfred.
+
+        Use the "Utilities -> Conditional" widget and set: if ``{var:browse_in_alfred}``
+        is equal to "y".
+
+        Use the "Actions -> Browse in Alfred" widget.
+        """
         self.variables[VarKeyEnum.browse_in_alfred.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
 

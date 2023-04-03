@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-
+Alfred Workflow module.
 """
 
 import typing as T
