@@ -23,12 +23,12 @@
 
     // if it is an AWS Lambda microservice project
     // it is the aws profile you use for deployment
-    "AWS_LAMBDA_DEPLOY_AWS_PROFILE": "aws_data_lab_sanhe",
+    "AWS_LAMBDA_DEPLOY_AWS_PROFILE": "",
     // it is the aws s3 bucket to store deployment artifacts
-    "AWS_LAMBDA_DEPLOY_S3_BUCKET": "aws-data-lab-sanhe-for-everything-us-east-2",
+    "AWS_LAMBDA_DEPLOY_S3_BUCKET": "",
     // it is the docker image for AWS Lambda layer build on your local machine
-    "AWS_LAMBDA_BUILD_DOCKER_IMAGE": "lambci/lambda:build-python3.8",
+    "AWS_LAMBDA_BUILD_DOCKER_IMAGE": "",
     // it is the working directory for temp lambda layer build in docker image
-    "AWS_LAMBDA_BUILD_DOCKER_IMAGE_WORKSPACE_DIR": "/var/task"
+    "AWS_LAMBDA_BUILD_DOCKER_IMAGE_WORKSPACE_DIR": ""
 }
 

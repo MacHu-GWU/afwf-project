@@ -63,6 +63,7 @@ class Workflow(AttrsClass):
     表示一个 Alfred Workflow 对象. 一个 workflow 可以注册多个 handler. 每个 handler
     对应着一个 Script Filter 的实现.
     """
+
     handlers: T.Dict[str, Handler] = attr.ib(factory=dict)
 
     def __attrs_post_init__(self):
@@ -87,7 +88,7 @@ class Workflow(AttrsClass):
     def _run(
         self,
         arg: T.Optional[str] = None,
-        debug: bool =False,
+        debug: bool = False,
     ) -> ScriptFilter:
         """
         Low level script filter runner. It locates the handler by ``handler_id``,
@@ -96,19 +97,19 @@ class Workflow(AttrsClass):
 
         :param debug: flag to turn on debug.
         """
-        if debug:
+        if debug:  # pragma: no cover
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_debug_info(f"--- run script filter at {now} ---")
 
-        if arg is None:
+        if arg is None:  # pragma: no cover
             arg = sys.argv[1]  # in format of "{handler_id} {query}"
 
-        if debug:
+        if debug:  # pragma: no cover
             log_debug_info(f"received argument is: {arg!r}")
 
         handler_id, query = arg.split(" ", 1)
 
-        if debug:
+        if debug:  # pragma: no cover
             log_debug_info(f"received handler_id is: {handler_id!r}")
             log_debug_info(f"received query is: {query!r}")
 
@@ -122,7 +123,7 @@ class Workflow(AttrsClass):
         self,
         arg: T.Optional[str] = None,
         debug: bool = False,
-    ):
+    ):  # pragma: no cover
         """
         High level script filter runner.
 

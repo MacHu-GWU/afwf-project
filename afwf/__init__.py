@@ -28,5 +28,5 @@ try:
     from .icon import IconFileEnum
     from .query import Query
     from .query import QueryParser
-except ImportError as e:
+except ImportError as e: # pragma: no cover
     print(e)

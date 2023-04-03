@@ -38,7 +38,7 @@ class Handler(AttrsClass):
 
     id = AttrsClass.ib_str(nullable=False)
 
-    def main(self, **kwargs) -> ScriptFilter:
+    def main(self, **kwargs) -> ScriptFilter:  # pragma: no cover
         """
         [CN]
 
@@ -52,7 +52,7 @@ class Handler(AttrsClass):
         """
         raise NotImplementedError
 
-    def parse_query(self, query: str) -> T.Dict[str, T.Any]:
+    def parse_query(self, query: str) -> T.Dict[str, T.Any]:  # pragma: no cover
         """
         [CN]
 
@@ -61,7 +61,7 @@ class Handler(AttrsClass):
         """
         raise NotImplementedError
 
-    def encode_query(self, **kwargs) -> str:
+    def encode_query(self, **kwargs) -> str:  # pragma: no cover
         """
         [CN]
 
@@ -70,7 +70,7 @@ class Handler(AttrsClass):
         """
         raise NotImplementedError
 
-    def handler(self, query: str) -> ScriptFilter:
+    def handler(self, query: str) -> ScriptFilter:  # pragma: no cover
         """
         [CN]
 
@@ -87,7 +87,7 @@ class Handler(AttrsClass):
         self,
         bin_python: str,
         **kwargs,
-    ) -> str:
+    ) -> str:  # pragma: no cover
         """
         将 :meth:`~afwf.handler.Handler.main` 中的参数编码为 Alfred Workflow 中的
         Run Script 的 bash command. 当你定义按下 Enter 后所对应的行为是执行某个复杂的

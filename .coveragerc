@@ -2,12 +2,11 @@
 # for more info: https://coverage.readthedocs.io/en/latest/config.html
 [run]
 omit =
-    afwf/_version.py
-    afwf/cli.py
-    afwf/pkg/*
     afwf/docs/*
     afwf/tests/*
-    afwf/handlers/*
+    afwf/example_wf/*
+    afwf/_version.py
+    afwf/_icon.py
 
 [report]
 # Regexes for lines to exclude from consideration

@@ -19,6 +19,7 @@ class Icon(ScriptFilterObject):
     """
     represent an icon object in script filter item.
     """
+
     class TypeEnum(BetterEnum):
         fileicon = "fileicon"
         filetype = "filetype"
@@ -41,6 +42,7 @@ class VarKeyEnum(BetterEnum):
     """
     List of available variable keys in this framework.
     """
+
     open_file = "open_file"
     open_file_path = "open_file_path"
     launch_app_or_file = "launch_app_or_file"
@@ -76,6 +78,7 @@ class VarValueEnum(BetterEnum):
     """
     List of available variable values in this framework.
     """
+
     y = "y"
     n = "n"
 
@@ -85,6 +88,7 @@ class Text(ScriptFilterObject):
     """
     Represent a text object in script filter item.
     """
+
     copy: str = AttrsClass.ib_str(default=None)
     largetype: str = AttrsClass.ib_str(default=None)
 
@@ -94,6 +98,7 @@ class ModEnum(BetterEnum):
     List of available modifier keys. Hit enter with the modifier key can lead
     to different behavior.
     """
+
     cmd = "cmd"
     shift = "shift"
     alt = "alt"
@@ -182,7 +187,7 @@ class Item(ScriptFilterObject):
     # --------------------------------------------------------------------------
     # Set variables
     # --------------------------------------------------------------------------
-    def _open_log_file(self, path: str):
+    def _open_log_file(self, path: str):  # pragma: no cover
         """
         This is a special variable that will open the last error file in the editor.
         It is for internal implementation only, not for public API.
