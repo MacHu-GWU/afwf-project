@@ -1,4 +1,4 @@
-.. image:: android-96.png
+android-96.png
 
 .. image:: ./afwf/icons/android-96.png
 

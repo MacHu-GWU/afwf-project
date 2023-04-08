@@ -60,6 +60,8 @@ Summary
 
 这个项目的目的是提供了用 Python 编写 Alfred Workflow 中需要用到的 Script Filter 的数据模型, 以及一套基于超大型内部企业项目 (我是 AWS 内部官方的 AWS Alfred Workflow 的作者) 经验总结出的一套开发 Python Alfred Workflow 的框架, 包含了开发中的最佳实践, 解决了 Workflow 中的控件太多, 测试不易等问题.
 
+另外, 这个项目提供了互联网领域常用的图标, 你可以 `在这里预览 <https://github.com/MacHu-GWU/afwf-project/blob/main/preview-icons.rst>`_.
+
 
 Related Projects
 ------------------------------------------------------------------------------
