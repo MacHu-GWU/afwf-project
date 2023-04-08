@@ -31,7 +31,7 @@ class IconFileEnum:
 lines = content.split("\n")
 
 for p in dir_icons.select_by_ext(".png"):
-    name = p.basename.split("-")[0]
+    name = p.basename.rstrip("-96.png").replace("-", "_")
     file = p.basename
     line = f"    {name} = os.path.join(dir_icons, \"{file}\")"
     lines.append(line)
