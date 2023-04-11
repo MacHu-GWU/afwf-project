@@ -15,6 +15,20 @@ Backlog
 **Miscellaneous**
 
 
+0.4.1 (2023-04-10)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- add the ``afwf.opt`` modules. It stores lots of optional utility tools
+- add the :mod:`afwf.opt.cache` module.
+- add the :mod:`afwf.opt.fuzzy` module.
+- add the :mod:`afwf.opt.fuzzy_item` module.
+
+**Minor Improvements**
+
+- now all of :meth:`afwf.item.Item.open_file`, :meth:`afwf.item.Item.open_url`, ..., method returns the :class:`afwf.item.Item` object itself, so you can chain them together.
+
+
 0.3.2 (2023-04-08)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Miscellaneous**
