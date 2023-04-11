@@ -10,11 +10,9 @@ class TestScriptFilter:
         assert sf.to_script_filter() == {"items": []}
 
         sf.items.append(Item(title="option1"))
-        assert sf.to_script_filter() == {
-            "items": [
-                {"title": "option1", "valid": True}
-            ]
-        }
+        assert sf.to_script_filter() == {"items": [{"title": "option1", "valid": True}]}
+
+        sf.send_feedback()
 
 
 if __name__ == "__main__":
