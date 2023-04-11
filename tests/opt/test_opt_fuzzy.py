@@ -3,7 +3,7 @@
 import typing as T
 import pytest
 import dataclasses
-from afwf.opt.fuzzy import Fuzzy
+from afwf.opt.fuzzy.impl import Fuzzy
 
 
 @dataclasses.dataclass

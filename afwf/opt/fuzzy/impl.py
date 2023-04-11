@@ -90,15 +90,15 @@ class Fuzzy(T.Generic[ITEM]):
         """
         Find the best matched list of items. Only highest score is returned.
         """
-        matched_name, _ = process.extractOne(
+        tp = process.extractOne(
             query=name,
             choices=self._names,
             score_cutoff=threshold,
         )
-        if matched_name is None:
+        if tp is None:
             return []
         else:
-            return self._mapper[matched_name]
+            return self._mapper[tp[0]]
 
     def sort(
         self,
