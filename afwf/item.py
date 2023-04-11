@@ -187,15 +187,16 @@ class Item(ScriptFilterObject):
     # --------------------------------------------------------------------------
     # Set variables
     # --------------------------------------------------------------------------
-    def _open_log_file(self, path: str):  # pragma: no cover
+    def _open_log_file(self, path: str) -> "Item":  # pragma: no cover
         """
         This is a special variable that will open the last error file in the editor.
         It is for internal implementation only, not for public API.
         """
         self.variables[VarKeyEnum._open_log_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum._open_log_file_path.value] = path
+        return self
 
-    def open_file(self, path: str):
+    def open_file(self, path: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to open a file.
 
@@ -206,8 +207,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.open_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_file_path.value] = path
+        return self
 
-    def launch_app_or_file(self, path: str):
+    def launch_app_or_file(self, path: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to launch an app or file.
 
@@ -218,8 +220,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.launch_app_or_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
+        return self
 
-    def reveal_file_in_finder(self, path: str):
+    def reveal_file_in_finder(self, path: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to launch an app or file.
 
@@ -230,8 +233,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.reveal_file_in_finder.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.reveal_file_in_finder_path.value] = path
+        return self
 
-    def browse_in_terminal(self, path: str):
+    def browse_in_terminal(self, path: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to browse in terminal.
 
@@ -242,8 +246,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.browse_in_terminal.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.browse_in_terminal_path.value] = path
+        return self
 
-    def browse_in_alfred(self, path: str):
+    def browse_in_alfred(self, path: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to browse in Alfred.
 
@@ -254,8 +259,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.browse_in_alfred.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
+        return self
 
-    def open_url(self, url: str):
+    def open_url(self, url: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to open url.
 
@@ -268,8 +274,9 @@ class Item(ScriptFilterObject):
         """
         self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_url_arg.value] = url
+        return self
 
-    def run_script(self, cmd: str):
+    def run_script(self, cmd: str) -> "Item":
         """
         Set variables to tell subsequence Alfred action to run script.
 
@@ -286,8 +293,9 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.run_script_arg.value] = cmd
         self.arg = cmd
+        return self
 
-    def terminal_command(self, cmd: str):
+    def terminal_command(self, cmd: str) -> "Item":
         """
         Use the "Utilities -> Conditional" widget and set: if ``{var:terminal_command}``
         is equal to "y".
@@ -299,8 +307,9 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
         self.arg = cmd
+        return self
 
-    def send_notification(self, title: str, subtitle: str = ""):
+    def send_notification(self, title: str, subtitle: str = "") -> "Item":
         """
         Set variables to tell subsequence Alfred action to send notification.
 
@@ -315,3 +324,4 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.send_notification.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.send_notification_title.value] = title
         self.variables[VarKeyEnum.send_notification_subtitle.value] = subtitle
+        return self
