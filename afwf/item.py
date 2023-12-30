@@ -6,15 +6,15 @@ Alfred Workflow Script Filter Item module.
 
 from typing import Any, Union, List, Dict
 
-import attr
-from attr import validators as vs
+import attrs
+from attrs import validators as vs
 from attrs_mate import AttrsClass
 from .vendor.better_enum import BetterStrEnum
 
 from .script_filter_object import ScriptFilterObject
 
 
-@attr.define
+@attrs.define
 class Icon(ScriptFilterObject):
     """
     represent an icon object in script filter item.
@@ -26,7 +26,7 @@ class Icon(ScriptFilterObject):
 
     # fmt: off
     path: str = AttrsClass.ib_str()
-    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
+    type: str = attrs.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
     # fmt: on
 
     @classmethod
@@ -82,7 +82,7 @@ class VarValueEnum(BetterStrEnum):
     n = "n"
 
 
-@attr.define
+@attrs.define
 class Text(ScriptFilterObject):
     """
     Represent a text object in script filter item.
@@ -105,7 +105,7 @@ class ModEnum(BetterStrEnum):
     fn = "fn"
 
 
-@attr.define
+@attrs.define
 class Item(ScriptFilterObject):
     """
     Data model for alfred dropdown menu items.
@@ -131,9 +131,9 @@ class Item(ScriptFilterObject):
     valid: bool = AttrsClass.ib_bool(default=True)
     uid: str = AttrsClass.ib_str(default=None)
     match: str = AttrsClass.ib_str(default=None)
-    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
+    type: str = attrs.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
     mods: dict = AttrsClass.ib_dict(default=None)
-    action: Union[str, List[str], Dict[str, Any]] = attr.ib(default=None)
+    action: Union[str, List[str], Dict[str, Any]] = attrs.field(default=None)
     text: Text = Text.ib_nested(default=None)
     quicklookurl: str = AttrsClass.ib_str(default=None)
     variables: dict = AttrsClass.ib_dict(factory=dict)

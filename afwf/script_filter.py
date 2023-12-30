@@ -4,14 +4,14 @@ import typing as T
 import sys
 import json
 
-import attr
+import attrs
 from attrs_mate import AttrsClass
 
 from .script_filter_object import ScriptFilterObject
 from .item import Item
 
 
-@attr.define
+@attrs.define
 class ScriptFilter(ScriptFilterObject):
     """
     The script filter return object that flush out to standard out.

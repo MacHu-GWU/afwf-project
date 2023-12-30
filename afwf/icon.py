@@ -8,10 +8,12 @@ import os
 
 dir_icons = os.path.join(os.path.dirname(os.path.abspath(__file__)), "icons")
 
+
 class IconFileEnum:
     """
     List of built-in icon files.
     """
+
     dictionary = os.path.join(dir_icons, "dictionary-96.png")
     search = os.path.join(dir_icons, "search-96.png")
     refresh = os.path.join(dir_icons, "refresh-96.png")

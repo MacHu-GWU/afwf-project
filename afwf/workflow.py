@@ -10,7 +10,7 @@ import json
 import traceback
 from datetime import datetime
 
-import attr
+import attrs
 from attrs_mate import AttrsClass
 
 from .handler import Handler
@@ -51,7 +51,7 @@ def log_debug_info(info: str):  # pragma: no cover
         raise e
 
 
-@attr.define
+@attrs.define
 class Workflow(AttrsClass):
     """
     Represents an Alfred Workflow object. The workflow can register many handlers.
@@ -64,7 +64,7 @@ class Workflow(AttrsClass):
     对应着一个 Script Filter 的实现.
     """
 
-    handlers: T.Dict[str, Handler] = attr.ib(factory=dict)
+    handlers: T.Dict[str, Handler] = attrs.field(factory=dict)
 
     def __attrs_post_init__(self):
         if dir_lib.exists():

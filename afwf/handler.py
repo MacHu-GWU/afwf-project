@@ -6,13 +6,13 @@ Alfred workflow handler module.
 
 import typing as T
 
-import attr
+import attrs
 from attrs_mate import AttrsClass
 
 from .script_filter import ScriptFilter
 
 
-@attr.define
+@attrs.define
 class Handler(AttrsClass):
     """
     [CN]

@@ -4,11 +4,11 @@
 todo: add docstring
 """
 
-import attr
+import attrs
 from attrs_mate import AttrsClass
 
 
-@attr.define
+@attrs.define
 class ScriptFilterObject(AttrsClass):
     """
     [CN]
@@ -30,7 +30,7 @@ class ScriptFilterObject(AttrsClass):
         Convert object to Alfred Workflow Script Filter friendly dictionary.
         """
         dct = dict()
-        for k, v in attr.asdict(self, recurse=False).items():
+        for k, v in attrs.asdict(self, recurse=False).items():
             if v:
                 if isinstance(v, ScriptFilterObject):
                     v1 = v.to_script_filter()

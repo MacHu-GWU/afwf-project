@@ -5,11 +5,11 @@ query utilities.
 """
 
 import typing as T
-import attr
+import attrs
 from attrs_mate import AttrsClass
 
 
-@attr.define
+@attrs.define
 class Query(AttrsClass):
     """
     Structured query object.
