@@ -18,11 +18,13 @@
 .. image:: https://img.shields.io/pypi/pyversions/afwf.svg
     :target: https://pypi.python.org/pypi/afwf
 
+.. image:: https://img.shields.io/badge/Release_History!--None.svg?style=social
+    :target: https://github.com/MacHu-GWU/afwf-project/blob/main/release-history.rst
+
 .. image:: https://img.shields.io/badge/STAR_Me_on_GitHub!--None.svg?style=social
     :target: https://github.com/MacHu-GWU/afwf-project
 
 ------
-
 
 .. image:: https://img.shields.io/badge/Link-Document-blue.svg
     :target: https://afwf.readthedocs.io/index.html

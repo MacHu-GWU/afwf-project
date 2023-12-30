@@ -10,12 +10,12 @@ sub packages and modules
 .. toctree::
     :maxdepth: 1
 
+    example_wf <example_wf/__init__>
+    opt <opt/__init__>
     _icon <_icon>
-    enumeration <enumeration>
     handler <handler>
     icon <icon>
     item <item>
-    path <path>
     query <query>
     script_filter <script_filter>
     script_filter_object <script_filter_object>
