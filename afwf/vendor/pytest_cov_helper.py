@@ -104,6 +104,7 @@ def run_cov_test(
         f"{bin_pytest}",
         "-s",
         "--tb=native",
+        "--disable-warnings",
         f"--rootdir={root_dir}",
         f"--cov={module}",
         "--cov-report",

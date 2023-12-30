@@ -9,8 +9,8 @@ from typing import Any, Union, List, Dict
 import attr
 from attr import validators as vs
 from attrs_mate import AttrsClass
+from .vendor.better_enum import BetterStrEnum
 
-from .enumeration import BetterEnum
 from .script_filter_object import ScriptFilterObject
 
 
@@ -20,13 +20,13 @@ class Icon(ScriptFilterObject):
     represent an icon object in script filter item.
     """
 
-    class TypeEnum(BetterEnum):
+    class TypeEnum(BetterStrEnum):
         fileicon = "fileicon"
         filetype = "filetype"
 
     # fmt: off
     path: str = AttrsClass.ib_str()
-    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.to_values())), default=None)
+    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
     # fmt: on
 
     @classmethod
@@ -37,7 +37,7 @@ class Icon(ScriptFilterObject):
         return cls(path=path)
 
 
-class VarKeyEnum(BetterEnum):
+class VarKeyEnum(BetterStrEnum):
     """
     List of available variable keys in this framework.
     """
@@ -73,7 +73,7 @@ class VarKeyEnum(BetterEnum):
     _open_log_file_path = "_open_log_file_path"
 
 
-class VarValueEnum(BetterEnum):
+class VarValueEnum(BetterStrEnum):
     """
     List of available variable values in this framework.
     """
@@ -92,7 +92,7 @@ class Text(ScriptFilterObject):
     largetype: str = AttrsClass.ib_str(default=None)
 
 
-class ModEnum(BetterEnum):
+class ModEnum(BetterStrEnum):
     """
     List of available modifier keys. Hit enter with the modifier key can lead
     to different behavior.
@@ -118,7 +118,7 @@ class Item(ScriptFilterObject):
     Ref: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
-    class TypeEnum(BetterEnum):
+    class TypeEnum(BetterStrEnum):
         file = "file"
         file_skipcheck = "file:skipcheck"
 
@@ -131,7 +131,7 @@ class Item(ScriptFilterObject):
     valid: bool = AttrsClass.ib_bool(default=True)
     uid: str = AttrsClass.ib_str(default=None)
     match: str = AttrsClass.ib_str(default=None)
-    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.to_values())), default=None)
+    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
     mods: dict = AttrsClass.ib_dict(default=None)
     action: Union[str, List[str], Dict[str, Any]] = attr.ib(default=None)
     text: Text = Text.ib_nested(default=None)
@@ -166,7 +166,7 @@ class Item(ScriptFilterObject):
         :param arg: the argument passed to subsequence action
         :param valid: whether the item is valid
         """
-        if mod not in ModEnum.to_values():
+        if mod not in ModEnum.get_values():
             raise ValueError
         dct = {
             k: v
