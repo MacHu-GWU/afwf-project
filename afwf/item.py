@@ -24,11 +24,10 @@ class Icon(ScriptFilterObject):
         fileicon = "fileicon"
         filetype = "filetype"
 
+    # fmt: off
     path: str = AttrsClass.ib_str()
-    type: str = attr.field(
-        validator=vs.optional(vs.in_(TypeEnum.to_values())),
-        default=None,
-    )
+    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.to_values())), default=None)
+    # fmt: on
 
     @classmethod
     def from_image_file(cls, path: str) -> "Icon":
@@ -123,6 +122,7 @@ class Item(ScriptFilterObject):
         file = "file"
         file_skipcheck = "file:skipcheck"
 
+    # fmt: off
     title: str = AttrsClass.ib_str()
     subtitle: str = AttrsClass.ib_str(default=None)
     arg: str = AttrsClass.ib_str(default=None)
@@ -131,15 +131,13 @@ class Item(ScriptFilterObject):
     valid: bool = AttrsClass.ib_bool(default=True)
     uid: str = AttrsClass.ib_str(default=None)
     match: str = AttrsClass.ib_str(default=None)
-    type: str = attr.field(
-        validator=vs.optional(vs.in_(TypeEnum.to_values())),
-        default=None,
-    )
+    type: str = attr.field(validator=vs.optional(vs.in_(TypeEnum.to_values())), default=None)
     mods: dict = AttrsClass.ib_dict(default=None)
     action: Union[str, List[str], Dict[str, Any]] = attr.ib(default=None)
     text: Text = Text.ib_nested(default=None)
     quicklookurl: str = AttrsClass.ib_str(default=None)
     variables: dict = AttrsClass.ib_dict(factory=dict)
+    # fmt: on
 
     # --------------------------------------------------------------------------
     # Set attribute value

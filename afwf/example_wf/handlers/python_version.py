@@ -2,29 +2,34 @@
 
 from typing import List
 
+import subprocess
+from pathlib_mate import Path
+
 import attr
 import afwf
 import requests
 from bs4 import BeautifulSoup
 
 from ..cache import cache
+from ... import paths
 
 
 @attr.define
 class Handler(afwf.Handler):
     @cache.memoize(expire=60)
     def get_all_python_version(self) -> List[str]:
-        invalid_versions = ["patches", "."]
-        url = "https://github.com/pyenv/pyenv/tree/master/plugins/python-build/share/python-build"
-        res = requests.get(url)
-        soup = BeautifulSoup(res.text, "html.parser")
-        div = soup.find("div", class_="Box mb-3")
-        versions = list()
-        for a in div.find_all("a", class_="js-navigation-open Link--primary"):
-            version = a.text
-            if version not in invalid_versions:
-                versions.append(version)
-        return versions
+        dir_pyenv = Path(path.dir_project_root.joinpath("pyenv"))
+        dir_pyenv.remove_if_exists()
+        with Path(path.dir_project_root).temp_cwd():
+            args = ["git", "clone", "--depth", "1", "https://github.com/pyenv/pyenv"]
+            subprocess.run(args, check=True)
+            dir_python_build = path.dir_project_root.joinpath("pyenv", "plugins", "python-build", "share", "python-build")
+            versions = list()
+            for p in dir_python_build.iterdir():
+                if p.is_file():
+                    version = p.name
+                    versions.append(version)
+            return versions
 
     def lower_level_api(self, query: str) -> afwf.ScriptFilter:
         if query == "error":

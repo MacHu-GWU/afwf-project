@@ -6,6 +6,7 @@ Allow filtering / sorting Alfred Items by fuzzy matching.
 
 import typing as T
 import attr
+
 from ..fuzzy import Fuzzy
 from ...item import Item as Item_
 

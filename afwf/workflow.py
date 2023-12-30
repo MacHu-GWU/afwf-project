@@ -14,7 +14,7 @@ import attr
 from attrs_mate import AttrsClass
 
 from .handler import Handler
-from .path import dir_lib, dir_afwf, p_last_error, p_debug_log
+from .paths import dir_lib, dir_afwf, p_last_error, p_debug_log
 from .script_filter import ScriptFilter
 from .item import Icon, Item
 from .icon import IconFileEnum

@@ -4,8 +4,8 @@
 Enhancement for standard enum library.
 """
 
-import enum
 from typing import List
+import enum
 
 
 class BetterEnum(enum.Enum):

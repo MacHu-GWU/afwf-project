@@ -24,7 +24,7 @@ dir_workflow="/Users/sanhehu/Documents/Alfred-Preferences/Alfred.alfredpreferenc
 
 # This is your development python virtual environment path
 # It should have a "./bin" folder in it and "./bin/activate", "./bin/activate" files
-dir_venv="/Users/sanhehu/venvs/python/3.8.11/afwf_venv"
+dir_venv="${dir_project_root}/.venv"
 
 # Don't touch this
 package_version="$(python ${dir_project_root}/${package_name}/_version.py)"

@@ -18,16 +18,16 @@ jobs:
       USING_COVERAGE: "3.7,3.8,3.9,3.10,3.11"
     strategy:
       matrix:
-        os: ["ubuntu-latest"]
-        # os: ["ubuntu-latest", ] # for debug only
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-        # python-version: ["3.6", ] # for debug only
+#        os: ["ubuntu-latest", "windows-latest"]
+        os: ["ubuntu-latest", ] # for debug only
+#        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.7", ] # for debug only
         exclude:
           - os: windows-latest # this is a useless exclude rules for demonstration use only
             python-version: 2.7
     steps:
-      - uses: "actions/checkout@v2" # https://github.com/marketplace/actions/checkout
-      - uses: "actions/setup-python@v2" # https://github.com/marketplace/actions/setup-python
+      - uses: "actions/checkout@v3" # https://github.com/marketplace/actions/checkout
+      - uses: "actions/setup-python@v4" # https://github.com/marketplace/actions/setup-python
         with:
           python-version: "${{ matrix.python-version }}"
 
@@ -37,19 +37,27 @@ jobs:
           set -xe
           python -VV
           python -m site
-          python -m pip install --upgrade pip setuptools wheel virtualenv codecov
+          python -m pip install --upgrade pip setuptools wheel virtualenv
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
           pip install -r requirements-test.txt
           pip install .
-
+      - if: matrix.os == 'windows-latest'
+        name: "Install dependencies on Windows"
+        run: |
+          python -m site
+          python -m pip install --upgrade pip setuptools wheel virtualenv
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+          pip install -r requirements-test.txt
+          pip install .
       - name: "Run pytest"
-        run: "python -m pytest tests --cov=afwf"
 
+        run: "python -m pytest tests --cov=afwf"
+      # don't forget to goto codecov.io, enable your repo, copy the token
+      # create an CODECOV_TOKEN env var in GitHub actions secret
       - name: "Upload coverage to Codecov"
         if: "contains(env.USING_COVERAGE, matrix.python-version)"
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        uses: "codecov/codecov-action@v1" # https://github.com/marketplace/actions/codecov-action
+        uses: "codecov/codecov-action@v3" # https://github.com/marketplace/actions/codecov-action
         with:
           fail_ci_if_error: true
