@@ -3,7 +3,7 @@ afwf_venv/
 afwf.egg-info/
 afwf-*/
 tmp/
-
+pyenv/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

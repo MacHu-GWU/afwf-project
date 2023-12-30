@@ -18,12 +18,12 @@ from ... import paths
 class Handler(afwf.Handler):
     @cache.memoize(expire=60)
     def get_all_python_version(self) -> List[str]:
-        dir_pyenv = Path(path.dir_project_root.joinpath("pyenv"))
+        dir_pyenv = Path(paths.dir_project_root.joinpath("pyenv"))
         dir_pyenv.remove_if_exists()
-        with Path(path.dir_project_root).temp_cwd():
+        with Path(paths.dir_project_root).temp_cwd():
             args = ["git", "clone", "--depth", "1", "https://github.com/pyenv/pyenv"]
             subprocess.run(args, check=True)
-            dir_python_build = path.dir_project_root.joinpath("pyenv", "plugins", "python-build", "share", "python-build")
+            dir_python_build = paths.dir_project_root.joinpath("pyenv", "plugins", "python-build", "share", "python-build")
             versions = list()
             for p in dir_python_build.iterdir():
                 if p.is_file():
