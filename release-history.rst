@@ -15,6 +15,16 @@ Backlog
 **Miscellaneous**
 
 
+0.5.1 (2023-12-31)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Minor Improvements**
+
+- use version range in ``requirements.txt``.
+- add maintainer guide document.
+- use ``pyproject_ops`` code skeleton.
+- use ``attrs`` modern API.
+
+
 0.4.1 (2023-04-10)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
