@@ -4,6 +4,7 @@ Alfred Workflow Python Developer Guide
 
 Summary
 ------------------------------------------------------------------------------
+这篇文档的目标读者是使用 Python 来开发 Alfred Workflow 的开发者. 本文详细介绍了使用 Python 来开发 Alfred Workflow 的方法.
 
 
 Why Python?

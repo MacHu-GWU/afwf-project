@@ -20,7 +20,7 @@ package_name="afwf"
 # This is the directory absolute path of your Alfred Workflow
 # Please update it manually, you can use this method to find it
 # Right click your workflow in Alfred Workflow view, then click "open in finder"
-dir_workflow="/Users/sanhehu/Documents/Alfred-Preferences/Alfred.alfredpreferences/workflows/user.workflow.A909756D-ADA3-422B-A53F-B64D7E68445A"
+dir_workflow="/Users/sanhehu/Documents/Alfred-Setting/Alfred.alfredpreferences/workflows/user.workflow.A909756D-ADA3-422B-A53F-B64D7E68445A"
 
 # This is your development python virtual environment path
 # It should have a "./bin" folder in it and "./bin/activate", "./bin/activate" files
