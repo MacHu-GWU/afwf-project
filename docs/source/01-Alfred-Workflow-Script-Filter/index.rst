@@ -31,4 +31,4 @@ Ref:
 
 What's Next?
 ------------------------------------------------------------------------------
-相信你现在已经理解 Alfred 的 Script Filter 是如何工作的了, 相信你会迫不及待的想要创建自己的 Workflow 了.
+相信你现在已经理解 Alfred 的 Script Filter 是如何工作的了, 相信你会迫不及待的想要创建自己的 Workflow 了. 但请别急, 请进入下一章来了解如何用 Python 来开发 Alfred Workflow.

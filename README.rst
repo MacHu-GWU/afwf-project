@@ -55,6 +55,8 @@ Welcome to ``afwf`` Documentation
 ==============================================================================
 A powerful framework enables fast and elegant development of Alfred Workflows in Python.
 
+📔 See `Full Documentation HERE <https://afwf.readthedocs.io/index.html>`_.
+
 
 Summary
 ------------------------------------------------------------------------------
