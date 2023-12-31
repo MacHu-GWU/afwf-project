@@ -17,6 +17,10 @@ Backlog
 
 0.5.1 (2023-12-31)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**💥 Breaking Change**
+
+- Drop support for Python < 3.7 due to the attrs now only support 3.7+.
+
 **Minor Improvements**
 
 - use version range in ``requirements.txt``.
