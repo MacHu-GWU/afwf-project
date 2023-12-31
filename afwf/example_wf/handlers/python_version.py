@@ -53,11 +53,14 @@ class Handler(afwf.Handler):
             item.open_url(url=url)
             sf.items.append(item)
         if len(sf.items) == 0:
-            sf.items.append(afwf.Item(
+            url = "https://github.com/pyenv/pyenv/tree/master/plugins/python-build/share/python-build"
+            item = afwf.Item(
                 title=f"{query!r} doesn't match any Python version!",
-                subtitle="Open https://github.com/pyenv/pyenv/tree/master/plugins/python-build/share/python-build",
-                arg="https://github.com/pyenv/pyenv/tree/master/plugins/python-build/share/python-build",
-            ))
+                subtitle=f"Open {url}",
+                arg=url,
+            )
+            item.open_url(url=url)
+            sf.items.append(item)
         return sf
 
     def handler(self, query: str) -> afwf.ScriptFilter:
