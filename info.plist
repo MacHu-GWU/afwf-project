@@ -138,7 +138,7 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>/Users/sanhehu/.pyenv/shims/python3.8 main.py 'python_version {query}'</string>
+				<string>~/.pyenv/shims/python3.8 main.py 'python_version {query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
