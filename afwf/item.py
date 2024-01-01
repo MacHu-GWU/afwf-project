@@ -4,7 +4,7 @@
 Alfred Workflow Script Filter Item module.
 """
 
-from typing import Any, Union, List, Dict
+import typing as T
 
 import attrs
 from attrs import validators as vs
@@ -18,6 +18,10 @@ from .script_filter_object import ScriptFilterObject
 class Icon(ScriptFilterObject):
     """
     represent an icon object in script filter item.
+
+    Reference:
+
+    - Search ``icon : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
     class TypeEnum(BetterStrEnum):
@@ -86,6 +90,10 @@ class VarValueEnum(BetterStrEnum):
 class Text(ScriptFilterObject):
     """
     Represent a text object in script filter item.
+
+    Reference:
+
+    - Search ``text : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
     copy: str = AttrsClass.ib_str(default=None)
@@ -96,6 +104,10 @@ class ModEnum(BetterStrEnum):
     """
     List of available modifier keys. Hit enter with the modifier key can lead
     to different behavior.
+
+    Reference:
+
+    - Search ``mods : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
     cmd = "cmd"
@@ -103,6 +115,12 @@ class ModEnum(BetterStrEnum):
     alt = "alt"
     ctrl = "ctrl"
     fn = "fn"
+    cmd_alt = "cmd+alt"
+    cmd_ctrl = "cmd+ctrl"
+    cmd_shift = "cmd+shift"
+
+
+T_ITEM_ACTION = T.Union[str, T.List[str], T.Dict[str, T.Any]]
 
 
 @attrs.define
@@ -133,7 +151,7 @@ class Item(ScriptFilterObject):
     match: str = AttrsClass.ib_str(default=None)
     type: str = attrs.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
     mods: dict = AttrsClass.ib_dict(default=None)
-    action: Union[str, List[str], Dict[str, Any]] = attrs.field(default=None)
+    action: T_ITEM_ACTION = attrs.field(default=None)
     text: Text = Text.ib_nested(default=None)
     quicklookurl: str = AttrsClass.ib_str(default=None)
     variables: dict = AttrsClass.ib_dict(factory=dict)
@@ -202,6 +220,8 @@ class Item(ScriptFilterObject):
         is equal to "y".
 
         Use the "Actions -> Open File" widget and set: File: ``{var:open_file_path}``
+
+        :param path: the absolute path of the file to open
         """
         self.variables[VarKeyEnum.open_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_file_path.value] = path
@@ -215,6 +235,8 @@ class Item(ScriptFilterObject):
         is equal to "y".
 
         Use the "Actions -> Launch Apps / Files" widget.
+
+        :param path: the absolute path of the file or app to launch
         """
         self.variables[VarKeyEnum.launch_app_or_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
@@ -228,6 +250,8 @@ class Item(ScriptFilterObject):
         is equal to "y".
 
         Use the "Actions -> Reveal File in Finder" widget.
+
+        :param path: the absolute path of the file to reveal in Finder
         """
         self.variables[VarKeyEnum.reveal_file_in_finder.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.reveal_file_in_finder_path.value] = path
@@ -269,6 +293,8 @@ class Item(ScriptFilterObject):
         Use the "Actions -> Open URL" widget and set:
 
         - File = ``{var:open_url_arg}``
+
+        :param url: the url to open in browser
         """
         self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_url_arg.value] = url
@@ -287,6 +313,8 @@ class Item(ScriptFilterObject):
         - "with input as {query}"
         - running instances = "Sequentially"
         - Script = ``{query}``
+
+        :param cmd: the full command to run, for example ``python3 /path/to/test.py``
         """
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.run_script_arg.value] = cmd
@@ -301,6 +329,8 @@ class Item(ScriptFilterObject):
         Use the "Actions -> Terminal Command" widget and set:
 
         - Command = ``{query}``
+
+        :param cmd: the full command to run in terminal, for example ``python3 /path/to/test.py``
         """
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
@@ -318,6 +348,9 @@ class Item(ScriptFilterObject):
 
         - Title = ``{var:send_notification_title}``
         - Subtitle = ``{var:send_notification_subtitle}``
+
+        :param title: the title of the notification
+        :param subtitle: the subtitle of the notification
         """
         self.variables[VarKeyEnum.send_notification.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.send_notification_title.value] = title

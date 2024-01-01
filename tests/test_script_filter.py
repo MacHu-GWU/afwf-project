@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 from afwf.script_filter import Item, ScriptFilter
 
 
@@ -16,7 +15,6 @@ class TestScriptFilter:
 
 
 if __name__ == "__main__":
-    import os
+    from afwf.tests import run_cov_test
 
-    basename = os.path.basename(__file__)
-    pytest.main([basename, "-s", "--tb=native"])
+    run_cov_test(__file__, "afwf.script_filter", preview=False)

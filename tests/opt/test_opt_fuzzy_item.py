@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os
-import pytest
 from afwf.opt.fuzzy_item import Item, FuzzyItem
 
 
@@ -28,5 +26,6 @@ class TestFuzzyItem:
 
 
 if __name__ == "__main__":
-    basename = os.path.basename(__file__)
-    pytest.main([basename, "-s", "--tb=native"])
+    from afwf.tests import run_cov_test
+
+    run_cov_test(__file__, "afwf.opt.fuzzy_item", preview=False)

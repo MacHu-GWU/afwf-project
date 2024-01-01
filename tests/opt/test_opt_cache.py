@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 from pathlib import Path
+
 from afwf.opt.cache import Cache
 
 dir_cache = Path(__file__).absolute().parent.joinpath(".cache")
@@ -34,7 +34,6 @@ def test():
 
 
 if __name__ == "__main__":
-    import os
+    from afwf.tests import run_cov_test
 
-    basename = os.path.basename(__file__)
-    pytest.main([basename, "-s", "--tb=native"])
+    run_cov_test(__file__, "afwf.opt.cache", preview=False)

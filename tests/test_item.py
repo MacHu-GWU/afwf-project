@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import pytest
-from rich import print as rprint
 from afwf.item import Icon, Text, ModEnum, Item
 from afwf.icon import IconFileEnum
 

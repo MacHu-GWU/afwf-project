@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import pytest
-from typing import List
+import typing as T
+
 import attr
 from attrs_mate import AttrsClass
+
 from afwf.script_filter_object import ScriptFilterObject
 
 
@@ -24,7 +25,7 @@ class Degree(ScriptFilterObject):
 class People(ScriptFilterObject):
     id: int = AttrsClass.ib_int(default=None)
     profile: Profile = Profile.ib_nested(default=None)
-    degrees: List[Degree] = Degree.ib_list(default=None)
+    degrees: T.List[Degree] = Degree.ib_list(default=None)
 
 
 class TestScriptFilterObject:
@@ -43,15 +44,11 @@ class TestScriptFilterObject:
         )
         assert people.to_script_filter() == {
             "id": 1,
-            "profile": {
-                "firstname": "David",
-                "lastname": "John",
-                "ssn": "123-45-6789"
-            },
+            "profile": {"firstname": "David", "lastname": "John", "ssn": "123-45-6789"},
             "degrees": [
                 {"name": "Bachelor", "year": 2004},
-                {"name": "Master", "year": 2006}
-            ]
+                {"name": "Master", "year": 2006},
+            ],
         }
 
         profile = Profile()
@@ -66,7 +63,6 @@ class TestScriptFilterObject:
 
 
 if __name__ == "__main__":
-    import os
+    from afwf.tests import run_cov_test
 
-    basename = os.path.basename(__file__)
-    pytest.main([basename, "-s", "--tb=native"])
+    run_cov_test(__file__, "afwf.script_filter_object", preview=False)

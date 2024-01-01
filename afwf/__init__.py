@@ -15,20 +15,18 @@ __maintainer_email__ = __author_email__
 __github_username__ = "MacHu-GWU"
 
 try:
-    from .item import (
-        Icon,
-        Text,
-        Item,
-        VarKeyEnum,
-        VarValueEnum,
-        ModEnum,
-    )
-    from .script_filter import ScriptFilter
-    from .handler import Handler
-    from .workflow import log_debug_info
-    from .workflow import Workflow
-    from .icon import IconFileEnum
-    from .query import Query
-    from .query import QueryParser
-except ImportError as e: # pragma: no cover
+    from .api import Icon
+    from .api import Text
+    from .api import Item
+    from .api import VarKeyEnum
+    from .api import VarValueEnum
+    from .api import ModEnum
+    from .api import ScriptFilter
+    from .api import Handler
+    from .api import log_debug_info
+    from .api import Workflow
+    from .api import IconFileEnum
+    from .api import Query
+    from .api import QueryParser
+except ImportError as e:  # pragma: no cover
     print(e)
