@@ -115,8 +115,7 @@ class Workflow(AttrsClass):
 
         handler = self.get(handler_id)
         sf = handler.handler(query)
-        json.dump(sf.to_script_filter(), sys.stdout)
-        sys.stdout.flush()
+        sf.send_feedback()
         return sf
 
     def run(
@@ -131,9 +130,11 @@ class Workflow(AttrsClass):
 
         By default, it provides two ways to debug:
 
-        1. Automatically log the python traceback logs to ``~/.alfred-afwf/last-error.txt``
-            file.
-        2. If python raises any exception, log the last Exception message as an item.
+        1. Automatically log the sys.argv, handler id and query string history to
+            ``~/.alfred-afwf/debug.txt`` file.
+        2. If python raises any exception, log the Exception trace back message
+            to ``~/.alfred-afwf/last-error.txt. And show two item to allow user
+            to open the ``debug.txt`` or ``last-error.txt`` file.
         """
         try:
             self._run(arg=arg, debug=debug)
@@ -160,7 +161,6 @@ class Workflow(AttrsClass):
             item._open_log_file(path=str(p_debug_log))
             sf.items.append(item)
 
-            json.dump(sf.to_script_filter(), sys.stdout)
-            sys.stdout.flush()
+            sf.send_feedback()
             exit(1)
         exit(0)
