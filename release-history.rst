@@ -15,6 +15,21 @@ Backlog
 **Miscellaneous**
 
 
+0.6.1 (2024-01-01)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- Improve the :class:`afwf.query.QueryParser` and :class:`afwf.query.Query`
+
+**Minor Improvements**
+
+- Improve the ``Afwf Framework Overview`` document.
+
+**Miscellaneous**
+
+- Use ``afwf_ops`` for DevOps automation.
+
+
 0.5.2 (2023-12-31)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Bugfixes**
