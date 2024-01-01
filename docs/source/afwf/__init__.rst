@@ -13,6 +13,7 @@ sub packages and modules
     example_wf <example_wf/__init__>
     opt <opt/__init__>
     _icon <_icon>
+    api <api>
     handler <handler>
     icon <icon>
     item <item>

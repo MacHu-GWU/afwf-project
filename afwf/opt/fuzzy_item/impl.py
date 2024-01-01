@@ -7,7 +7,7 @@ Allow filtering / sorting Alfred Items by fuzzy matching.
 import typing as T
 import attr
 
-from ..fuzzy import Fuzzy
+from ..fuzzy.api import FuzzyMatcher
 from ...item import Item as Item_
 
 
@@ -29,6 +29,6 @@ class Item(Item_):
         return self.variables.get(FUZZY_MATCH_NAME_VAR_KEY)
 
 
-class FuzzyItem(Fuzzy[Item]):
+class FuzzyItemMatcher(FuzzyMatcher[Item]):
     def get_name(self, item: Item) -> T.Optional[str]:
         return item.variables.get(FUZZY_MATCH_NAME_VAR_KEY)

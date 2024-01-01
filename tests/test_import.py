@@ -5,7 +5,7 @@ from pytest import raises, approx
 
 
 def test():
-    import afwf
+    import afwf.api as afwf
 
     _ = afwf.Icon
     _ = afwf.Text
@@ -21,6 +21,11 @@ def test():
     _ = afwf.IconFileEnum
     _ = afwf.Query
     _ = afwf.QueryParser
+
+    _ = afwf.TypedCache
+    _ = afwf.FuzzyMatcher
+    _ = afwf.FuzzyItem
+    _ = afwf.FuzzyItemMatcher
 
 
 if __name__ == "__main__":

@@ -2,11 +2,11 @@
 
 from pathlib import Path
 
-from afwf.opt.cache import Cache
+from afwf.opt.cache.impl import TypedCache
 
 dir_cache = Path(__file__).absolute().parent.joinpath(".cache")
 
-cache = Cache(str(dir_cache))
+cache = TypedCache(str(dir_cache))
 
 
 class Dog:

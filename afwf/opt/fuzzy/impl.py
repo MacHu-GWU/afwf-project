@@ -23,15 +23,15 @@ if has_fuzzywuzzy is False:  # pragma: no cover
     raise error
 
 
-ITEM = T.TypeVar("ITEM")
+T_ITEM = T.TypeVar("T_ITEM")
 
 
 @dataclasses.dataclass
-class Fuzzy(T.Generic[ITEM]):
+class FuzzyMatcher(T.Generic[T_ITEM]):
     """
     Fuzzywuzzy is awesome to match string. However, what if the item is not string?
 
-    We can define a name for each item and use fuzzywuzzy to match the name.
+    We can define a **name** for each item and use fuzzywuzzy to match the **name**.
     Then use the name to locate the original item. This class implements this pattern.
 
     :param _items: list of item you want to match
@@ -39,22 +39,44 @@ class Fuzzy(T.Generic[ITEM]):
     :param _mapper: the key is the name of the item, the value is the
         list of item that with the same name.
 
-    You have to subclass this class and implement the :meth:`Fuzzy.get_name`
-     method. See doc string for more information.
+    You have to subclass this class and **implement the**
+    :meth:`FuzzyMatcher.get_name` **method**. See doc string for more information.
 
     Don't directly use the constructor, use the ``from_items`` or ``from_mapper``
     factory method instead.
+
+    Usage Example::
+
+        @dataclasses.dataclass
+        class Item:
+            id: int
+            name: str
+
+
+        class ItemFuzzyMatcher(FuzzyMatcher[Item]):
+            def get_name(self, item: Item) -> T.Optional[str]:
+                return item.name
+
+        items = [
+            Item(id=1, name="apple and banana and cherry"),
+            Item(id=2, name="alice and bob and charlie"),
+        ]
+
+        matcher = ItemFuzzyMatcher.from_items(items)
+        result = matcher.match("apple", threshold=0)
+        print(result)
     """
 
-    _items: T.List[ITEM] = dataclasses.field(default_factory=list)
+    _items: T.List[T_ITEM] = dataclasses.field(default_factory=list)
     _names: T.List[str] = dataclasses.field(default_factory=list)
-    _mapper: T.Dict[str, T.List[ITEM]] = dataclasses.field(default_factory=dict)
+    _mapper: T.Dict[str, T.List[T_ITEM]] = dataclasses.field(default_factory=dict)
 
-    def get_name(self, item: ITEM) -> T.Optional[str]:
+    def get_name(self, item: T_ITEM) -> T.Optional[str]:  # pragma: no cover
         """
-        Given an item, return the item of the entity for fuzzy match.
+        Given an item, return the name of the item for fuzzy match.
 
         This method should not raise any error and always return a string or None.
+        If return None, the item will be ignored (not shown in result).
         """
         raise NotImplementedError
 
@@ -75,47 +97,48 @@ class Fuzzy(T.Generic[ITEM]):
         self._build_mapper()
 
     @classmethod
-    def from_items(cls, items: T.List[ITEM]):
+    def from_items(cls, items: T.List[T_ITEM]):
+        """
+        Build a FuzzyMatcher from a list of items.
+        """
         return cls(_items=items)
 
     @classmethod
-    def from_mapper(cls, name_to_item_mapper: T.Dict[str, T.List[ITEM]]):
+    def from_mapper(cls, name_to_item_mapper: T.Dict[str, T.List[T_ITEM]]):
+        """
+        Build a FuzzyMatcher from a mapper, the key should be the name of the item
+        for fuzzy match.
+        """
         return cls(_mapper=name_to_item_mapper)
 
     def match(
         self,
         name: str,
-        threshold: int = 0,
-    ) -> T.List[ITEM]:
-        """
-        Find the best matched list of items. Only highest score is returned.
-        """
-        tp = process.extractOne(
-            query=name,
-            choices=self._names,
-            score_cutoff=threshold,
-        )
-        if tp is None:
-            return []
-        else:
-            return self._mapper[tp[0]]
-
-    def sort(
-        self,
-        name: str,
-        threshold: int = 0,
+        threshold: int = 70,
         limit: int = 20,
-    ) -> T.List[ITEM]:
+        filter_func: T.Callable = lambda x: True,
+    ) -> T.List[T_ITEM]:
         """
-        Sort items by the match score.
+        Match items by name. Only return items that similarity score is greater than
+        the threshold. It also uses a callable filter function to filter the result.
+        The results will be sorted by the similarity score, from high to low.
+
+        :param name: name is the search string for fuzzy match
+        :param threshold: the minimal similarity score (0-100) to be considered as matched
+        :param limit: the max number of matched items to return
+        :param filter_func: additional filter function to filter the matched items
+            it has to be a function that accept an item and return a bool
         """
-        matched_name_list = process.extractBests(
-            query=name,
-            choices=self._names,
-            score_cutoff=threshold,
-            limit=limit,
-        )
-        results = list()
-        for matched_name, matched_score in matched_name_list:
-            results.extend(self._mapper[matched_name])
-        return results
+        matched_name_list = process.extractBests(name, self._names, limit=limit)
+        if len(matched_name_list) == 0:
+            return []
+        matched_name_list = list(filter(filter_func, matched_name_list))
+        best_matched_name, best_matched_score = matched_name_list[0]
+        if best_matched_score >= threshold:
+            matched_items = list()
+            for matched_name, score in matched_name_list:
+                if score >= threshold:
+                    matched_items.extend(self._mapper[matched_name])
+            return matched_items[:limit]
+        else:
+            return []
