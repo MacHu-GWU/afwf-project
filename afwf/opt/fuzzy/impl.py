@@ -2,6 +2,10 @@
 
 """
 Allow filtering / sorting by fuzzy matching.
+
+Requirements::
+
+    fuzzywuzzy>=0.18.0,<1.0.0
 """
 
 import typing as T

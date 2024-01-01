@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from automation.alfred import build_wf
+from automation.ops import build_wf
 
 build_wf()

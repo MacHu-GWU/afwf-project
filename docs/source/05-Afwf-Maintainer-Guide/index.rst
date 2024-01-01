@@ -1,4 +1,4 @@
-``afwf`` Maintainer Guide
+afwf Maintainer Guide
 ==============================================================================
 
 
@@ -32,10 +32,12 @@ Workflow 的详细设置如下.
 Workflow 的使用效果 1.
 
 .. image:: ./example_wf_3.png
+    :width: 500px
 
 Workflow 的使用效果 2.
 
 .. image:: ./example_wf_4.png
+    :width: 500px
 
 具体的输入输出逻辑实现请参考 `afwf/example_wf/handlers
 /python_version.py <https://github.com/MacHu-GWU/afwf-project/blob/main/afwf/example_wf/handlers/python_version.py>`_, 而对 Workflow 的封装请参考 `afwf/example_wf

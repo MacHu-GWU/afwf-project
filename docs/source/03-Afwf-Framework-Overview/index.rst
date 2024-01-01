@@ -190,19 +190,11 @@ Additional Helpers
 - :class:`afwf.item.ModEnum`: 对 modifier key 的枚举.
 
 
-How to use this Framework
+How to use this Framework In Your Project
 ------------------------------------------------------------------------------
-我提供了一个用该框架写的 `Demo Workflow <https://github.com/MacHu-GWU/afwf_example-project>`_. 它涵盖了如何实现 query 到 item 的输入输出, 如何处理错误, 如何利用缓存, 如何打开 URL, 打开文件, 对文件进行读写等常见操作. 请详细阅读 ``afwf_example`` 项目文档, 你可以参考它来学习如何使用 ``afwf`` 框架.
+我提供了一个用该框架写的 `Demo Workflow <https://github.com/MacHu-GWU/afwf_example-project>`_. 它涵盖了如何实现 query 到 item 的输入输出, 如何处理错误, 如何利用缓存, 如何打开 URL, 打开文件, 对文件进行读写等常见操作. 请详细阅读 ``afwf_example`` 项目文档, 你可以参考它来学习如何使用 ``afwf`` 框架, 以及了解一个 Python Alfred Workflow 的 Git Repository 的文件结构应该是怎样的.
 
 
 What's Next?
 ------------------------------------------------------------------------------
 如果你花了一点时间已经学会了如何使用 ``afwf`` 框架, 我建议你可以进入下一章了解一些 ``afwf`` 框架的其他功能.
-
-
-
-The main.py File
-------------------------------------------------------------------------------
-.. literalinclude:: ../../../afwf/example_wf/__init__.py
-   :language: python
-   :linenos:

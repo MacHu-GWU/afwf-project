@@ -2,6 +2,10 @@
 
 """
 Disk cache for Alfred Workflow.
+
+Requirements::
+
+    diskcache>=5.4.0,<6.0.0
 """
 
 import typing as T

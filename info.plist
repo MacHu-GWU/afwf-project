@@ -6,11 +6,26 @@
 	<string>MacHu-GWU.afwf-dev</string>
 	<key>connections</key>
 	<dict>
+		<key>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>7CEC8CA3-977E-4C67-9E96-3D653091074A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>3D612075-778A-4380-9A57-7F68CD611C4B</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>5824EAF6-415D-4CF9-B86A-282D0A5411EF</string>
+				<string>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -20,7 +35,17 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>451D1A5E-A45E-46A6-81A2-5885C9400594</string>
+				<string>EB040862-D130-450C-849F-DCE6878E0CF1</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -29,7 +54,7 @@
 				<false/>
 			</dict>
 		</array>
-		<key>451D1A5E-A45E-46A6-81A2-5885C9400594</key>
+		<key>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -38,11 +63,13 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>sourceoutputuid</key>
+				<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
 		</array>
-		<key>5824EAF6-415D-4CF9-B86A-282D0A5411EF</key>
+		<key>EB040862-D130-450C-849F-DCE6878E0CF1</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -51,6 +78,8 @@
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
+				<key>sourceoutputuid</key>
+				<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -69,21 +98,17 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>browser</key>
+				<key>openwith</key>
 				<string></string>
-				<key>spaces</key>
-				<string></string>
-				<key>url</key>
-				<string>{var:open_url_arg}</string>
-				<key>utf8</key>
-				<true/>
+				<key>sourcefile</key>
+				<string>{var:_open_log_file_path}</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.action.openurl</string>
+			<string>alfred.workflow.action.openfile</string>
 			<key>uid</key>
-			<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
+			<string>7CEC8CA3-977E-4C67-9E96-3D653091074A</string>
 			<key>version</key>
-			<integer>1</integer>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -113,7 +138,7 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>/Users/sanhehu/.pyenv/versions/3.8.13/bin/python main.py 'python_version {query}'</string>
+				<string>/Users/sanhehu/.pyenv/shims/python3.8 main.py 'python_version {query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -137,19 +162,79 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>inputstring</key>
-				<string>{var:open_url}</string>
-				<key>matchcasesensitive</key>
-				<true/>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>matchstring</key>
-				<string>y</string>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:_open_log_file}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>y</string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>5824EAF6-415D-4CF9-B86A-282D0A5411EF</string>
+			<string>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>{var:open_url_arg}</string>
+				<key>utf8</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:open_url}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>y</string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>EB040862-D130-450C-849F-DCE6878E0CF1</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -171,19 +256,30 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>inputstring</key>
-				<string>{var:open_file}</string>
-				<key>matchcasesensitive</key>
-				<true/>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>matchstring</key>
-				<string>y</string>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:open_file}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>y</string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.filter</string>
+			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>451D1A5E-A45E-46A6-81A2-5885C9400594</string>
+			<string>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -192,12 +288,19 @@
 	<string>Sanhe's GitHub based Job Work Management System</string>
 	<key>uidata</key>
 	<dict>
+		<key>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</key>
+		<dict>
+			<key>xpos</key>
+			<integer>600</integer>
+			<key>ypos</key>
+			<integer>35</integer>
+		</dict>
 		<key>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</key>
 		<dict>
 			<key>xpos</key>
 			<integer>695</integer>
 			<key>ypos</key>
-			<integer>10</integer>
+			<integer>115</integer>
 		</dict>
 		<key>3D612075-778A-4380-9A57-7F68CD611C4B</key>
 		<dict>
@@ -206,26 +309,33 @@
 			<key>ypos</key>
 			<integer>10</integer>
 		</dict>
-		<key>451D1A5E-A45E-46A6-81A2-5885C9400594</key>
+		<key>7CEC8CA3-977E-4C67-9E96-3D653091074A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>610</integer>
+			<integer>695</integer>
 			<key>ypos</key>
-			<integer>145</integer>
+			<integer>10</integer>
 		</dict>
-		<key>5824EAF6-415D-4CF9-B86A-282D0A5411EF</key>
+		<key>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</key>
 		<dict>
 			<key>xpos</key>
-			<integer>610</integer>
+			<integer>600</integer>
 			<key>ypos</key>
-			<integer>40</integer>
+			<integer>240</integer>
 		</dict>
 		<key>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</key>
 		<dict>
 			<key>xpos</key>
 			<integer>695</integer>
 			<key>ypos</key>
-			<integer>115</integer>
+			<integer>220</integer>
+		</dict>
+		<key>EB040862-D130-450C-849F-DCE6878E0CF1</key>
+		<dict>
+			<key>xpos</key>
+			<integer>600</integer>
+			<key>ypos</key>
+			<integer>135</integer>
 		</dict>
 	</dict>
 	<key>webaddress</key>
