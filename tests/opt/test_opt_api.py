@@ -1,0 +1,20 @@
+# -*- coding: utf-8 -*-
+
+
+def test():
+    from afwf.opt.cache.api import TypedCache
+
+    from afwf.opt.fuzzy.api import FuzzyMatcher
+    from afwf.opt.fuzzy_item.api import Item
+    from afwf.opt.fuzzy_item.api import FuzzyItemMatcher
+
+
+if __name__ == "__main__":
+    from afwf.tests import run_cov_test
+
+    run_cov_test(
+        __file__,
+        "afwf.opt",
+        is_folder=True,
+        preview=False,
+    )

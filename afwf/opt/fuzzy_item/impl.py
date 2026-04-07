@@ -5,11 +5,8 @@ Allow filtering / sorting Alfred Items by fuzzy matching.
 
 Requirements::
 
-    fuzzywuzzy>=0.18.0,<1.0.0
+    rapidfuzz>=3.0.0,<4.0.0
 """
-
-import typing as T
-import attr
 
 from ..fuzzy.api import FuzzyMatcher
 from ...item import Item as Item_
@@ -18,24 +15,31 @@ from ...item import Item as Item_
 FUZZY_MATCH_NAME_VAR_KEY = "fuzzy_match_name"
 
 
-@attr.define
 class Item(Item_):
     """
-    Enhance the original :class:`alfred.item.Item` class to allow fuzzy matching.
+    Enhance the original :class:`~afwf.item.Item` class to allow fuzzy matching.
+
+    The fuzzy match name is stored in ``variables[FUZZY_MATCH_NAME_VAR_KEY]`` so
+    it travels with the item through Alfred's variable inheritance mechanism.
+
+    Example::
+
+        item = Item(title="Alfred Handler")
+        item.set_fuzzy_match_name("Alfred Handler")
+        # item.fuzzy_match_name == "Alfred Handler"
     """
 
     def set_fuzzy_match_name(self, name: str) -> "Item":
         """
-        Store the string of name in the alfred item variables. it is used for
-        fuzzy matching and sorting.
+        Store *name* in the item's variables for later fuzzy matching.
         """
         self.variables[FUZZY_MATCH_NAME_VAR_KEY] = name
         return self
 
     @property
-    def fuzzy_match_name(self) -> T.Optional[str]:
+    def fuzzy_match_name(self) -> str | None:
         """
-        Get the string for fuzzy matching.
+        Return the name stored for fuzzy matching, or ``None`` if not set.
         """
         return self.variables.get(FUZZY_MATCH_NAME_VAR_KEY)
 
@@ -45,8 +49,8 @@ class FuzzyItemMatcher(FuzzyMatcher[Item]):
     Fuzzy matcher for :class:`Item`.
     """
 
-    def get_name(self, item: Item) -> T.Optional[str]:
+    def get_name(self, item: Item) -> str | None:
         """
-        Given an item, return the name of the item for fuzzy match.
+        Return the fuzzy-match name stored on *item*.
         """
         return item.variables.get(FUZZY_MATCH_NAME_VAR_KEY)

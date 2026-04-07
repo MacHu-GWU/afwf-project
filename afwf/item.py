@@ -54,7 +54,7 @@ class Text(ScriptFilterObject):
 
     model_config = ConfigDict(arbitrary_types_allowed=True, populate_by_name=True)
 
-    copy: str | None = None  # Alfred JSON field; shadows BaseModel.copy() intentionally
+    copy_text: str | None = Field(None, alias="copy")  # "copy" is reserved in BaseModel
     largetype: str | None = None
 
 

@@ -57,8 +57,10 @@ class ScriptFilterObject(BaseModel):
         See class docstring for the full set of serialization rules.
         """
         dct = {}
-        for k in self.__class__.model_fields:
+        for k, field_info in self.__class__.model_fields.items():
             v = getattr(self, k)
+            # Use alias as the Alfred JSON key when one is defined (e.g. copy_text → "copy")
+            json_key = field_info.alias or k
             # Rule 1: omit None
             if v is None:
                 continue
@@ -66,10 +68,10 @@ class ScriptFilterObject(BaseModel):
                 # Rule 3: omit empty nested objects
                 serialized = v.to_script_filter()
                 if serialized:
-                    dct[k] = serialized
+                    dct[json_key] = serialized
             elif isinstance(v, list):
                 # Rule 6: always preserve lists; recurse into ScriptFilterObject items
-                dct[k] = [
+                dct[json_key] = [
                     item.to_script_filter() if isinstance(item, ScriptFilterObject) else item
                     for item in v
                 ]
@@ -80,5 +82,5 @@ class ScriptFilterObject(BaseModel):
                 continue
             else:
                 # Rule 2: preserve False, 0, "", and all other non-None values
-                dct[k] = v
+                dct[json_key] = v
         return dct
