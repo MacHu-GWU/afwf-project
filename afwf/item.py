@@ -4,163 +4,104 @@
 Alfred Workflow Script Filter Item module.
 """
 
-import typing as T
-
-import attrs
-from attrs import validators as vs
-from attrs_mate import AttrsClass
-from .vendor.better_enum import BetterStrEnum
+from typing import Any, ClassVar
+from pydantic import ConfigDict, Field
 
 from .script_filter_object import ScriptFilterObject
+from .constants import IconTypeEnum
+from .constants import ItemTypeEnum
+from .constants import ModEnum
+from .constants import VarKeyEnum
+from .constants import VarValueEnum
 
 
-@attrs.define
+
 class Icon(ScriptFilterObject):
     """
-    represent an icon object in script filter item.
+    Represent an icon object in a Script Filter item.
 
-    Reference:
-
-    - Search ``icon : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
+    Ref: search ``icon : OBJECT`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
-    class TypeEnum(BetterStrEnum):
-        fileicon = "fileicon"
-        filetype = "filetype"
+    # Alias kept for workflow-developer discoverability: Icon.TypeEnum
+    TypeEnum: ClassVar[type[IconTypeEnum]] = IconTypeEnum
 
-    # fmt: off
-    path: str = AttrsClass.ib_str()
-    type: str = attrs.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
-    # fmt: on
+    path: str
+    type: str | None = None
 
     @classmethod
-    def from_image_file(cls, path: str) -> "Icon":
+    def from_image_file(
+        cls,
+        path: str,
+    ) -> "Icon":
         """
-        Create an Icon object that using a file on local file system as an icon.
+        Create an Icon using a local file's path as the icon image.
         """
         return cls(path=path)
 
 
-class VarKeyEnum(BetterStrEnum):
-    """
-    List of available variable keys in this framework.
-    """
-
-    open_file = "open_file"
-    open_file_path = "open_file_path"
-    launch_app_or_file = "launch_app_or_file"
-    launch_app_or_file_path = "launch_app_or_file_path"
-    reveal_file_in_finder = "reveal_file_in_finder"
-    reveal_file_in_finder_path = "reveal_file_in_finder_path"
-    browse_in_terminal = "browse_in_terminal"
-    browse_in_terminal_path = "browse_in_terminal_path"
-    browse_in_alfred = "browse_in_alfred"
-    browse_in_alfred_path = "browse_in_alfred_path"
-    action_in_alfred = "action_in_alfred"
-    file_buffer = "file_buffer"
-    default_web_search = "default_web_search"
-    open_url = "open_url"
-    open_url_arg = "open_url_arg"
-    system_command = "system_command"
-    itunes_command = "itunes_command"
-    run_script = "run_script"
-    run_script_arg = "run_script_arg"
-    run_ns_apple_script = "run_ns_apple_script"
-    run_ns_apple_script_arg = "run_ns_apple_script_arg"
-    terminal_command = "terminal_command"
-    terminal_command_arg = "terminal_command_arg"
-    send_notification = "send_notification"
-    send_notification_title = "send_notification_title"
-    send_notification_subtitle = "send_notification_subtitle"
-
-    _open_log_file = "_open_log_file"
-    _open_log_file_path = "_open_log_file_path"
-
-
-class VarValueEnum(BetterStrEnum):
-    """
-    List of available variable values in this framework.
-    """
-
-    y = "y"
-    n = "n"
-
-
-@attrs.define
 class Text(ScriptFilterObject):
     """
-    Represent a text object in script filter item.
+    Represent the ``text`` object in a Script Filter item.
 
-    Reference:
+    - ``copy``      — text copied to clipboard when the user presses ⌘C
+    - ``largetype`` — text shown with Alfred Large Type (⌘L)
 
-    - Search ``text : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
+    If neither field is set Alfred falls back to using ``arg``.
+
+    Ref: search ``text : OBJECT`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
     """
 
-    copy: str = AttrsClass.ib_str(default=None)
-    largetype: str = AttrsClass.ib_str(default=None)
+    model_config = ConfigDict(arbitrary_types_allowed=True, populate_by_name=True)
+
+    copy: str | None = None  # Alfred JSON field; shadows BaseModel.copy() intentionally
+    largetype: str | None = None
 
 
-class ModEnum(BetterStrEnum):
-    """
-    List of available modifier keys. Hit enter with the modifier key can lead
-    to different behavior.
-
-    Reference:
-
-    - Search ``mods : OBJECT (optional)`` in https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
-    """
-
-    cmd = "cmd"
-    shift = "shift"
-    alt = "alt"
-    ctrl = "ctrl"
-    fn = "fn"
-    cmd_alt = "cmd+alt"
-    cmd_ctrl = "cmd+ctrl"
-    cmd_shift = "cmd+shift"
+T_ITEM_ACTION = str | list[str] | dict[str, Any]
 
 
-T_ITEM_ACTION = T.Union[str, T.List[str], T.Dict[str, T.Any]]
-
-
-@attrs.define
 class Item(ScriptFilterObject):
     """
-    Data model for alfred dropdown menu items.
+    Data model for an Alfred Script Filter dropdown menu item.
+
+    Field names match the Alfred JSON spec exactly.
+
+    Ref: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
 
     .. note::
 
-        Please make sure the attribute name is exactly the same as the field name
-        in the following document.
-
-    Ref: https://www.alfredapp.com/help/workflows/inputs/script-filter/json/
+        **``mods`` and ``variables`` inheritance** — when a mod entry contains a
+        ``variables`` key it *replaces* (not merges with) the item's ``variables``.
+        An explicit ``"variables": {}`` on a mod prevents inheriting item variables.
+        See :class:`~afwf.constants.ModEnum`.
     """
 
-    class TypeEnum(BetterStrEnum):
-        file = "file"
-        file_skipcheck = "file:skipcheck"
+    # Alias kept for workflow-developer discoverability: Item.TypeEnum
+    TypeEnum: ClassVar[type[ItemTypeEnum]] = ItemTypeEnum
 
-    # fmt: off
-    title: str = AttrsClass.ib_str()
-    subtitle: str = AttrsClass.ib_str(default=None)
-    arg: str = AttrsClass.ib_str(default=None)
-    autocomplete: str = AttrsClass.ib_str(default=None)
-    icon: Icon = Icon.ib_nested(default=None)
-    valid: bool = AttrsClass.ib_bool(default=True)
-    uid: str = AttrsClass.ib_str(default=None)
-    match: str = AttrsClass.ib_str(default=None)
-    type: str = attrs.field(validator=vs.optional(vs.in_(TypeEnum.get_values())), default=None)
-    mods: dict = AttrsClass.ib_dict(default=None)
-    action: T_ITEM_ACTION = attrs.field(default=None)
-    text: Text = Text.ib_nested(default=None)
-    quicklookurl: str = AttrsClass.ib_str(default=None)
-    variables: dict = AttrsClass.ib_dict(factory=dict)
-    # fmt: on
+    title: str
+    subtitle: str | None = None
+    arg: str | None = None
+    autocomplete: str | None = None
+    icon: Icon | None = None
+    valid: bool = True
+    uid: str | None = None
+    match: str | None = None
+    type: str | None = None
+    mods: dict | None = None
+    action: T_ITEM_ACTION | None = None
+    text: Text | None = None
+    quicklookurl: str | None = None
+    variables: dict = Field(default_factory=dict)
 
     # --------------------------------------------------------------------------
     # Set attribute value
     # --------------------------------------------------------------------------
-    def set_icon(self, path: str) -> "Item":
+    def set_icon(
+        self,
+        path: str,
+    ) -> "Item":
         """
         Set icon for item.
         """
@@ -169,30 +110,27 @@ class Item(ScriptFilterObject):
 
     def set_modifier(
         self,
-        mod: str = ModEnum.cmd.value,
-        subtitle: subtitle = None,
-        arg: str = None,
+        mod: str | ModEnum = ModEnum.cmd,
+        subtitle: str | None = None,
+        arg: str | None = None,
         valid: bool = True,
     ) -> "Item":
         """
-        Add modifier to item. Modifier allow you to return different title,
-        subtitle and argument in Alfred drop down menu item when you hit a
-        modifier key.
+        Add a modifier key override to this item.
 
-        :param mode: the modifier key
-        :param subtitle: the subtitle you want to display
-        :param arg: the argument passed to subsequence action
-        :param valid: whether the item is valid
+        When the user holds the modifier key while actioning the item, Alfred
+        uses the values defined here instead of the item's top-level fields.
+
+        :param mod: modifier key; use :class:`~afwf.constants.ModEnum` values
+        :param subtitle: alternate subtitle to display
+        :param arg: alternate argument passed to the connected action
+        :param valid: whether the item is actionable with this modifier
         """
         if mod not in ModEnum.get_values():
-            raise ValueError
+            raise ValueError(f"Invalid modifier key: {mod!r}. Use ModEnum values.")
         dct = {
             k: v
-            for k, v in dict(
-                subtitle=subtitle,
-                arg=arg,
-                valid=valid,
-            ).items()
+            for k, v in dict(subtitle=subtitle, arg=arg, valid=valid).items()
             if v
         }
         if self.mods is None:
@@ -203,16 +141,21 @@ class Item(ScriptFilterObject):
     # --------------------------------------------------------------------------
     # Set variables
     # --------------------------------------------------------------------------
-    def _open_log_file(self, path: str) -> "Item":  # pragma: no cover
+    def _open_log_file(  # pragma: no cover
+        self,
+        path: str,
+    ) -> "Item":
         """
-        This is a special variable that will open the last error file in the editor.
-        It is for internal implementation only, not for public API.
+        Internal use only: sets a variable to open the last error log in editor.
         """
         self.variables[VarKeyEnum._open_log_file.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum._open_log_file_path.value] = path
         return self
 
-    def open_file(self, path: str) -> "Item":
+    def open_file(
+        self,
+        path: str,
+    ) -> "Item":
         """
         Set variables to tell subsequence Alfred action to open a file.
 
@@ -227,7 +170,10 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.open_file_path.value] = path
         return self
 
-    def launch_app_or_file(self, path: str) -> "Item":
+    def launch_app_or_file(
+        self,
+        path: str,
+    ) -> "Item":
         """
         Set variables to tell subsequence Alfred action to launch an app or file.
 
@@ -242,9 +188,12 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.launch_app_or_file_path.value] = path
         return self
 
-    def reveal_file_in_finder(self, path: str) -> "Item":
+    def reveal_file_in_finder(
+        self,
+        path: str,
+    ) -> "Item":
         """
-        Set variables to tell subsequence Alfred action to launch an app or file.
+        Set variables to tell subsequence Alfred action to reveal a file in Finder.
 
         Use the "Utilities -> Conditional" widget and set: if ``{var:reveal_file_in_finder}``
         is equal to "y".
@@ -257,7 +206,10 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.reveal_file_in_finder_path.value] = path
         return self
 
-    def browse_in_terminal(self, path: str) -> "Item":
+    def browse_in_terminal(
+        self,
+        path: str,
+    ) -> "Item":
         """
         Set variables to tell subsequence Alfred action to browse in terminal.
 
@@ -270,7 +222,10 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.browse_in_terminal_path.value] = path
         return self
 
-    def browse_in_alfred(self, path: str) -> "Item":
+    def browse_in_alfred(
+        self,
+        path: str,
+    ) -> "Item":
         """
         Set variables to tell subsequence Alfred action to browse in Alfred.
 
@@ -283,26 +238,30 @@ class Item(ScriptFilterObject):
         self.variables[VarKeyEnum.browse_in_alfred_path.value] = path
         return self
 
-    def open_url(self, url: str) -> "Item":
+    def open_url(
+        self,
+        url: str,
+    ) -> "Item":
         """
-        Set variables to tell subsequence Alfred action to open url.
+        Set variables to tell subsequence Alfred action to open a URL.
 
         Use the "Utilities -> Conditional" widget and set: if ``{var:open_url}``
         is equal to "y".
 
-        Use the "Actions -> Open URL" widget and set:
+        Use the "Actions -> Open URL" widget and set: File = ``{var:open_url_arg}``
 
-        - File = ``{var:open_url_arg}``
-
-        :param url: the url to open in browser
+        :param url: the URL to open in browser
         """
         self.variables[VarKeyEnum.open_url.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.open_url_arg.value] = url
         return self
 
-    def run_script(self, cmd: str) -> "Item":
+    def run_script(
+        self,
+        cmd: str,
+    ) -> "Item":
         """
-        Set variables to tell subsequence Alfred action to run script.
+        Set variables to tell subsequence Alfred action to run a script.
 
         Use the "Utilities -> Conditional" widget and set: if ``{var:run_script}``
         is equal to "y".
@@ -321,25 +280,32 @@ class Item(ScriptFilterObject):
         self.arg = cmd
         return self
 
-    def terminal_command(self, cmd: str) -> "Item":
+    def terminal_command(
+        self,
+        cmd: str,
+    ) -> "Item":
         """
+        Set variables to tell subsequence Alfred action to run a terminal command.
+
         Use the "Utilities -> Conditional" widget and set: if ``{var:terminal_command}``
         is equal to "y".
 
-        Use the "Actions -> Terminal Command" widget and set:
+        Use the "Actions -> Terminal Command" widget and set: Command = ``{query}``
 
-        - Command = ``{query}``
-
-        :param cmd: the full command to run in terminal, for example ``python3 /path/to/test.py``
+        :param cmd: the full command to run in terminal
         """
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
         self.arg = cmd
         return self
 
-    def send_notification(self, title: str, subtitle: str = "") -> "Item":
+    def send_notification(
+        self,
+        title: str,
+        subtitle: str = "",
+    ) -> "Item":
         """
-        Set variables to tell subsequence Alfred action to send notification.
+        Set variables to tell subsequence Alfred action to send a notification.
 
         Use the "Utilities -> Conditional" widget and set: if ``{var:send_notification}``
         is equal to "y".
