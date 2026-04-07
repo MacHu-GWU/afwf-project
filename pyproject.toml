@@ -47,8 +47,6 @@ classifiers = [
 dependencies = [
     "pydantic>=2.11.10,<3.0.0",
     "enum-mate>=0.1.1,<1.0.0",
-    "attrs>=21.3.0",
-    "attrs_mate>=1.1.1,<2.0.0",
 ]
 
 # ------------------------------------------------------------------------------
@@ -59,6 +57,12 @@ dependencies = [
 # IMPORTANT: all optional dependencies has to be compatible with the "requires-python" field
 # ------------------------------------------------------------------------------
 [project.optional-dependencies]
+fuzzy = [
+    "RapidFuzz>=3.0.0,<4.0.0",
+]
+cache = [
+    "diskcache>=5.6.3,<6.0.0",
+]
 
 # ------------------------------------------------------------------------------
 # Local Development dependenceies
@@ -66,7 +70,6 @@ dependencies = [
 dev = [
     "rich>=13.8.1,<14.0.0", # pretty print
     "diskcache>=5.6.3,<6.0.0",
-    "fuzzywuzzy>=0.18.0,<1.0.0",
     "RapidFuzz>=3.14.1,<4.0.0",
     "pathlib-mate>=1.3.2,<2.0.0",
 ]

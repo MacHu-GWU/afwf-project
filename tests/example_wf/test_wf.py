@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-from afwf.example_wf import wf, python_version
+from afwf.example_wf import wf
+from afwf.example_wf.handlers import source_files
 
 
 class TestWorkflow:
-    def test(self):
-        sf = wf._run(arg="python_version 2.7")
-        for item in sf.items:
-            assert "2.7" in item.title
+    def test_run_dispatch(self):
+        # end-to-end: _run parses the arg, routes to the handler, returns ScriptFilter
+        sf = wf._run(arg="source_files handler")
+        assert len(sf.items) > 0
+        assert all("handler" in item.title for item in sf.items)
 
-    def test_register(self):
+    def test_register_duplicate_raises(self):
         with pytest.raises(KeyError):
-            wf.register(python_version.handler)
+            wf.register(source_files.handler)
 
 
 if __name__ == "__main__":
-    import os
+    from afwf.tests import run_cov_test
 
-    basename = os.path.basename(__file__)
-    pytest.main([basename, "-s", "--tb=native"])
+    run_cov_test(
+        __file__,
+        "afwf.example_wf.handlers.wf",
+        preview=False,
+    )

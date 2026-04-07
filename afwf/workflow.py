@@ -1,108 +1,164 @@
 # -*- coding: utf-8 -*-
 
 """
-Alfred Workflow module.
+Alfred Workflow orchestration.
+
+A :class:`Workflow` collects one or more :class:`~afwf.handler.Handler`
+instances and routes Alfred's raw argument string to the right one at
+runtime.
+
+Typical project layout::
+
+    my_workflow/
+        main.py          ← calls wf.run()
+        wf.py            ← creates Workflow, registers handlers
+        handlers/
+            search.py    ← defines Handler subclass + handler singleton
+
+Typical ``wf.py``::
+
+    from afwf.workflow import Workflow
+    from .handlers import search
+
+    wf = Workflow()
+    wf.register(search.handler)
+
+Typical ``main.py``::
+
+    from .wf import wf
+
+    if __name__ == "__main__":
+        wf.run()
+
+Alfred passes the Script Filter's argument as a single string with the
+format ``"{handler_id} {query}"``.  :meth:`Workflow._run` splits on the
+first space and delegates to the named handler.
 """
 
-import typing as T
 import sys
-import json
 import traceback
 from datetime import datetime
 
-import attrs
-from attrs_mate import AttrsClass
+from pydantic import BaseModel, ConfigDict, Field
 
 from .handler import Handler
-from .paths import dir_lib, dir_afwf, p_last_error, p_debug_log
+from .paths import path_enum
 from .script_filter import ScriptFilter
 from .item import Icon, Item
 from .icon import IconFileEnum
 
+_dir_afwf = path_enum.dir_afwf
+_p_last_error = path_enum.p_last_error
+_p_debug_log = path_enum.p_debug_log
+
 
 def log_last_error():  # pragma: no cover
     """
-    Log the last exception trace back info to ``~/.alfred-afwf/last-error.txt``
-    file.
+    Log the last exception traceback to ``~/.alfred-afwf/last-error.txt``.
     """
     traceback_msg = traceback.format_exc()
     try:
-        p_last_error.write_text(traceback_msg, encoding="utf-8")
+        _p_last_error.write_text(traceback_msg, encoding="utf-8")
     except FileNotFoundError:
-        dir_afwf.mkdir(parents=True, exist_ok=True)
-        p_last_error.write_text(traceback_msg, encoding="utf-8")
+        _dir_afwf.mkdir(parents=True, exist_ok=True)
+        _p_last_error.write_text(traceback_msg, encoding="utf-8")
     except Exception as e:
         raise e
 
 
 def log_debug_info(info: str):  # pragma: no cover
     """
-    Call this function anywhere. It will append the ``info`` string to the end
-    of ``~/.alfred-afwf/debug.txt`` file.
+    Append ``info`` to ``~/.alfred-afwf/debug.txt``.
+
+    Call this anywhere in your workflow code to leave a breadcrumb trail
+    for debugging.
     """
     try:
-        with p_debug_log.open("a", encoding="utf-8") as f:
+        with _p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except FileNotFoundError:
-        dir_afwf.mkdir(parents=True, exist_ok=True)
-        with p_debug_log.open("a", encoding="utf-8") as f:
+        _dir_afwf.mkdir(parents=True, exist_ok=True)
+        with _p_debug_log.open("a", encoding="utf-8") as f:
             f.write(info + "\n")
     except Exception as e:
         raise e
 
 
-@attrs.define
-class Workflow(AttrsClass):
+class Workflow(BaseModel):
     """
-    Represents an Alfred Workflow object. The workflow can register many handlers.
+    Top-level container that owns all handlers for one Alfred workflow.
 
-    Each handler will be responsible for a Script Filter implementation.
+    Each Script Filter widget in Alfred passes a single argument string with
+    the format ``"{handler_id} {query}"``.  :meth:`_run` parses this string,
+    looks up the handler by ``handler_id``, and delegates to
+    :meth:`~afwf.handler.Handler.handler`.
 
-    [CN]
+    Register every handler exactly once before calling :meth:`run`:
 
-    表示一个 Alfred Workflow 对象. 一个 workflow 可以注册多个 handler. 每个 handler
-    对应着一个 Script Filter 的实现.
+    .. code-block:: python
+
+        wf = Workflow()
+        wf.register(search_handler)   # id="search"
+        wf.register(open_handler)     # id="open"
+
+    Alfred then dispatches based on the prefix:
+
+    * ``"search foo"``  →  ``search_handler.handler("foo")``
+    * ``"open bar"``    →  ``open_handler.handler("bar")``
+
+    Use :meth:`_run` in unit tests (returns the :class:`~afwf.script_filter.ScriptFilter`
+    object); use :meth:`run` in production (handles exceptions, exits the process).
     """
 
-    handlers: T.Dict[str, Handler] = attrs.field(factory=dict)
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    def __attrs_post_init__(self):
-        if dir_lib.exists():
-            sys.path.append(str(dir_lib))
+    handlers: dict[str, Handler] = Field(default_factory=dict)
 
-    def register(self, handler: Handler):
+    def model_post_init(self, __context) -> None:
+        pass  # reserved for future initialisation hooks
+
+    def register(
+        self,
+        handler: Handler,
+    ):
         """
-        Register a handler to the workflow.
+        Register a handler with the workflow.
+
+        :raises KeyError: if a handler with the same ``id`` is already registered.
         """
         if handler.id in self.handlers:
-            raise KeyError
-        else:
-            self.handlers[handler.id] = handler
+            raise KeyError(f"Handler {handler.id!r} is already registered.")
+        self.handlers[handler.id] = handler
 
-    def get(self, handler_id: str) -> Handler:
+    def get(
+        self,
+        handler_id: str,
+    ) -> Handler:
         """
-        Get handler by id.
+        Look up a registered handler by its ``id``.
         """
         return self.handlers[handler_id]
 
     def _run(
         self,
-        arg: T.Optional[str] = None,
+        arg: str | None = None,
         debug: bool = False,
     ) -> ScriptFilter:
         """
-        Low level script filter runner. It locates the handler by ``handler_id``,
-        and then call the handler to generate the script filter result, and then
-        flush the result to stdout, hence you can see it in the drop-down menu.
+        Low-level runner. Parses ``arg``, dispatches to the matching handler,
+        and flushes the result to stdout.
 
-        :param debug: flag to turn on debug.
+        :param arg: ``"{handler_id} {query}"`` string.  Defaults to
+            ``sys.argv[1]`` when ``None``.
+        :param debug: if ``True``, logs handler_id, query, and timestamp to
+            the debug log file.
         """
         if debug:  # pragma: no cover
             now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             log_debug_info(f"--- run script filter at {now} ---")
 
         if arg is None:  # pragma: no cover
-            arg = sys.argv[1]  # in format of "{handler_id} {query}"
+            arg = sys.argv[1]
 
         if debug:  # pragma: no cover
             log_debug_info(f"received argument is: {arg!r}")
@@ -120,21 +176,18 @@ class Workflow(AttrsClass):
 
     def run(
         self,
-        arg: T.Optional[str] = None,
+        arg: str | None = None,
         debug: bool = False,
     ):  # pragma: no cover
         """
-        High level script filter runner.
+        High-level runner with built-in error handling.
 
-        :param debug: flag to turn on debug.
+        On success, exits with code 0.  On any exception, shows two error
+        items in Alfred (linking to ``last-error.txt`` and ``debug.txt``),
+        and exits with code 1.
 
-        By default, it provides two ways to debug:
-
-        1. Automatically log the sys.argv, handler id and query string history to
-            ``~/.alfred-afwf/debug.txt`` file.
-        2. If python raises any exception, log the Exception trace back message
-            to ``~/.alfred-afwf/last-error.txt. And show two item to allow user
-            to open the ``debug.txt`` or ``last-error.txt`` file.
+        :param arg: passed through to :meth:`_run`.
+        :param debug: if ``True``, logs details and persists the traceback on error.
         """
         try:
             self._run(arg=arg, debug=debug)
@@ -145,20 +198,20 @@ class Workflow(AttrsClass):
 
             item = Item(
                 title=f"Error: {e}",
-                subtitle=f"Open {str(p_last_error)} to see details",
+                subtitle=f"Open {str(_p_last_error)} to see details",
                 icon=Icon.from_image_file(IconFileEnum.error),
-                arg=str(p_last_error),
+                arg=str(_p_last_error),
             )
-            item._open_log_file(path=str(p_last_error))
+            item._open_log_file(path=str(_p_last_error))
             sf.items.append(item)
 
             item = Item(
-                title=f"Open debug log file",
-                subtitle=f"Open {str(p_debug_log)} to see details",
+                title="Open debug log file",
+                subtitle=f"Open {str(_p_debug_log)} to see details",
                 icon=Icon.from_image_file(IconFileEnum.debug),
-                arg=str(p_debug_log),
+                arg=str(_p_debug_log),
             )
-            item._open_log_file(path=str(p_debug_log))
+            item._open_log_file(path=str(_p_debug_log))
             sf.items.append(item)
 
             sf.send_feedback()
