@@ -1,9 +1,8 @@
-
 .. image:: https://readthedocs.org/projects/afwf/badge/?version=latest
-    :target: https://afwf.readthedocs.io/index.html
+    :target: https://afwf.readthedocs.io/en/latest/
     :alt: Documentation Status
 
-.. image:: https://github.com/MacHu-GWU/afwf-project/workflows/CI/badge.svg
+.. image:: https://github.com/MacHu-GWU/afwf-project/actions/workflows/main.yml/badge.svg
     :target: https://github.com/MacHu-GWU/afwf-project/actions?query=workflow:CI
 
 .. image:: https://codecov.io/gh/MacHu-GWU/afwf-project/branch/main/graph/badge.svg
@@ -18,22 +17,16 @@
 .. image:: https://img.shields.io/pypi/pyversions/afwf.svg
     :target: https://pypi.python.org/pypi/afwf
 
-.. image:: https://img.shields.io/badge/Release_History!--None.svg?style=social
+.. image:: https://img.shields.io/badge/✍️_Release_History!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/afwf-project/blob/main/release-history.rst
 
-.. image:: https://img.shields.io/badge/STAR_Me_on_GitHub!--None.svg?style=social
+.. image:: https://img.shields.io/badge/⭐_Star_me_on_GitHub!--None.svg?style=social&logo=github
     :target: https://github.com/MacHu-GWU/afwf-project
 
 ------
 
-.. image:: https://img.shields.io/badge/Link-Document-blue.svg
-    :target: https://afwf.readthedocs.io/index.html
-
 .. image:: https://img.shields.io/badge/Link-API-blue.svg
-    :target: https://afwf.readthedocs.io/py-modindex.html
-
-.. image:: https://img.shields.io/badge/Link-Source_Code-blue.svg
-    :target: https://afwf.readthedocs.io/py-modindex.html
+    :target: https://afwf.readthedocs.io/en/latest/py-modindex.html
 
 .. image:: https://img.shields.io/badge/Link-Install-blue.svg
     :target: `install`_
@@ -53,9 +46,10 @@
 
 Welcome to ``afwf`` Documentation
 ==============================================================================
-A powerful framework enables fast and elegant development of Alfred Workflows in Python.
+.. image:: https://afwf.readthedocs.io/en/latest/_static/afwf-logo.png
+    :target: https://afwf.readthedocs.io/en/latest/
 
-📔 See `Full Documentation HERE <https://afwf.readthedocs.io/index.html>`_.
+A powerful framework enables fast and elegant development of Alfred Workflows in Python.
 
 
 Project Background

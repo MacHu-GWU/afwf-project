@@ -1,9 +1,8 @@
 # User Settings
-afwf_venv/
 afwf.egg-info/
-afwf-*/
+docs/source/**/index.md
+.claude/claude-code-message*
 tmp/
-pyenv/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
