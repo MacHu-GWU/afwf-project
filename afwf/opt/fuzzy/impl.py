@@ -20,9 +20,9 @@ T_ITEM = T.TypeVar("T_ITEM")
 @dataclasses.dataclass
 class FuzzyMatcher(T.Generic[T_ITEM]):
     """
-    Fuzzywuzzy is awesome to match string. However, what if the item is not string?
+    Fuzzy string matching for arbitrary items.
 
-    We can define a **name** for each item and use fuzzywuzzy to match the **name**.
+    We can define a **name** for each item and use rapidfuzz to match the **name**.
     Then use the name to locate the original item. This class implements this pattern.
 
     :param _items: list of item you want to match
@@ -45,7 +45,7 @@ class FuzzyMatcher(T.Generic[T_ITEM]):
 
 
         class ItemFuzzyMatcher(FuzzyMatcher[Item]):
-            def get_name(self, item: Item) -> T.Optional[str]:
+            def get_name(self, item: Item) -> str | None:
                 return item.name
 
         items = [
@@ -58,11 +58,11 @@ class FuzzyMatcher(T.Generic[T_ITEM]):
         print(result)
     """
 
-    _items: T.List[T_ITEM] = dataclasses.field(default_factory=list)
-    _names: T.List[str] = dataclasses.field(default_factory=list)
-    _mapper: T.Dict[str, T.List[T_ITEM]] = dataclasses.field(default_factory=dict)
+    _items: list[T_ITEM] = dataclasses.field(default_factory=list)
+    _names: list[str] = dataclasses.field(default_factory=list)
+    _mapper: dict[str, list[T_ITEM]] = dataclasses.field(default_factory=dict)
 
-    def get_name(self, item: T_ITEM) -> T.Optional[str]:  # pragma: no cover
+    def get_name(self, item: T_ITEM) -> str | None:  # pragma: no cover
         """
         Given an item, return the name of the item for fuzzy match.
 
@@ -88,14 +88,14 @@ class FuzzyMatcher(T.Generic[T_ITEM]):
         self._build_mapper()
 
     @classmethod
-    def from_items(cls, items: T.List[T_ITEM]):
+    def from_items(cls, items: list[T_ITEM]):
         """
         Build a FuzzyMatcher from a list of items.
         """
         return cls(_items=items)
 
     @classmethod
-    def from_mapper(cls, name_to_item_mapper: T.Dict[str, T.List[T_ITEM]]):
+    def from_mapper(cls, name_to_item_mapper: dict[str, list[T_ITEM]]):
         """
         Build a FuzzyMatcher from a mapper, the key should be the name of the item
         for fuzzy match.
@@ -108,7 +108,7 @@ class FuzzyMatcher(T.Generic[T_ITEM]):
         threshold: int = 70,
         limit: int = 20,
         filter_func: T.Callable = lambda x: True,
-    ) -> T.List[T_ITEM]:
+    ) -> list[T_ITEM]:
         """
         Match items by name. Only return items that similarity score is greater than
         the threshold. It also uses a callable filter function to filter the result.
