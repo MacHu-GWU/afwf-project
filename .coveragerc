@@ -5,9 +5,8 @@ omit =
     afwf/docs/*
     afwf/tests/*
     afwf/vendor/*
-    afwf/example_wf/*
     afwf/_version.py
-    afwf/_icon.py
+    afwf/cli.py
     afwf/paths.py
 
 [report]
