@@ -9,7 +9,7 @@ name = "afwf"
 # Currently, poetry 2.1.X doesn't support dynamic versioning
 # (Read https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version)
 # So this value has to be aligned with the one in ``afwf/_version.py``
-version = "0.1.1"
+version = "1.0.1"
 description = "A powerful framework enables fast and elegant development of Alfred Workflows in Python."
 # Read https://dev-exp-share.readthedocs.io/en/latest/search.html?q=Pick+An+Open+Source+License+For+Python+Project&check_keywords=yes&area=default
 # To pick a license and update the ``license``, ``classifier`` field in ``pyproject.toml``

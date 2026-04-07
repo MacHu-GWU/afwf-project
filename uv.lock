@@ -8,7 +8,7 @@ resolution-markers = [
 
 [[package]]
 name = "afwf"
-version = "0.1.1"
+version = "1.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "enum-mate" },
