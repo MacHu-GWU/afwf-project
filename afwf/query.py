@@ -4,29 +4,33 @@
 query utilities.
 """
 
-import typing as T
-import attrs
-from attrs_mate import AttrsClass
+import dataclasses
 
 _SEP = "____"
 
 
+@dataclasses.dataclass
 class QueryParser:
     """
     Utility class that can parse string to :class:`Query`. Naturally, it is
     just a tokenizer.
 
-    :param delimiter: the delimiter to split the query string.
+    :param delimiter: list of delimiter strings to split the query string.
+
+    Use the :meth:`from_delimiter` factory to construct with a single string
+    or a list of strings.
     """
 
-    def __init__(
-        self,
-        delimiter: T.Union[str, T.List[str]] = " ",
-    ):
+    delimiter: list[str] = dataclasses.field(default_factory=lambda: [" "])
+
+    @classmethod
+    def from_delimiter(cls, delimiter: str | list[str] = " ") -> "QueryParser":
+        """
+        Create a :class:`QueryParser` from a single delimiter string or a list.
+        """
         if isinstance(delimiter, str):
-            self.delimiter = [delimiter]
-        else:
-            self.delimiter = delimiter
+            return cls(delimiter=[delimiter])
+        return cls(delimiter=delimiter)
 
     def parse(self, s: str) -> "Query":
         """
@@ -54,15 +58,16 @@ class QueryParser:
 DEFAULT_QUERY_PARSER = QueryParser()
 
 
-@attrs.define
-class Query(AttrsClass):
+@dataclasses.dataclass
+class Query:
     """
     Structured query object. This is very useful to parse the input of UI handler.
 
+    :param raw: the raw query string after delimiter normalization.
     :param parts: the parts of query string split by delimiter. For example,
         if the user input is ``"hello world!"``, then ``parts`` is
         ``["hello", "world!"]``.
-    :param trimmed_parts: similar to parts, but each part is white-space stripped
+    :param trimmed_parts: similar to parts, but each part is white-space stripped.
         For example, if the user input is ``" hello world "``, then ``parts`` is
         ``["", "hello", "world", ""]``, and ``trimmed_parts`` is ``["hello", "world"]``.
 
@@ -75,12 +80,12 @@ class Query(AttrsClass):
         3
     """
 
-    raw: str = AttrsClass.ib_str(nullable=False)
-    parts: T.List[str] = AttrsClass.ib_list_of_str(nullable=False)
-    trimmed_parts: T.List[str] = AttrsClass.ib_list_of_str(nullable=False)
+    raw: str
+    parts: list[str]
+    trimmed_parts: list[str]
 
     @classmethod
-    def from_str(cls, s: str, parser=DEFAULT_QUERY_PARSER):
+    def from_str(cls, s: str, parser: QueryParser = DEFAULT_QUERY_PARSER) -> "Query":
         """
         Parse query from string using the given parser.
         """

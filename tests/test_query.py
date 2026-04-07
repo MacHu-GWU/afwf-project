@@ -5,14 +5,14 @@ from afwf.query import Query, QueryParser
 
 class TestQueryParser:
     def test_parse(self):
-        qp = QueryParser(delimiter="/")
+        qp = QueryParser.from_delimiter("/")
         q = qp.parse(" bucket / artifacts / / deploy.zip")
         assert q.parts == [" bucket ", " artifacts ", " ", " deploy.zip"]
         assert q.trimmed_parts == ["bucket", "artifacts", "deploy.zip"]
         assert q.n_parts == 4
         assert q.n_trimmed_parts == 3
 
-        qp = QueryParser(delimiter=[" ", "-", "_"])
+        qp = QueryParser.from_delimiter([" ", "-", "_"])
         q = qp.parse(" a b-c d_e f-g_h ")
         assert q.parts == ["", "a", "b", "c", "d", "e", "f", "g", "h", ""]
         assert q.trimmed_parts == list("abcdefgh")
