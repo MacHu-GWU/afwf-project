@@ -121,10 +121,11 @@ class Item(ScriptFilterObject):
         When the user holds the modifier key while actioning the item, Alfred
         uses the values defined here instead of the item's top-level fields.
 
-        :param mod: modifier key; use :class:`~afwf.constants.ModEnum` values
-        :param subtitle: alternate subtitle to display
+        :param mod: modifier key — use :class:`~afwf.constants.ModEnum` values
+            (e.g. ``ModEnum.cmd``, ``ModEnum.cmd_alt``)
+        :param subtitle: alternate subtitle shown while the modifier is held
         :param arg: alternate argument passed to the connected action
-        :param valid: whether the item is actionable with this modifier
+        :param valid: whether the item is actionable with this modifier held
         """
         if mod not in ModEnum.get_values():
             raise ValueError(f"Invalid modifier key: {mod!r}. Use ModEnum values.")
@@ -274,6 +275,9 @@ class Item(ScriptFilterObject):
         - Script = ``{query}``
 
         :param cmd: the full command to run, for example ``python3 /path/to/test.py``
+
+        .. note:: Also sets ``item.arg`` to ``cmd`` so the command is passed
+            through Alfred's connected action automatically.
         """
         self.variables[VarKeyEnum.run_script.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.run_script_arg.value] = cmd
@@ -293,6 +297,9 @@ class Item(ScriptFilterObject):
         Use the "Actions -> Terminal Command" widget and set: Command = ``{query}``
 
         :param cmd: the full command to run in terminal
+
+        .. note:: Also sets ``item.arg`` to ``cmd`` so the command is passed
+            through Alfred's connected action automatically.
         """
         self.variables[VarKeyEnum.terminal_command.value] = VarValueEnum.y.value
         self.variables[VarKeyEnum.terminal_command_arg.value] = cmd
