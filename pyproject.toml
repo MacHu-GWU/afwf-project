@@ -1,0 +1,132 @@
+# ==============================================================================
+# The [project] table defined by Official python.org
+#
+# Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+# ==============================================================================
+[project]
+name = "afwf"
+# Increment version before each release - follow `semantic versioning <https://semver.org/>`_
+# Currently, poetry 2.1.X doesn't support dynamic versioning
+# (Read https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#version)
+# So this value has to be aligned with the one in ``afwf/_version.py``
+version = "0.1.1"
+description = "A powerful framework enables fast and elegant development of Alfred Workflows in Python."
+# Read https://dev-exp-share.readthedocs.io/en/latest/search.html?q=Pick+An+Open+Source+License+For+Python+Project&check_keywords=yes&area=default
+# To pick a license and update the ``license``, ``classifier`` field in ``pyproject.toml``
+# And also update the ``LICENSE.txt`` file in the git repo.
+license = "MIT"
+license-files = ["LICENSE.txt", "AUTHORS.rst"]
+authors = [
+    { name = "Sanhe Hu", email = "husanhe@email.com" },
+]
+maintainers = [
+    { name = "Sanhe Hu", email = "husanhe@email.com" },
+]
+keywords = []
+readme = "README.rst"
+requires-python = ">=3.10,<4.0"
+# Full list of classifiers: https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: Unix",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+
+# ------------------------------------------------------------------------------
+# Core Dependencies
+# ------------------------------------------------------------------------------
+dependencies = [
+    "pydantic>=2.11.10,<3.0.0",
+    "attrs>=21.3.0",
+    "attrs_mate>=1.1.1,<2.0.0",
+]
+
+# ------------------------------------------------------------------------------
+# Optional dependency that can be used in ``pip install ${your_project_name}[${feature_name}]``
+# Sometime this is also called "extras"
+# Read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-optional-dependencies
+#
+# IMPORTANT: all optional dependencies has to be compatible with the "requires-python" field
+# ------------------------------------------------------------------------------
+[project.optional-dependencies]
+
+# ------------------------------------------------------------------------------
+# Local Development dependenceies
+# ------------------------------------------------------------------------------
+dev = [
+    "rich>=13.8.1,<14.0.0", # pretty print
+    "diskcache>=5.6.3,<6.0.0",
+    "fuzzywuzzy>=0.18.0,<1.0.0",
+    "RapidFuzz>=3.14.1,<4.0.0",
+    "pathlib-mate>=1.3.2,<2.0.0",
+]
+
+# ------------------------------------------------------------------------------
+# (Unit/Coverage/Integration/Load) Test dependenceies
+# ------------------------------------------------------------------------------
+test = [
+    "pytest>=8.2.2,<9.0.0", # Testing framework
+    "pytest-cov>=6.0.0,<7.0.0", # Coverage reporting
+]
+
+# ------------------------------------------------------------------------------
+# Documentation build dependenceies
+# ------------------------------------------------------------------------------
+doc = [
+    "Sphinx>=7.4.7,<8.0.0",
+    "sphinx-copybutton>=0.5.2,<1.0.0", # add copy button to code block
+    "sphinx-design>=0.6.1,<1.0.0", # add additional design pattern to sphinx
+    "sphinx-jinja>=2.0.2,<3.0.0", # enable jinja syntax in reStructuredText
+    "furo==2024.8.6", # the furo sphinx theme
+    "pygments>=2.18.0,<3.0.0", # syntax highlight
+    "ipython>=8.18.1,<8.19.0", # interactive Python
+    "nbsphinx>=0.8.12,<1.0.0", # add jupyter notebook in sphinx doc
+    "rstobj==2.0.0", # generate reStructuredText from Python code
+    "docfly==3.0.3", # automaticall generate .. toctree directives and API reference doc
+]
+
+# ------------------------------------------------------------------------------
+# Mise task runner dependencies
+# ------------------------------------------------------------------------------
+mise = [
+    "PyGithub>=2.8.0,<3.0.0", # GitHub API client
+    "httpx>=0.28.0,<1.0.0", # HTTP client for ReadTheDocs API
+    "tomli>=2.0.0,<3.0.0; python_version < '3.11'", # TOML parser for Python 3.10
+]
+
+# Quick Links
+[project.urls]
+Homepage = "https://github.com/MacHu-GWU/afwf-project"
+Documentation = "https://afwf.readthedocs.io/en/latest/"
+Repository = "https://github.com/MacHu-GWU/afwf-project"
+Issues = "https://github.com/MacHu-GWU/afwf-project/issues"
+Changelog = "https://github.com/MacHu-GWU/afwf-project/blob/main/release-history.rst"
+Download = "https://pypi.org/pypi/afwf#files"
+
+# For command line interface, read: https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
+[project.scripts]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "afwf*"
+]
+exclude = [
+    "afwf.tests",
+    "afwf.tests.*",
+    "afwf.docs",
+    "afwf.docs.*",
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
