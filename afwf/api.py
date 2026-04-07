@@ -9,9 +9,11 @@ Usage::
 from .item import Icon
 from .item import Text
 from .item import Item
-from .item import VarKeyEnum
-from .item import VarValueEnum
-from .item import ModEnum
+from .constants import IconTypeEnum
+from .constants import ItemTypeEnum
+from .constants import ModEnum
+from .constants import VarKeyEnum
+from .constants import VarValueEnum
 from .script_filter import ScriptFilter
 from .handler import Handler
 from .workflow import log_debug_info
