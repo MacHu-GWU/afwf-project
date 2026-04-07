@@ -5,26 +5,13 @@ Allow filtering / sorting by fuzzy matching.
 
 Requirements::
 
-    fuzzywuzzy>=0.18.0,<1.0.0
+    rapidfuzz>=3.0.0,<4.0.0
 """
 
 import typing as T
 import dataclasses
-import warnings
 
-with warnings.catch_warnings():  # pragma: no cover
-    warnings.simplefilter("ignore")
-    try:
-        from fuzzywuzzy import process
-
-        has_fuzzywuzzy = True
-    except ImportError as e:
-        error = e
-        has_fuzzywuzzy = False
-
-if has_fuzzywuzzy is False:  # pragma: no cover
-    warnings.warn("you have to install 'fuzzywuzzy' to use 'afwf.opt.fuzzy' feature!")
-    raise error
+from rapidfuzz import process
 
 
 T_ITEM = T.TypeVar("T_ITEM")
@@ -133,14 +120,14 @@ class FuzzyMatcher(T.Generic[T_ITEM]):
         :param filter_func: additional filter function to filter the matched items
             it has to be a function that accept an item and return a bool
         """
-        matched_name_list = process.extractBests(name, self._names, limit=limit)
+        matched_name_list = process.extract(name, self._names, limit=limit)
         if len(matched_name_list) == 0:
             return []
         matched_name_list = list(filter(filter_func, matched_name_list))
-        best_matched_name, best_matched_score = matched_name_list[0]
+        best_matched_name, best_matched_score, _ = matched_name_list[0]
         if best_matched_score >= threshold:
             matched_items = list()
-            for matched_name, score in matched_name_list:
+            for matched_name, score, _ in matched_name_list:
                 if score >= threshold:
                     matched_items.extend(self._mapper[matched_name])
             return matched_items[:limit]

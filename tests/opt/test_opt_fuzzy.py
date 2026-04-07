@@ -47,8 +47,60 @@ class TestFuzzy:
         fuzzy = FuzzyItemMatcher.from_mapper({})
         assert len(fuzzy.match("hello")) == 0
 
+    def test_get_name_returns_none(self):
+        # items whose get_name() returns None are silently skipped
+        class NullableMatcher(FuzzyMatcher[Item]):
+            def get_name(self, item: Item) -> T.Optional[str]:
+                return None if item.id == 99 else item.name
+
+        item_skip = Item(id=99, name="should be ignored")
+        item_keep = Item(id=1, name="apple and banana")
+        fuzzy = NullableMatcher.from_items([item_skip, item_keep])
+        assert 99 not in [i.id for i in fuzzy.match("apple", threshold=0)]
+        assert fuzzy.match("apple", threshold=0)[0].id == 1
+
+    def test_threshold_filtering(self):
+        # items below threshold are excluded; only high-score matches survive
+        item1 = Item(id=1, name="apple")
+        item2 = Item(id=2, name="zzzzz")
+        fuzzy = FuzzyItemMatcher.from_items([item1, item2])
+        results = fuzzy.match("apple", threshold=80)
+        ids = [i.id for i in results]
+        assert 1 in ids
+        assert 2 not in ids
+
+    def test_limit(self):
+        # limit caps the number of returned items
+        items = [Item(id=i, name=f"item {i}") for i in range(10)]
+        fuzzy = FuzzyItemMatcher.from_items(items)
+        assert len(fuzzy.match("item", threshold=0, limit=3)) <= 3
+
+    def test_filter_func(self):
+        # filter_func can exclude matches that would otherwise pass threshold
+        item1 = Item(id=1, name="apple and banana")
+        item2 = Item(id=2, name="apple and cherry")
+        fuzzy = FuzzyItemMatcher.from_items([item1, item2])
+        results = fuzzy.match(
+            "apple",
+            threshold=0,
+            filter_func=lambda t: "banana" in t[0],
+        )
+        assert all(i.id == 1 for i in results)
+
+    def test_duplicate_names(self):
+        # multiple items sharing the same name are all returned
+        item_a = Item(id=1, name="apple")
+        item_b = Item(id=2, name="apple")
+        fuzzy = FuzzyItemMatcher.from_items([item_a, item_b])
+        results = fuzzy.match("apple", threshold=0)
+        assert {i.id for i in results} == {1, 2}
+
 
 if __name__ == "__main__":
     from afwf.tests import run_cov_test
 
-    run_cov_test(__file__, "afwf.opt.fuzzy.impl", preview=False)
+    run_cov_test(
+        __file__,
+        "afwf.opt.fuzzy.impl",
+        preview=False,
+    )
