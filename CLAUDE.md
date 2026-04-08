@@ -2,6 +2,62 @@
 
 This document guides AI assistants on how to navigate and work with this project.
 
+## What is afwf
+
+`afwf` is a Python SDK for building [Alfred](https://www.alfredapp.com/) workflows on macOS — it lets developers write Script Filter handlers in Python using an OOP API instead of hand-crafting JSON.
+
+## Core Modules
+
+### Script Filter JSON Protocol
+
+Alfred Script Filters communicate via a [JSON protocol](https://www.alfredapp.com/help/workflows/inputs/script-filter/json/). These modules implement it:
+
+| Module | Key Class | Purpose |
+|---|---|---|
+| `afwf/script_filter_object.py` | `ScriptFilterObject` | Pydantic base class; `to_script_filter()` serialises to Alfred-compatible dict (handles None-omission, False-preservation, empty-object rules) |
+| `afwf/item.py` | `Icon`, `Text`, `Item` | Alfred dropdown item model; `Item` has fluent `set_*` helpers (`open_url`, `run_script`, `open_file`, `send_notification`, etc.) that set workflow variable pairs |
+| `afwf/script_filter.py` | `ScriptFilter` | Top-level response object; holds `items` list; `send_feedback()` dumps JSON to stdout |
+
+### Constants & Icons
+
+| Module | Key Class | Purpose |
+|---|---|---|
+| `afwf/constants.py` | `IconTypeEnum`, `ItemTypeEnum`, `ModEnum`, `VarKeyEnum`, `VarValueEnum` | All Alfred protocol string constants; `VarKeyEnum` defines the variable key names used by `Item.set_*` helpers |
+| `afwf/icon.py` | `IconFileEnum` | Paths to ~50 bundled PNG icons (search, folder, star, git, error, …) |
+
+### Optional Utilities (`afwf/opt/`)
+
+| Module | Key Class | Purpose |
+|---|---|---|
+| `afwf/opt/cache/` | `TypedCache` | `diskcache`-backed disk cache with type-hint-safe `typed_memoize()` decorator; extra dep `afwf[cache]` |
+| `afwf/opt/fuzzy/` | `FuzzyMatcher` | Generic fuzzy matcher over any item type using `rapidfuzz`; subclass and implement `get_name()`; extra dep `afwf[fuzzy]` |
+| `afwf/opt/fuzzy_item/` | `Item`, `FuzzyItemMatcher` | `Item` subclass that stores a fuzzy-match name in `variables`; `FuzzyItemMatcher` wires it to `FuzzyMatcher` |
+
+## Deployment Pattern (Best Practice)
+
+Publish your workflow logic as a Python package on PyPI, expose it as a CLI using [fire](https://github.com/google-deepmind/python-fire), then invoke it from Alfred's Script Filter via `uvx`.
+
+**Package structure:**
+- `pyproject.toml` declares the CLI entry point, e.g. `afwf-examples = "afwf.examples.cli:main"`
+- `afwf/examples/cli.py` — `fire.Fire(Command)` wrapping subcommands
+- Each subcommand (e.g. `search_bookmarks`) calls `main(query=...).send_feedback()`
+
+**Script Filter command:**
+
+- Dev/local: `~/Documents/GitHub/afwf-project/.venv/bin/afwf-examples search-bookmarks --query '{query}'`
+- Production (uvx): `~/.local/bin/uvx --from afwf==1.0.1 afwf-examples search-bookmarks --query '{query}'`
+
+## Examples (`afwf/examples/`)
+
+Demonstrate common workflow patterns. Each example has a corresponding test under `tests/examples/`.
+
+- `search_bookmarks.py` — fuzzy search over a static list; items open URL via `item.open_url()`
+- `memorize_cache.py` — disk-cached handler using `afwf.opt.cache`
+- `open_file.py` — open a file via `item.open_file()`
+- `handlers/` — handler-style examples (open_url, open_file, write_file, set_settings, …)
+
+**Workflow definition** for all examples is exported in `example.info.plist` (Alfred plist format, checked into repo).
+
 ## Project Overview
 
 **What this project does:** Read `README.rst` for project description and purpose.
