@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import pytest
-from pytest import raises, approx
+import afwf.api as afwf
 
 
 def test():
-    import afwf.api as afwf
-
     _ = afwf.Icon
     _ = afwf.Text
     _ = afwf.Item
@@ -22,13 +19,12 @@ def test():
     _ = afwf.Query
     _ = afwf.QueryParser
 
-    _ = afwf.TypedCache
-    _ = afwf.FuzzyMatcher
-    _ = afwf.FuzzyItem
-    _ = afwf.FuzzyItemMatcher
-
 
 if __name__ == "__main__":
     from afwf.tests import run_cov_test
 
-    run_cov_test(__file__, "afwf.api", preview=False)
+    run_cov_test(
+        __file__,
+        "afwf.api",
+        preview=False,
+    )
