@@ -15,7 +15,16 @@ class Command:
     def search_bookmarks(self, query: str = ""):
         from afwf.examples.search_bookmarks import main
 
-        print(dump_sf(main(query)))
+        main(
+            query=str(query)
+        ).send_feedback()
+
+    def memorize_cache(self, query: str = ""):
+        from afwf.examples.memorize_cache import main
+
+        main(
+            query=str(query),
+        ).send_feedback()
 
 
 def main():
