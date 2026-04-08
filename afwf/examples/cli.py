@@ -15,7 +15,7 @@ class Command:
     def search_bookmarks(self, query: str = ""):
         from afwf.examples.search_bookmarks import main
 
-        return main(query)
+        print(dump_sf(main(query)))
 
 
 def main():
