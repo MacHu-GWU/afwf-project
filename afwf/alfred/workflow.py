@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import dataclasses
 import plistlib
 from pathlib import Path
 from functools import cached_property
 
 
+@dataclasses.dataclass
 class AlfredWorkflow:
     """
     Represents a single Alfred Workflow directory.
@@ -21,35 +23,34 @@ class AlfredWorkflow:
     - ``lib/``       — installed Python dependencies
 
     All attributes are lazily evaluated and cached on first access.
+
+    :param dir_workflow: Path to the workflow folder,
+        e.g. ``…/workflows/user.workflow.76458317-…``.
     """
 
-    def __init__(self, dir_workflow: Path):
-        """
-        :param dir_workflow: Path to the workflow folder,
-            e.g. ``…/workflows/user.workflow.76458317-…``.
-        """
-        self._dir_workflow = Path(dir_workflow)
+    dir_workflow: Path
+
+    def __post_init__(self):
+        self.dir_workflow = Path(self.dir_workflow)
 
     # ------------------------------------------------------------------
     # Directory / file paths
     # ------------------------------------------------------------------
 
     @cached_property
-    def dir_workflow(self) -> Path:
-        """Root directory of this workflow."""
-        return self._dir_workflow
-
-    @cached_property
     def workflow_id(self) -> str:
-        """
-        UUID extracted from the folder name (``user.workflow.<UUID>``).
-        """
+        """UUID extracted from the folder name (``user.workflow.<UUID>``)."""
         return self.dir_workflow.name.removeprefix("user.workflow.")
 
     @cached_property
     def path_info_plist(self) -> Path:
         """``info.plist`` workflow definition file."""
         return self.dir_workflow / "info.plist"
+
+    @cached_property
+    def path_icon_png(self) -> Path:
+        """``icon.png`` workflow icon."""
+        return self.dir_workflow / "icon.png"
 
     # ------------------------------------------------------------------
     # Parsed info.plist fields

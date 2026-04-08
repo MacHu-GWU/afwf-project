@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import json
+import dataclasses
 from pathlib import Path
 from functools import cached_property
 
 from .workflow import AlfredWorkflow
 
 
+@dataclasses.dataclass
 class AlfredPreferences:
     """
     Reads Alfred's ``prefs.json`` to locate the active Alfred preferences
