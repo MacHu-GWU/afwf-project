@@ -1,8 +1,39 @@
 # -*- coding: utf-8 -*-
 
+"""
+Example: Search Bookmarks
+=========================
+
+**What it demonstrates**
+
+Shows how to build a fuzzy-search Script Filter using
+:mod:`afwf.opt.fuzzy_item`.  A static list of bookmarks is turned into
+:class:`afwf.opt.fuzzy_item.Item` objects; when the user types a query the
+list is narrowed with :class:`afwf.opt.fuzzy_item.FuzzyItemMatcher`.  If no
+fuzzy match is found the full list is returned so the user always sees
+results.  Selecting an item opens the URL in the default browser via the
+``open_url`` variable pair.  Type ``error`` as the query to trigger a
+simulated error and see how :func:`afwf.log_error` writes a traceback to a
+log file.
+
+**Alfred Workflow setup**
+
++---------------------------+----------------------------------------------------+
+| Field                     | Value                                              |
++===========================+====================================================+
+| Keyword                   | ``afwf-example-search-bookmarks``                  |
+|                           | (Argument Optional)                                |
++---------------------------+----------------------------------------------------+
+| Language                  | ``/bin/bash``                                      |
++---------------------------+----------------------------------------------------+
+| Script                    | ``python main.py 'search_bookmarks {query}'``      |
++---------------------------+----------------------------------------------------+
+| Alfred filters results    | unchecked (filtering is done in Python)            |
++---------------------------+----------------------------------------------------+
+"""
+
 import afwf.api as afwf
 import afwf.opt.fuzzy_item.api as fuzzy_item
-from afwf.paths import path_enum
 
 BOOKMARKS = [
     ("Alfred App", "https://www.alfredapp.com/"),

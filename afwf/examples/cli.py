@@ -26,6 +26,11 @@ class Command:
             query=str(query),
         ).send_feedback()
 
+    def open_file(self):
+        from afwf.examples.open_file import main
+
+        main().send_feedback()
+
 
 def main():
     fire.Fire(Command)
