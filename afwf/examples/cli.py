@@ -19,8 +19,8 @@ class Command:
             query=str(query)
         ).send_feedback()
 
-    def memorize_cache(self, query: str = ""):
-        from afwf.examples.memorize_cache import main
+    def memoize(self, query: str = ""):
+        from afwf.examples.memoize import main
 
         main(
             query=str(query),

@@ -15,21 +15,6 @@ results.  Selecting an item opens the URL in the default browser via the
 ``open_url`` variable pair.  Type ``error`` as the query to trigger a
 simulated error and see how :func:`afwf.log_error` writes a traceback to a
 log file.
-
-**Alfred Workflow setup**
-
-+---------------------------+----------------------------------------------------+
-| Field                     | Value                                              |
-+===========================+====================================================+
-| Keyword                   | ``afwf-example-search-bookmarks``                  |
-|                           | (Argument Optional)                                |
-+---------------------------+----------------------------------------------------+
-| Language                  | ``/bin/bash``                                      |
-+---------------------------+----------------------------------------------------+
-| Script                    | ``python main.py 'search_bookmarks {query}'``      |
-+---------------------------+----------------------------------------------------+
-| Alfred filters results    | unchecked (filtering is done in Python)            |
-+---------------------------+----------------------------------------------------+
 """
 
 import afwf.api as afwf

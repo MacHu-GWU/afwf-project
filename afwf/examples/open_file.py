@@ -16,20 +16,6 @@ Because **Alfred filters results** is enabled, the ``main`` function always
 returns the full list and Alfred narrows it in real time as the user types —
 no Python-side filtering needed.
 
-**Alfred Workflow setup**
-
-+---------------------------+----------------------------------------------------+
-| Field                     | Value                                              |
-+===========================+====================================================+
-| Keyword                   | ``afwf-example-open-file`` (Argument Optional)     |
-+---------------------------+----------------------------------------------------+
-| Language                  | ``/bin/bash``                                      |
-+---------------------------+----------------------------------------------------+
-| Script                    | ``python main.py 'open_file {query}'``             |
-+---------------------------+----------------------------------------------------+
-| Alfred filters results    | **checked**                                        |
-+---------------------------+----------------------------------------------------+
-
 **Downstream widgets**
 
 1. *Utilities → Conditional* — condition: ``{var:open_file}`` is equal to ``y``

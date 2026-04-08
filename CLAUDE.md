@@ -52,7 +52,7 @@ Publish your workflow logic as a Python package on PyPI, expose it as a CLI usin
 Demonstrate common workflow patterns. Each example has a corresponding test under `tests/examples/`.
 
 - `search_bookmarks.py` — fuzzy search over a static list; items open URL via `item.open_url()`
-- `memorize_cache.py` — disk-cached handler using `afwf.opt.cache`
+- `memoize.py` — disk-cached handler using `afwf.opt.cache`; demonstrates `typed_memoize`
 - `open_file.py` — open a file via `item.open_file()`
 - `handlers/` — handler-style examples (open_url, open_file, write_file, set_settings, …)
 
