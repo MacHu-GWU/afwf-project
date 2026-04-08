@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from afwf.script_filter import ScriptFilter
-from afwf.opt.fuzzy_item.api import Item, FuzzyItemMatcher
+import afwf.api as afwf
+import afwf.opt.fuzzy_item.api as fuzzy_item
+from afwf.paths import path_enum
 
 BOOKMARKS = [
     ("Alfred App", "https://www.alfredapp.com/"),
@@ -27,20 +28,29 @@ BOOKMARKS = [
 ]
 
 
-def main(query: str) -> ScriptFilter:
+@afwf.log_error(
+    log_file=afwf.path_enum.dir_home.joinpath(
+        ".alfred-afwf/search_bookmarks.log"
+    ),  # or just @log_error()
+)
+def main(query: str) -> afwf.ScriptFilter:
+    if query.strip() == "error":
+        raise ValueError("This is a simulated Python error triggered by query='error'")
+
     items = []
     for title, url in BOOKMARKS:
-        item = Item(title=title, subtitle=url, arg=url)
+        item = fuzzy_item.Item(title=title, subtitle=url, arg=url)
         item.set_fuzzy_match_name(title)
+        item.open_url(url)
         items.append(item)
 
     if query.strip():
-        matcher = FuzzyItemMatcher.from_items(items)
+        matcher = fuzzy_item.FuzzyItemMatcher.from_items(items)
         matched = matcher.match(query, threshold=0)
         result_items = matched if matched else items
     else:
         result_items = items
 
-    sf = ScriptFilter()
+    sf = afwf.ScriptFilter()
     sf.items.extend(result_items)
     return sf
