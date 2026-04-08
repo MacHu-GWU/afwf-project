@@ -1,6 +1,6 @@
 .. _log_error-Decorator:
 
-``log_error`` Decorator
+log_error  Decorator
 ==============================================================================
 
 :func:`~afwf.decorator.log_error` catches any exception raised by the decorated
