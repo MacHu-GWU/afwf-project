@@ -251,6 +251,8 @@ docfly.ApiDocGenerator(
         f"{package_name}.docs",
         f"{package_name}.tests",
         f"{package_name}.vendor",
+        f"{package_name}.example_wf",
+        f"{package_name}.examples",
         # Module
         f"{package_name}.paths",
     ],
