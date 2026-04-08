@@ -40,5 +40,9 @@ class ScriptFilter(ScriptFilterObject):
         """
         Flush script filter object JSON to standard output.
         """
-        json.dump(self.to_script_filter(), sys.stdout, ensure_ascii=False)
+        json.dump(
+            self.to_script_filter(),
+            sys.stdout,
+            ensure_ascii=False,
+        )
         sys.stdout.flush()
