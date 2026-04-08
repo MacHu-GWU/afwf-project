@@ -47,6 +47,7 @@ classifiers = [
 dependencies = [
     "pydantic>=2.11.10,<3.0.0",
     "enum-mate>=0.1.1,<1.0.0",
+    "typing_extensions>=4.0.0; python_version < '3.11'", # Self type is only available in 3.11+
 ]
 
 # ------------------------------------------------------------------------------

@@ -8,6 +8,11 @@ Requirements::
     rapidfuzz>=3.0.0,<4.0.0
 """
 
+try:
+    from typing import Self
+except ImportError:  # python < 3.11
+    from typing_extensions import Self
+
 from ..fuzzy.api import FuzzyMatcher
 from ...item import Item as Item_
 
@@ -29,7 +34,7 @@ class Item(Item_):
         # item.fuzzy_match_name == "Alfred Handler"
     """
 
-    def set_fuzzy_match_name(self, name: str) -> "Item":
+    def set_fuzzy_match_name(self, name: str) -> Self:
         """
         Store *name* in the item's variables for later fuzzy matching.
         """
