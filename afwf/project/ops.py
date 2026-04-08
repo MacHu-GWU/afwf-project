@@ -7,6 +7,12 @@ from pathlib import Path
 from .project import AfwfProject
 
 
+# TODO: 计划将以下两个函数的依赖安装方式从 pip --target 迁移到 uv:
+#   在 workflow 目录下直接用 `uv venv .venv` 创建虚拟环境，
+#   再用 `uv pip install` 安装依赖，速度更快、环境更标准。
+#   届时 path_bin_pip 参数可替换为 path_bin_uv，dir_workflow_lib 也不再需要。
+
+
 def build_wf(
     path_bin_pip: Path,
     proj: AfwfProject,

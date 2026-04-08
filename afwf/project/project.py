@@ -54,14 +54,18 @@ class AfwfProject:
         return self.dir_project_root / "pyproject.toml"
 
     @cached_property
+    def _pyproject_data(self) -> dict:
+        """Raw dict parsed from ``pyproject.toml``."""
+        with self.path_pyproject_toml.open("rb") as fh:
+            return tomllib.load(fh)
+
+    @cached_property
     def package_name(self) -> str:
         """
         Python package name, read from the ``[project] name`` field in
         ``pyproject.toml``.
         """
-        with self.path_pyproject_toml.open("rb") as fh:
-            data = tomllib.load(fh)
-        return data["project"]["name"]
+        return self._pyproject_data["project"]["name"]
 
     @cached_property
     def dir_package(self) -> Path:
