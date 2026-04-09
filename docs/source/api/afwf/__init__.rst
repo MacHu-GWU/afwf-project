@@ -14,15 +14,12 @@ sub packages and modules
     opt <opt/__init__>
     project <project/__init__>
     _icon <_icon>
-    _version <_version>
     api <api>
     constants <constants>
     decorator <decorator>
-    handler <handler>
     icon <icon>
     item <item>
     query <query>
     script_filter <script_filter>
     script_filter_object <script_filter_object>
-    workflow <workflow>
     
