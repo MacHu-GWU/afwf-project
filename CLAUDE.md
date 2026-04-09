@@ -56,6 +56,9 @@ Demonstrate common workflow patterns. Each example has a corresponding test unde
 - `open_file.py` — list files and open selection via `item.open_file()`; uses Alfred filters results
 - `read_file.py` — read `file.txt` and display content; shows error icon when file is missing
 - `write_file.py` — write text to `file.txt` via `item.run_script()` + `item.send_notification()`
+- `settings.py` — shared JSON-backed key-value store (`_JsonSettings`) and `SettingsKeyEnum`
+- `view_settings.py` — display all settings key-value pairs; companion to `set_settings.py`
+- `set_settings.py` — two-step fuzzy key picker → value input → `run_script` to persist the value
 - `handlers/` — handler-style examples (open_url, open_file, write_file, set_settings, …)
 
 **Workflow definition** for all examples is exported in `example.info.plist` (Alfred plist format, checked into repo).

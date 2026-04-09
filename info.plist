@@ -6,11 +6,52 @@
 	<string>MacHu-GWU.afwf-dev</string>
 	<key>connections</key>
 	<dict>
+		<key>003A1D0A-91FF-49FF-B2A6-F87C92E81C26</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A2857897-29D8-4C09-8505-420C544CBBE6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
 				<string>7CEC8CA3-977E-4C67-9E96-3D653091074A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>200E0F36-26FE-451B-B54D-DE2F17334789</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A2857897-29D8-4C09-8505-420C544CBBE6</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>2219C90E-2659-4B5A-BDB1-B1A0375C5501</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -35,7 +76,7 @@
 			</dict>
 			<dict>
 				<key>destinationuid</key>
-				<string>EB040862-D130-450C-849F-DCE6878E0CF1</string>
+				<string>2219C90E-2659-4B5A-BDB1-B1A0375C5501</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -69,17 +110,30 @@
 				<false/>
 			</dict>
 		</array>
-		<key>EB040862-D130-450C-849F-DCE6878E0CF1</key>
+		<key>A2857897-29D8-4C09-8505-420C544CBBE6</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
+				<string>2335B348-9B9D-4460-A1F8-2A3CA8C3937A</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
 				<string></string>
 				<key>sourceoutputuid</key>
 				<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>DF47B953-AA59-4158-8E89-1E8FFEE37B89</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
 				<key>vitoclose</key>
 				<false/>
 			</dict>
@@ -98,21 +152,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>openwith</key>
-				<string></string>
-				<key>sourcefile</key>
-				<string>{var:_open_log_file_path}</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.openfile</string>
-			<key>uid</key>
-			<string>7CEC8CA3-977E-4C67-9E96-3D653091074A</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -126,7 +165,7 @@
 				<key>escaping</key>
 				<integer>68</integer>
 				<key>keyword</key>
-				<string>afwf</string>
+				<string>afwf-search-bookmarks</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -138,15 +177,15 @@
 				<key>runningsubtext</key>
 				<string>please wait ...</string>
 				<key>script</key>
-				<string>~/.pyenv/shims/python3.8 main.py 'python_version {query}'</string>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples search-bookmarks --query '{query}'</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Search python versions ...</string>
+				<string>Search URL bookmarks ...</string>
 				<key>title</key>
-				<string>afwf Demo</string>
+				<string>afwf-search-bookmarks</string>
 				<key>type</key>
 				<integer>0</integer>
 				<key>withspace</key>
@@ -156,6 +195,21 @@
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>3D612075-778A-4380-9A57-7F68CD611C4B</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>openwith</key>
+				<string></string>
+				<key>sourcefile</key>
+				<string>{var:_open_log_file_path}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openfile</string>
+			<key>uid</key>
+			<string>7CEC8CA3-977E-4C67-9E96-3D653091074A</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -181,6 +235,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>else</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -194,12 +250,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>{var:open_url_arg}</string>
-				<key>utf8</key>
-				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -207,6 +265,55 @@
 			<string>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-memoize</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples memoize --query '{query}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>View cache value by key ...</string>
+				<key>title</key>
+				<string>afwf-memoize</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>714B82C9-537F-4774-889A-EF0B9EEF0D88</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -230,11 +337,13 @@
 				</array>
 				<key>elselabel</key>
 				<string>else</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
 			<key>uid</key>
-			<string>EB040862-D130-450C-849F-DCE6878E0CF1</string>
+			<string>2219C90E-2659-4B5A-BDB1-B1A0375C5501</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -250,6 +359,55 @@
 			<string>alfred.workflow.action.openfile</string>
 			<key>uid</key>
 			<string>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-open-file</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples open-file</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Open File ...</string>
+				<key>title</key>
+				<string>afwf-open-file</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>DF47B953-AA59-4158-8E89-1E8FFEE37B89</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -275,6 +433,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>else</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -283,61 +443,374 @@
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-read-file</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples read-file</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Read File ...</string>
+				<key>title</key>
+				<string>afwf-read-file</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>272415DC-6A50-4EC4-8BBC-4BC5744F1498</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>0</integer>
+				<key>script</key>
+				<string>{query}</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>2335B348-9B9D-4460-A1F8-2A3CA8C3937A</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:run_script}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>y</string>
+						<key>outputlabel</key>
+						<string></string>
+						<key>uid</key>
+						<string>4D36294E-9A14-49FB-A0F4-62E21227E74D</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>else</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>A2857897-29D8-4C09-8505-420C544CBBE6</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-write-file</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples write-file --query '{query}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Write File ...</string>
+				<key>title</key>
+				<string>afwf-write-file</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>003A1D0A-91FF-49FF-B2A6-F87C92E81C26</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-view-settings</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples view-settings</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>View Settings ...</string>
+				<key>title</key>
+				<string>afwf-view-settings</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>B1AC7658-D370-4A83-8CF7-DB3FCC17F222</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>68</integer>
+				<key>keyword</key>
+				<string>afwf-set-settings</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>2</integer>
+				<key>runningsubtext</key>
+				<string>please wait ...</string>
+				<key>script</key>
+				<string>/Users/sanhehu/Documents/GitHub/afwf-project/.venv/bin/afwf-examples set-settings --query '{query}'</string>
+				<key>scriptargtype</key>
+				<integer>0</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Write Settings ...</string>
+				<key>title</key>
+				<string>afwf-set-settings</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>200E0F36-26FE-451B-B54D-DE2F17334789</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
 	</array>
 	<key>readme</key>
-	<string>Sanhe's GitHub based Job Work Management System</string>
+	<string>Sample Alfred Workflow using https://github.com/MacHu-GWU/afwf-project Framework</string>
 	<key>uidata</key>
 	<dict>
+		<key>003A1D0A-91FF-49FF-B2A6-F87C92E81C26</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>440</real>
+		</dict>
 		<key>1F5ADEC7-4ECC-4308-A9ED-57D8DFA7B1B2</key>
 		<dict>
 			<key>xpos</key>
-			<integer>600</integer>
+			<real>600</real>
 			<key>ypos</key>
-			<integer>35</integer>
+			<real>40</real>
+		</dict>
+		<key>200E0F36-26FE-451B-B54D-DE2F17334789</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>650</real>
+		</dict>
+		<key>2219C90E-2659-4B5A-BDB1-B1A0375C5501</key>
+		<dict>
+			<key>xpos</key>
+			<real>600</real>
+			<key>ypos</key>
+			<real>155</real>
+		</dict>
+		<key>2335B348-9B9D-4460-A1F8-2A3CA8C3937A</key>
+		<dict>
+			<key>xpos</key>
+			<real>695</real>
+			<key>ypos</key>
+			<real>335</real>
+		</dict>
+		<key>272415DC-6A50-4EC4-8BBC-4BC5744F1498</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>335</real>
 		</dict>
 		<key>2FE6CFA4-74F5-41A7-A2CA-43A4D999A92D</key>
 		<dict>
 			<key>xpos</key>
-			<integer>695</integer>
+			<real>695</real>
 			<key>ypos</key>
-			<integer>115</integer>
+			<real>125</real>
 		</dict>
 		<key>3D612075-778A-4380-9A57-7F68CD611C4B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>65</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>10</integer>
+			<real>20</real>
+		</dict>
+		<key>714B82C9-537F-4774-889A-EF0B9EEF0D88</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>125</real>
 		</dict>
 		<key>7CEC8CA3-977E-4C67-9E96-3D653091074A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>695</integer>
+			<real>695</real>
 			<key>ypos</key>
-			<integer>10</integer>
+			<real>20</real>
 		</dict>
 		<key>96AC10DE-CED4-432B-B3F1-808BBDE8F2DD</key>
 		<dict>
 			<key>xpos</key>
-			<integer>600</integer>
+			<real>600</real>
 			<key>ypos</key>
-			<integer>240</integer>
+			<real>250</real>
+		</dict>
+		<key>A2857897-29D8-4C09-8505-420C544CBBE6</key>
+		<dict>
+			<key>xpos</key>
+			<real>600</real>
+			<key>ypos</key>
+			<real>355</real>
+		</dict>
+		<key>B1AC7658-D370-4A83-8CF7-DB3FCC17F222</key>
+		<dict>
+			<key>xpos</key>
+			<real>30</real>
+			<key>ypos</key>
+			<real>545</real>
 		</dict>
 		<key>CF6C4785-94C4-4F4E-B0DF-1A5050ABDB1B</key>
 		<dict>
 			<key>xpos</key>
-			<integer>695</integer>
+			<real>695</real>
 			<key>ypos</key>
-			<integer>220</integer>
+			<real>230</real>
 		</dict>
-		<key>EB040862-D130-450C-849F-DCE6878E0CF1</key>
+		<key>DF47B953-AA59-4158-8E89-1E8FFEE37B89</key>
 		<dict>
 			<key>xpos</key>
-			<integer>600</integer>
+			<real>30</real>
 			<key>ypos</key>
-			<integer>135</integer>
+			<real>230</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
+	<key>variablesdontexport</key>
+	<array/>
+	<key>version</key>
+	<string>0.6.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/MacHu-GWU/afwf-project</string>
 </dict>

@@ -46,6 +46,21 @@ class Command:
 
         write_request(content=str(content))
 
+    def view_settings(self):
+        from afwf.examples.view_settings import main
+
+        main().send_feedback()
+
+    def set_settings(self, query: str = ""):
+        from afwf.examples.set_settings import main
+
+        main(query=str(query)).send_feedback()
+
+    def set_settings_request(self, key: str = "", value: str = ""):
+        from afwf.examples.set_settings import set_settings_request
+
+        set_settings_request(key=str(key), value=str(value))
+
 
 def main():
     fire.Fire(Command)
