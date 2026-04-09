@@ -31,6 +31,21 @@ class Command:
 
         main().send_feedback()
 
+    def read_file(self):
+        from afwf.examples.read_file import main
+
+        main().send_feedback()
+
+    def write_file(self, query: str = ""):
+        from afwf.examples.write_file import main
+
+        main(query=str(query)).send_feedback()
+
+    def write_file_request(self, content: str = ""):
+        from afwf.examples.write_file import write_request
+
+        write_request(content=str(content))
+
 
 def main():
     fire.Fire(Command)

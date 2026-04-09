@@ -53,7 +53,9 @@ Demonstrate common workflow patterns. Each example has a corresponding test unde
 
 - `search_bookmarks.py` — fuzzy search over a static list; items open URL via `item.open_url()`
 - `memoize.py` — disk-cached handler using `afwf.opt.cache`; demonstrates `typed_memoize`
-- `open_file.py` — open a file via `item.open_file()`
+- `open_file.py` — list files and open selection via `item.open_file()`; uses Alfred filters results
+- `read_file.py` — read `file.txt` and display content; shows error icon when file is missing
+- `write_file.py` — write text to `file.txt` via `item.run_script()` + `item.send_notification()`
 - `handlers/` — handler-style examples (open_url, open_file, write_file, set_settings, …)
 
 **Workflow definition** for all examples is exported in `example.info.plist` (Alfred plist format, checked into repo).
