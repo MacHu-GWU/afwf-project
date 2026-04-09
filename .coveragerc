@@ -5,9 +5,12 @@ omit =
     afwf/docs/*
     afwf/tests/*
     afwf/vendor/*
+    afwf/alfred/*
+    afwf/project/*
     afwf/_version.py
-    afwf/cli.py
+    afwf/examples/cli.py
     afwf/paths.py
+    afwf/_icon.py
 
 [report]
 # Regexes for lines to exclude from consideration

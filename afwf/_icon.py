@@ -6,11 +6,11 @@ Run this script to generate ``icon.py`` file.
 Do this if you update the ``icons`` folder.
 """
 
-from pathlib_mate import Path
+from pathlib import Path
 
 dir_here = Path(__file__).absolute().parent
-dir_icons = Path(dir_here, "icons")
-p_icon = Path(dir_here, "icon.py")
+dir_icons = dir_here / "icons"
+p_icon = dir_here / "icon.py"
 
 content = """
 # -*- coding: utf-8 -*-
@@ -30,9 +30,9 @@ class IconFileEnum:
 """.strip()
 lines = content.split("\n")
 
-for p in dir_icons.select_by_ext(".png"):
-    name = p.basename[:-7].replace("-", "_")
-    file = p.basename
+for p in sorted(dir_icons.glob("*.png")):
+    name = p.name[:-7].replace("-", "_")
+    file = p.name
     line = f"    {name} = os.path.join(dir_icons, \"{file}\")"
     lines.append(line)
 
