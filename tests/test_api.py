@@ -16,6 +16,10 @@ def test():
     _ = afwf.Query
     _ = afwf.QueryParser
 
+    _ = afwf.AlfredWorkflow
+    _ = afwf.AlfredPreferences
+    _ = afwf.AfwfProject
+
 
 if __name__ == "__main__":
     from afwf.tests import run_cov_test
