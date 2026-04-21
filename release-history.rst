@@ -15,6 +15,41 @@ Backlog
 **Miscellaneous**
 
 
+1.0.2 (2026-04-21)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Bugfixes**
+
+- Fix missing ``afwf/icons/`` PNG files in the published package by adding ``[tool.setuptools.package-data]`` to ``pyproject.toml``.
+
+
+1.0.1 (2026-04-07)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**💥 Breaking Change**
+
+- Removed ``attrs`` / ``attrs_mate`` as dependencies. All core models (``Item``, ``Text``, ``Icon``, ``ScriptFilter``, ``Handler``, ``Workflow``) have been fully rewritten using **Pydantic v2**.
+- ``Item.copy`` field renamed to ``copy_text`` (serialized as ``"copy"`` via field alias) to avoid shadowing Pydantic's ``BaseModel.copy`` method.
+
+**Features and Improvements**
+
+- Introduced :mod:`afwf.constants` module that centralises all Alfred Script Filter protocol string constants (``IconTypeEnum``, ``ItemTypeEnum``, ``ModEnum``, ``VarKeyEnum``, ``VarValueEnum``).
+- Added ``enum-mate`` as a core dependency to power the new enum utilities.
+- Fuzzy matching (``afwf.opt.fuzzy``) migrated to ``rapidfuzz``; fuzzy-item now stores the match name in ``variables`` under ``FUZZY_MATCH_NAME_VAR_KEY`` for cleaner downstream handling.
+- ``ScriptFilterObject.to_script_filter()`` now respects field aliases when serialising to JSON, so aliased fields round-trip correctly.
+- Replaced the network-dependent ``python_version`` example handler with a self-contained ``source_files`` example that works offline.
+- ``fuzzy`` and ``cache`` optional dependency groups are now declared in ``pyproject.toml`` (``pip install afwf[fuzzy]``, ``pip install afwf[cache]``).
+- Switched project toolchain to **mise** + **uv**; legacy ``requirements*.txt`` / ``setup.py`` / ``tox.ini`` removed.
+
+**Minor Improvements**
+
+- Enriched docstrings and type annotations across ``item.py``, ``handler.py``, ``workflow.py``, and ``script_filter.py``.
+- Added ``tests/opt/test_opt_api.py`` smoke test for the optional-extras public API.
+- Sphinx API reference pages auto-generated for all public modules under ``docs/source/api/``.
+
+**Miscellaneous**
+
+- Added ``mise`` task runner configuration (``mise.toml``) with tasks for install, test, coverage, doc-build, and release.
+
+
 0.6.1 (2024-01-01)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 **Features and Improvements**
