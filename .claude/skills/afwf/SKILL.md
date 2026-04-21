@@ -12,7 +12,9 @@ description: Guide for building Alfred workflow Python packages using the afwf S
 ## Architecture: Three Layers
 
 ```
-Layer 1 — Python logic (afwf/your_module.py)
+Layer 1 — Python logic (my_pkg/your_module.py)
+  Your package name is whatever you choose (e.g. my_pkg).
+  afwf is just the SDK you import — not the name of your package.
   Pure functions. main(query) → ScriptFilter. No Alfred dependency. Unit-testable.
 
 Layer 2 — CLI entry point (cli.py → your-cli-name)
@@ -74,7 +76,7 @@ sf.send_feedback()   # dumps JSON to stdout → Alfred reads it
 ### Bundled Icons
 
 ```python
-from afwf.icon import IconFileEnum
+from afwf.api import IconFileEnum
 item.icon = afwf.Icon(path=IconFileEnum.error)     # error state
 item.icon = afwf.Icon(path=IconFileEnum.search)    # search
 item.icon = afwf.Icon(path=IconFileEnum.folder)    # folder
@@ -294,7 +296,7 @@ Cache invalidation: `cache.clear()` / `cache.evict(tag="my_tag")` / `cache.delet
 # search_bookmarks.py
 import afwf.api as afwf
 import afwf.opt.fuzzy_item.api as fuzzy_item
-from afwf.icon import IconFileEnum
+from afwf.api import IconFileEnum
 
 BOOKMARKS = [
     {"title": "Python", "url": "https://python.org/"},
@@ -510,7 +512,7 @@ Keep `info.plist` in repo with **dev** paths. Production paths only live in Alfr
 
 ```python
 import afwf.api as afwf
-from afwf.icon import IconFileEnum
+from afwf.api import IconFileEnum
 
 # Minimal Script Filter
 @afwf.log_error()
