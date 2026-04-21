@@ -9,7 +9,7 @@ Summary
 
 This document is aimed at developers who want to build Alfred Workflows in Python.
 It explains the mechanics of connecting a Script Filter to Python code and introduces
-the recommended deployment model using ``uvx``.
+the recommended deployment model using `uvx <https://docs.astral.sh/uv/guides/tools/>`_.
 
 
 Why Python?
