@@ -17,6 +17,10 @@ Backlog
 
 1.0.2 (2026-04-21)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Features and Improvements**
+
+- Exposed ``AlfredWorkflow``, ``AlfredPreferences``, and ``AfwfProject`` in the top-level ``afwf.api`` module so they are accessible via ``import afwf.api as afwf``.
+
 **Bugfixes**
 
 - Fix missing ``afwf/icons/`` PNG files in the published package by adding ``[tool.setuptools.package-data]`` to ``pyproject.toml``.

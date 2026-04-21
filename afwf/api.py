@@ -20,3 +20,6 @@ from .icon import IconFileEnum
 from .query import Query
 from .query import QueryParser
 from .decorator import log_error
+from .alfred.api import AlfredWorkflow
+from .alfred.api import AlfredPreferences
+from .project.api import AfwfProject
