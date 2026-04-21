@@ -56,7 +56,10 @@ run = "open htmlcov/index.html"
 [tasks.build-doc]
 description = "📚 Build Sphinx documentation using sphinx-build (generates HTML in docs/build/html/)"
 depends = ["inst"]
-run = ".venv/bin/sphinx-build -b html docs/source docs/build/html"
+run = """
+rm -rf docs/build
+.venv/bin/sphinx-build -b html docs/source docs/build/html
+"""
 
 [tasks.view-doc]
 description = "👀📚 Open built Sphinx documentation in browser (requires 'build-doc' task to run first)"
