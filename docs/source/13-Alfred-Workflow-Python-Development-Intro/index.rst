@@ -1,3 +1,5 @@
+.. _Alfred-Workflow-Python-Development-Intro:
+
 Alfred Workflow Python Development Intro
 ==============================================================================
 
