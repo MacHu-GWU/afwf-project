@@ -4,7 +4,7 @@
 Alfred Workflow Script Filter Item module.
 """
 
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Type
 from pydantic import ConfigDict, Field
 
 from .script_filter_object import ScriptFilterObject
@@ -24,7 +24,7 @@ class Icon(ScriptFilterObject):
     """
 
     # Alias kept for workflow-developer discoverability: Icon.TypeEnum
-    TypeEnum: ClassVar[type[IconTypeEnum]] = IconTypeEnum
+    TypeEnum: ClassVar[Type[IconTypeEnum]] = IconTypeEnum
 
     path: str
     type: str | None = None
@@ -78,7 +78,7 @@ class Item(ScriptFilterObject):
     """
 
     # Alias kept for workflow-developer discoverability: Item.TypeEnum
-    TypeEnum: ClassVar[type[ItemTypeEnum]] = ItemTypeEnum
+    TypeEnum: ClassVar[Type[ItemTypeEnum]] = ItemTypeEnum
 
     title: str
     subtitle: str | None = None
