@@ -22,7 +22,7 @@ no Python-side filtering needed.
 2. *Actions → Open File* — File: ``{var:open_file_path}``
 """
 
-from pathlib_mate import Path
+from pathlib import Path
 import afwf.api as afwf
 
 
