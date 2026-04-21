@@ -52,21 +52,204 @@ Welcome to ``afwf`` Documentation
 A powerful framework enables fast and elegant development of Alfred Workflows in Python.
 
 
+What's New in 1.0.2 (2026-04-21)
+------------------------------------------------------------------------------
+
+Version 1.0.2 is a milestone release. It completely drops the old, complex workflow
+development model in favour of modern Python practices: write pure functions, run them
+locally, and they work in Alfred out of the box — no adapters, no scaffolding, no glue
+code. Combined with ``uvx`` for zero-install deployment, the gap between a working Python
+function and a shipping Alfred workflow has never been smaller.
+
+
 Project Background
 ------------------------------------------------------------------------------
-`Alfred 官方的 Python 包 <https://www.deanishe.net/alfred-workflow/>`_ 已经 5 年没有更新了, 而且只支持 Python2.7, 不支持 Python3. 因为 2.7 已经在 2020 年 1 月 1 日停止更新, 而且 MacOS 2021 年起操作系统内就不带 Python2.7 了, 所以这导致以前使用了官方包的 Workflow 对新 Mac 不再兼容. 并且由于兼容性和历史包袱的原因, 官方的 Python 包内置了太多本应由第三方库提供的功能, 例如 HTTP request, 缓存 等等, 而为了兼容性只能在垃圾代码上堆叠垃圾代码. 于是我就萌生了自己造一个轮子的想法.
+The `official Alfred Python library <https://www.deanishe.net/alfred-workflow/>`_ had not
+been updated for years and only supported Python 2.7 — a version that reached end-of-life
+in January 2020 and was removed from macOS in 2021. This left every workflow built on that
+library broken on modern Macs. The library also suffered from heavy coupling: it bundled HTTP
+clients, caching, and other concerns that belong in dedicated third-party packages, producing
+layers of workarounds on top of outdated code.
 
-我个人同时维护着 10 多个垂直领域的 Alfred Workflow, 早期我的源代码中包含了很多跟业务逻辑无关, 只用于和 Alfred 整合, 自动化测试, 以及元编程的代码. 这些代码在多个项目中有很多重复. 于是我认为有必要讲这些功能抽象出来, 将其封装为一个框架, 以便于在多个项目中复用, 于是就有了这个项目.
+At the same time, I personally maintain more than a dozen Alfred workflows across different
+domains. Early on, each project contained large amounts of boilerplate unrelated to business
+logic — Alfred integration glue, test scaffolding, and meta-programming code duplicated
+across every repo. Extracting that into a reusable framework became the obvious next step.
 
-这个项目的目的是提供了用 Python 编写 Alfred Workflow 中需要用到的 Script Filter 的数据模型, 以及一套基于超大型内部企业项目 (我是 AWS 内部官方的 AWS Alfred Workflow 的作者) 经验总结出的一套开发 Python Alfred Workflow 的框架, 包含了项目生命周期中的开发, 测试, 发布, 快速迭代等最佳实践, 解决了 Workflow 中的控件太多, 测试不易等问题.
+``afwf`` provides:
 
-另外, 这个项目提供了互联网领域常用的图标, 你可以 `在这里预览 <https://github.com/MacHu-GWU/afwf-project/blob/main/preview-icons.rst>`_.
+- A clean Python data model for Alfred's Script Filter JSON protocol, built on Pydantic.
+- A fluent ``Item`` API with action helpers (``open_url``, ``run_script``,
+  ``send_notification``, …) that wire directly to Alfred's Conditional widget.
+- Optional fuzzy-matching (``afwf[fuzzy]``) and disk-caching (``afwf[cache]``) extras.
+- A deployment pattern — publish to PyPI, expose via ``fire`` CLI, invoke with ``uvx`` —
+  that eliminates dependency management on the end-user machine.
+- Best practices for development, testing, and release derived from building the official
+  AWS internal Alfred Workflow (one of the largest Alfred workflow codebases in existence).
+
+The library also ships ~50 bundled PNG icons commonly used in productivity workflows.
+`Preview all icons <https://github.com/MacHu-GWU/afwf-project/blob/main/preview-icons.rst>`_.
 
 
-Related Projects
+Core Modules
 ------------------------------------------------------------------------------
-- `cookiecutter-afwf <https://github.com/MacHu-GWU/cookiecutter-afwf>`_: 一个 Python Alfred Workflow 的项目模板. 我的所有的 Alfred Workflow 的项目都是基于这个模板, 自动生成所需要的所有代码的. 使得我可以专注于项目的业务逻辑, 而不是运维.
-- `afwf_example-project <https://github.com/MacHu-GWU/afwf_example-project>`_: 一个使用 ``cookiecutter-afwf`` 生成的示例项目. 可以用来学习如何使用 ``cookiecutter-afwf`` 模版来快速开发 Alfred Workflow.
+
+Script Filter JSON Protocol
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Alfred Script Filters communicate via a `JSON protocol <https://www.alfredapp.com/help/workflows/inputs/script-filter/json/>`_. These modules implement it:
+
+- ``afwf/script_filter_object.py`` — ``ScriptFilterObject``: Pydantic base class; ``to_script_filter()`` serialises to Alfred-compatible dict (handles None-omission, False-preservation, empty-object rules).
+- ``afwf/item.py`` — ``Icon``, ``Text``, ``Item``: Alfred dropdown item model; ``Item`` has fluent ``set_*`` helpers (``open_url``, ``run_script``, ``open_file``, ``send_notification``, etc.) that set workflow variable pairs.
+- ``afwf/script_filter.py`` — ``ScriptFilter``: Top-level response object; holds ``items`` list; ``send_feedback()`` dumps JSON to stdout.
+
+Query Parsing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``afwf/query.py`` — ``Query``, ``QueryParser``: Utility for parsing the raw Alfred ``{query}`` string into structured tokens.
+
+.. code-block:: python
+
+    import afwf.api as afwf
+
+    q = afwf.Query.from_str("  hello   world  ")
+    q.trimmed_parts   # ['hello', 'world']
+    q.n_trimmed_parts # 2
+
+    parser = afwf.QueryParser.from_delimiter([" ", "/"])
+    q = parser.parse("foo/bar baz")
+    q.trimmed_parts   # ['foo', 'bar', 'baz']
+
+Constants & Icons
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``afwf/constants.py`` — ``IconTypeEnum``, ``ItemTypeEnum``, ``ModEnum``, ``VarKeyEnum``, ``VarValueEnum``: All Alfred protocol string constants.
+- ``afwf/icon.py`` — ``IconFileEnum``: Paths to ~50 bundled PNG icons (search, folder, star, git, error, …). `Preview all icons <https://github.com/MacHu-GWU/afwf-project/blob/main/preview-icons.rst>`_.
+
+Error Handling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``afwf/decorator.py`` — ``log_error``: Decorator factory that silently logs exceptions to a rotating file so Alfred's UI never shows a raw Python traceback.
+
+.. code-block:: python
+
+    import afwf.api as afwf
+
+    @afwf.log_error()
+    def main(query: str) -> afwf.ScriptFilter:
+        ...
+
+    # Custom log file and size limit
+    @afwf.log_error(log_file="~/.alfred-afwf/search.log", max_bytes=200_000)
+    def main(query: str) -> afwf.ScriptFilter:
+        ...
+
+Alfred Introspection
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``afwf/alfred/workflow.py`` — ``AlfredWorkflow``: Represents a single Alfred Workflow directory; lazily reads ``info.plist`` to expose ``name``, ``bundle_id``, ``version``, ``description``, and more.
+- ``afwf/alfred/prefs.py`` — ``AlfredPreferences``: Locates the Alfred preferences folder and enumerates installed workflows.
+- ``afwf/project/project.py`` — ``AfwfProject``: Binds a Python source project to its corresponding Alfred Workflow folder; exposes paths for ``main.py``, ``lib/``, ``info.plist``, and ``icon.png`` on both sides.
+
+Optional Utilities (``afwf/opt/``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- ``afwf/opt/cache/`` — ``TypedCache``: ``diskcache``-backed disk cache with a type-hint-safe ``typed_memoize()`` decorator. Install with ``afwf[cache]``.
+- ``afwf/opt/fuzzy/`` — ``FuzzyMatcher``: Generic fuzzy matcher over any item type using ``rapidfuzz``; subclass and implement ``get_name()``. Install with ``afwf[fuzzy]``.
+- ``afwf/opt/fuzzy_item/`` — ``Item``, ``FuzzyItemMatcher``: ``Item`` subclass that stores a fuzzy-match name in ``variables``; wires directly to ``FuzzyMatcher``.
+
+
+Quickstart
+------------------------------------------------------------------------------
+
+A minimal Script Filter handler:
+
+.. code-block:: python
+
+    import afwf.api as afwf
+
+    @afwf.log_error()
+    def main(query: str) -> afwf.ScriptFilter:
+        q = afwf.Query.from_str(query)
+        sf = afwf.ScriptFilter()
+        item = afwf.Item(title="Hello", subtitle=f"You typed: {q.raw}")
+        item.open_url(url="https://example.com")
+        sf.items.append(item)
+        return sf
+
+    if __name__ == "__main__":
+        import fire
+        fire.Fire({"search": lambda query="": main(query).send_feedback()})
+
+Deployment Pattern (Best Practice)
+------------------------------------------------------------------------------
+
+Publish your workflow logic as a Python package on PyPI, expose it as a CLI using `fire <https://github.com/google-deepmind/python-fire>`_, then invoke it from Alfred's Script Filter via ``uvx``:
+
+.. code-block:: bash
+
+    # Development / local
+    ~/Documents/GitHub/my-workflow-project/.venv/bin/my-workflow search --query '{query}'
+
+    # Production (no install required on end-user machine)
+    ~/.local/bin/uvx --from my-workflow==1.0.0 my-workflow search --query '{query}'
+
+The ``afwf-examples`` CLI bundled in this repo demonstrates all built-in example handlers:
+
+.. code-block:: bash
+
+    afwf-examples search-bookmarks --query 'git'
+    afwf-examples open-file
+    afwf-examples read-file
+    afwf-examples write-file --query 'hello'
+    afwf-examples view-settings
+    afwf-examples set-settings --query 'theme'
+    afwf-examples memoize --query 'test'
+
+
+AI-Assisted Development (Claude Code Agent Skill)
+------------------------------------------------------------------------------
+
+This repo ships a **Claude Code Agent Skill** under ``.claude/skills/afwf/``.
+
+The Skill is a self-contained reference guide written for AI assistants. Hand it to any
+AI that supports the Skill mechanism (such as Claude Code) and the AI instantly knows how
+to build Alfred workflows with ``afwf``, covering:
+
+- How to write a Script Filter handler (``main(query) → ScriptFilter``)
+- Mapping CLI entry points (``fire.Fire``) to Alfred's Script field
+- Every ``Item`` action method (``open_url``, ``run_script``, ``send_notification``, …)
+- Query parsing, fuzzy matching (``afwf[fuzzy]``), and disk caching (``afwf[cache]``)
+- The two-phase write-action pattern (run_script + send_notification)
+- Unit testing patterns — no Alfred required, plain pytest
+- Local dev and ``uvx`` production deployment
+
+**Directory layout:**
+
+.. code-block:: text
+
+    .claude/skills/afwf/
+    ├── SKILL.md                          # Main Skill file — the AI reference manual
+    └── ref/
+        ├── script-filter-json-format.md  # Alfred Script Filter JSON protocol spec
+        └── script-filter-input.md        # Alfred Script Filter input format reference
+
+**Activating in Claude Code:**
+
+Type ``/afwf`` in the conversation. Claude Code loads the Skill and from that point on
+you can describe what you want in plain English — the AI will generate complete,
+ready-to-run ``afwf`` code following best practices.
+
+.. code-block:: text
+
+    You:    /afwf Write a Script Filter that fuzzy-searches a hardcoded list of bookmarks
+    Claude: [Skill loaded → generates complete afwf-idiomatic code]
+
+.. note::
+
+    The Skill file is plain Markdown and does **not** require Claude Code. Paste the
+    contents of ``SKILL.md`` into the system prompt (or first message) of any AI chat
+    and it will understand and correctly use ``afwf`` in the same way.
 
 
 .. _install:
@@ -84,3 +267,16 @@ To upgrade to latest version:
 .. code-block:: console
 
     $ pip install --upgrade afwf
+
+Optional extras:
+
+.. code-block:: console
+
+    # Fuzzy matching (rapidfuzz)
+    $ pip install "afwf[fuzzy]"
+
+    # Disk caching (diskcache)
+    $ pip install "afwf[cache]"
+
+    # Both
+    $ pip install "afwf[fuzzy,cache]"
