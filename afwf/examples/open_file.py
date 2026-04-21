@@ -30,15 +30,15 @@ import afwf.api as afwf
 def main() -> afwf.ScriptFilter:
     sf = afwf.ScriptFilter()
     dir_here = Path(__file__).parent
-    for p in sorted(dir_here.iterdir(), key=lambda x: x.basename):
-        if p.ext.lower() == ".py":
+    for p in sorted(dir_here.iterdir(), key=lambda x: x.name):
+        if p.suffix.lower() == ".py":
             item = afwf.Item(
-                title=p.basename,
-                subtitle=f"Open {p.abspath}",
-                autocomplete=p.basename,
-                match=p.basename,
-                arg=p.abspath,
+                title=p.name,
+                subtitle=f"Open {p}",
+                autocomplete=p.name,
+                match=p.name,
+                arg=str(p),
             )
-            item.open_file(path=p.abspath)
+            item.open_file(path=str(p))
             sf.items.append(item)
     return sf
