@@ -20,6 +20,7 @@ Backlog
 **Features and Improvements**
 
 - Exposed ``AlfredWorkflow``, ``AlfredPreferences``, and ``AfwfProject`` in the top-level ``afwf.api`` module so they are accessible via ``import afwf.api as afwf``.
+- Reorganised documentation structure: renamed and renumbered doc chapters for better clarity.
 
 **Bugfixes**
 
